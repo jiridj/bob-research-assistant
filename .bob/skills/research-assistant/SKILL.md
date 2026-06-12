@@ -112,9 +112,43 @@ crawl4ai https://example.com \
 1. Validate URL(s)
 2. Determine target category
 3. Execute crawl4ai with appropriate options
-4. Clean and format output
-5. Organize in sources folder
-6. Create metadata entry
+4. Analyze scraped content for relevant links
+5. Suggest related pages to scrape (if applicable)
+6. Clean and format output
+7. Organize in sources folder
+8. Create metadata entry
+
+**Link Discovery**:
+When scraping a single page, automatically analyze content for relevant internal links:
+- Extract links from main content area
+- Filter out navigation, footer, and sidebar links
+- Identify related articles, documentation pages, or resources
+- Present top 3-5 most relevant links to user
+- Ask if they should be scraped as well
+
+**Versioning for Change Tracking**:
+Use date-based filenames to track changes over time:
+```bash
+# Scrape with date in filename
+DATE=$(date +%Y-%m-%d)
+crawl4ai https://example.com/page \
+  --output "sources/category/page-${DATE}.md"
+
+# Create metadata file
+cat > "sources/category/page-${DATE}.json" << EOF
+{
+  "scraped_at": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+  "url": "https://example.com/page",
+  "content_hash": "$(shasum -a 256 sources/category/page-${DATE}.md | cut -d' ' -f1)"
+}
+EOF
+```
+
+This enables:
+- Tracking competitor messaging changes
+- Monitoring pricing updates
+- Detecting documentation changes
+- Historical analysis and trend identification
 
 ### Report Generation (Pandoc)
 
@@ -341,7 +375,7 @@ Actions:
 
 ### Web Scraping Examples
 
-**Example: Scrape Competitor Website**
+**Example 1: Scrape Competitor Website with Link Discovery**
 ```
 User: "Scrape the Kong API Gateway features page"
 
@@ -351,8 +385,35 @@ Actions:
 3. Execute: crawl4ai https://konghq.com/products/api-gateway \
    --output sources/Competitors/Kong/features.md
 4. Verify content extraction
-5. Report success
+5. Analyze content for relevant links
+6. Present discovered links:
+   "I found these related pages that might be useful:
+   - /products/api-gateway/pricing
+   - /products/api-gateway/documentation
+   - /products/api-gateway/use-cases
+   
+   Would you like me to scrape any of these as well?"
+7. Report success
 ```
+
+**Example 2: Scrape with Versioning**
+```
+User: "Scrape Kong's pricing page and track it monthly"
+
+Actions:
+1. Validate URL
+2. Create dated filename: pricing-2024-06-12.md
+3. Execute: crawl4ai https://konghq.com/pricing \
+   --output sources/Competitors/Kong/pricing-2024-06-12.md
+4. Create metadata file with scrape timestamp
+5. Compare with previous version if exists
+6. Report changes detected (if any)
+```
+
+For detailed examples, see:
+- [Document Conversion Examples](examples/document-conversion/)
+- [Web Scraping Examples](examples/web-scraping/)
+- [Versioning Strategy](examples/web-scraping/versioning-strategy.md)
 
 ## Best Practices
 
