@@ -140,9 +140,19 @@ crawl4ai https://example.com \
 1. Validate URL(s)
 2. Determine target category
 3. Execute crawl4ai with appropriate options
-4. Clean and format output
-5. Organize in sources folder
-6. Create metadata entry
+4. Analyze scraped content for relevant links
+5. Suggest related pages to scrape (if applicable)
+6. Clean and format output
+7. Organize in sources folder
+8. Create metadata entry
+
+**Link Discovery**:
+When scraping a single page, analyze the content for relevant internal links:
+- Extract links from main content area
+- Filter out navigation, footer, and sidebar links
+- Identify related articles, documentation pages, or resources
+- Present top 3-5 most relevant links to user
+- Ask if they should be scraped as well
 
 ### 3.2 Example Workflows
 
@@ -156,7 +166,34 @@ Bob Actions:
 3. Execute: crawl4ai https://konghq.com/products/api-gateway \
    --output sources/Competitors/Kong/features.md
 4. Verify content extraction
-5. Report success
+5. Analyze content for relevant links
+6. Present discovered links:
+   "I found these related pages that might be useful:
+   - /products/api-gateway/pricing
+   - /products/api-gateway/documentation
+   - /products/api-gateway/use-cases
+   
+   Would you like me to scrape any of these as well?"
+7. Report success
+```
+
+**Example 2: Scrape with Link Discovery**
+```
+User: "Scrape the AWS Lambda documentation page"
+
+Bob Actions:
+1. Validate URL
+2. Determine category (Hyperscalers/AWS)
+3. Execute: crawl4ai https://docs.aws.amazon.com/lambda/latest/dg/welcome.html \
+   --output sources/Hyperscalers/AWS/lambda-intro.md
+4. Extract relevant links from content:
+   - Getting started guide
+   - Best practices
+   - Pricing details
+   - Integration patterns
+5. Ask: "I found 4 related documentation pages. Should I scrape them too?"
+6. If yes, batch scrape related pages
+7. Report all scraped files
 ```
 
 ## Phase 4: Research Analysis Patterns
