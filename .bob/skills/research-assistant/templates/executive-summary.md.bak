@@ -67,15 +67,21 @@ date: "[Date]"
 
 **Expected Outcome**: [What success looks like]
 
+**Timeline**: [When to implement]
+
 **Investment Required**: [Budget/resources needed]
 
 ### Supporting Recommendations
 
 1. **[Recommendation 2]**
    - Action: [What to do]
+   - Timeline: [When]
+   - Owner: [Who]
 
 2. **[Recommendation 3]**
    - Action: [What to do]
+   - Timeline: [When]
+   - Owner: [Who]
 
 ## Risks & Considerations
 
@@ -87,20 +93,30 @@ date: "[Date]"
 
 ## Next Steps
 
-### Immediate Actions
+### Immediate Actions (Next 30 Days)
 
 1. **[Action 1]**
+   - Owner: [Name/Role]
+   - Deadline: [Date]
    - Success Metric: [How to measure]
 
 2. **[Action 2]**
+   - Owner: [Name/Role]
+   - Deadline: [Date]
    - Success Metric: [How to measure]
 
 3. **[Action 3]**
+   - Owner: [Name/Role]
+   - Deadline: [Date]
    - Success Metric: [How to measure]
 
 ### Decision Required
 
 **Decision Point**: [What needs to be decided]
+
+**Decision Maker**: [Who decides]
+
+**Decision Date**: [When]
 
 **Options**:
 1. [Option 1] - [Brief description]
@@ -113,12 +129,12 @@ date: "[Date]"
 
 ### Investment Summary
 
-| Category | Amount | ROI |
-|----------|--------|-----|
-| [Category 1] | $[Amount] | [Percentage/Period] |
-| [Category 2] | $[Amount] | [Percentage/Period] |
-| [Category 3] | $[Amount] | [Percentage/Period] |
-| **Total** | **$[Total]** | **[Overall ROI]** |
+| Category | Amount | Timeline | ROI |
+|----------|--------|----------|-----|
+| [Category 1] | $[Amount] | [Period] | [Percentage/Period] |
+| [Category 2] | $[Amount] | [Period] | [Percentage/Period] |
+| [Category 3] | $[Amount] | [Period] | [Percentage/Period] |
+| **Total** | **$[Total]** | [Period] | **[Overall ROI]** |
 
 ### Cost-Benefit Analysis
 
@@ -140,15 +156,23 @@ date: "[Date]"
 
 ### Key Performance Indicators
 
-| KPI | Current | Target |
-|-----|---------|--------|
-| [KPI 1] | [Value] | [Value] |
-| [KPI 2] | [Value] | [Value] |
-| [KPI 3] | [Value] | [Value] |
+| KPI | Current | Target | Timeline |
+|-----|---------|--------|----------|
+| [KPI 1] | [Value] | [Value] | [Period] |
+| [KPI 2] | [Value] | [Value] | [Period] |
+| [KPI 3] | [Value] | [Value] | [Period] |
+
+### Milestones
+
+- **Month 1**: [Milestone]
+- **Month 3**: [Milestone]
+- **Month 6**: [Milestone]
+- **Month 12**: [Milestone]
 
 ## Background Context
 
 **Research Scope**:
+- Duration: [Time period]
 - Sources: [Number and types]
 - Methodology: [Brief description]
 

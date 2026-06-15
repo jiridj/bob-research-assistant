@@ -382,6 +382,13 @@ cat > "$PROJECT_DIR/README.md" << EOF
 
 [To be developed]
 
+## Timeline
+
+- **Week 1**: Source gathering
+- **Week 2**: Analysis
+- **Week 3**: Report generation
+- **Week 4**: Review and delivery
+
 ## Deliverables
 
 - [ ] Literature review

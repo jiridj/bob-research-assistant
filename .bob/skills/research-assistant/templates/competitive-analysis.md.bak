@@ -340,6 +340,12 @@ High Capability
 
 ### Implementation Considerations
 
+**Timeline**:
+- Evaluation: [Duration]
+- Procurement: [Duration]
+- Implementation: [Duration]
+- Total: [Duration]
+
 **Resources Required**:
 - Team size: [Number]
 - Skills needed: [List]
@@ -352,19 +358,30 @@ High Capability
 
 ## Next Steps
 
-### Immediate Actions
+### Immediate Actions (Week 1-2)
 
 1. **[Action 1]**
+   - Owner: [Name/Role]
+   - Deadline: [Date]
    - Deliverable: [What]
 
 2. **[Action 2]**
+   - Owner: [Name/Role]
+   - Deadline: [Date]
    - Deliverable: [What]
 
-### Additional Actions
+### Short-term Actions (Month 1)
 
 1. [Action 1]
 2. [Action 2]
 3. [Action 3]
+
+### Decision Timeline
+
+- **Week 1-2**: [Activities]
+- **Week 3-4**: [Activities]
+- **Week 5-6**: [Activities]
+- **Decision Date**: [Target date]
 
 ## Appendices
 
@@ -396,8 +413,9 @@ High Capability
 
 ## Document Information
 
-**Version**: 1.0
-**Last Updated**: [Date]
+**Version**: 1.0  
+**Last Updated**: [Date]  
+**Next Review**: [Date]  
 **Contact**: [Email/Contact information]
 
 ---
@@ -407,6 +425,7 @@ High Capability
 This template is designed for comprehensive competitive analysis. Adapt based on:
 - Number of competitors (2-5 recommended)
 - Depth of analysis needed
+- Decision timeline
 - Audience (technical vs executive)
 
 **Pandoc Conversion**:

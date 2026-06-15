@@ -27,17 +27,18 @@ Bob: "I'll help you set up a research project on API management trends.
 
 Let me ask a few questions to structure this properly:
 1. What's the primary goal? (market analysis, vendor comparison, trend identification)
-2. What deliverables do you need?
+2. What's your timeline?
+3. What deliverables do you need?
 
 Or I can create a standard project structure and we can refine it as we go."
 
-User: "I need to identify emerging trends and create an executive summary."
+User: "I need to identify emerging trends and create an executive summary. Timeline is 2 weeks."
 
-Bob: "Perfect. I'll create a project focused on trend identification.
+Bob: "Perfect. I'll create a project focused on trend identification with a 2-week timeline.
 
 Creating:
 - research/api-management-trends-2024/
-- Project metadata
+- Project metadata with timeline
 - Trend analysis template
 - Executive summary template
 
@@ -145,7 +146,7 @@ Using:
 Summary will include:
 - Top 5 trends with business impact
 - Strategic recommendations
-- Next steps
+- Timeline and next steps
 
 Proceed?"
 
@@ -631,7 +632,7 @@ Forrester Perspective:
 - Prediction: 50% standard by 2027
 
 Key Differences:
-1. Gartner more optimistic on adoption pace
+1. Gartner more optimistic on adoption timeline
 2. Forrester emphasizes developer tools over operations
 3. Different vendor maturity assessments
 
@@ -891,11 +892,11 @@ Next steps after summary:
 Offer specific choices at decision points:
 ```
 Bob: "I can proceed in three ways:
-1. Quick analysis - High-level trends only
-2. Standard analysis - Detailed trends and insights
-3. Deep analysis - Comprehensive with comparisons
+1. Quick analysis (30 minutes) - High-level trends only
+2. Standard analysis (2 hours) - Detailed trends and insights
+3. Deep analysis (4 hours) - Comprehensive with comparisons
 
-Which approach would you prefer?"
+Which approach fits your timeline?"
 ```
 
 ### 3. Confirm Understanding

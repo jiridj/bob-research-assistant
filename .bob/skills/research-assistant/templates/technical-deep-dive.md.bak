@@ -462,6 +462,7 @@ kubectl apply -f service.yaml
    - Rationale: [Why]
    - Benefit: [Expected outcome]
    - Effort: [Implementation effort]
+   - Timeline: [When]
 
 2. **[Recommendation 2]**
    [Repeat structure]

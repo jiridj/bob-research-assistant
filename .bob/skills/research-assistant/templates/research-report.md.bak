@@ -72,6 +72,8 @@ date: "[Date]"
 
 **Framework**: [Analytical framework used]
 
+**Timeline**: [Research duration]
+
 ### Data Sources
 
 #### Primary Sources
@@ -299,9 +301,12 @@ date: "[Date]"
 
 **Implementation Approach**: [High-level how-to]
 
+**Timeline**: [When to implement]
+
 **Resources Required**:
 - Budget: [Amount]
 - Team: [Size/Skills]
+- Time: [Duration]
 
 **Success Metrics**:
 - [Metric 1]: [Target]
@@ -323,17 +328,21 @@ date: "[Date]"
 
 1. **[Quick Win 1]**
    - Action: [What to do]
+   - Timeline: [When]
+   - Owner: [Who]
    - Impact: [Expected result]
 
 2. **[Quick Win 2]**
    - Action: [What to do]
+   - Timeline: [When]
+   - Owner: [Who]
    - Impact: [Expected result]
 
 ### Prioritization
 
-| Recommendation | Impact | Effort | Priority |
-|----------------|--------|--------|----------|
-| [Rec 1] | High/Med/Low | High/Med/Low | P1/P2/P3 |
+| Recommendation | Impact | Effort | Priority | Timeline |
+|----------------|--------|--------|----------|----------|
+| [Rec 1] | High/Med/Low | High/Med/Low | P1/P2/P3 | [Period] |
 | [Rec 2] | High/Med/Low | High/Med/Low | P1/P2/P3 | [Period] |
 | [Rec 3] | High/Med/Low | High/Med/Low | P1/P2/P3 | [Period] |
 
@@ -388,6 +397,11 @@ date: "[Date]"
 - [KPI 1]: [Target and measurement frequency]
 - [KPI 2]: [Target and measurement frequency]
 - [KPI 3]: [Target and measurement frequency]
+
+**Review Schedule**:
+- Weekly: [What to review]
+- Monthly: [What to review]
+- Quarterly: [What to review]
 
 ## Appendices
 

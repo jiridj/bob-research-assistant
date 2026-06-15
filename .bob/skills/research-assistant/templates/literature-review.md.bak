@@ -85,13 +85,13 @@ date: "[Date]"
 - Previous research or market conditions
 - Evolution of thinking/technology]
 
-### Key Developments
+### Timeline of Key Developments
 
 | Year | Development | Source |
 |------|-------------|--------|
-| [Year] | [Key development] | [Citation] |
-| [Year] | [Key development] | [Citation] |
-| [Year] | [Key development] | [Citation] |
+| [Year] | [Key development or milestone] | [Citation] |
+| [Year] | [Key development or milestone] | [Citation] |
+| [Year] | [Key development or milestone] | [Citation] |
 
 ## Current State Analysis
 
@@ -237,10 +237,12 @@ date: "[Date]"
 1. **Recommendation 1**: [Specific action]
    - Rationale: [Why this is important]
    - Expected outcome: [What this will achieve]
+   - Timeline: [When to implement]
 
 2. **Recommendation 2**: [Specific action]
    - Rationale: [Why this is important]
    - Expected outcome: [What this will achieve]
+   - Timeline: [When to implement]
 
 ### Strategic Initiatives
 
