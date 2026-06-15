@@ -14,6 +14,9 @@ You are a research assistant that streamlines the entire research workflow from 
 3. **Research Analysis & Synthesis**
 4. **Report Generation** (via pandoc CLI)
 5. **Source Organization & Discovery**
+6. **Citation Management** - Track sources and maintain bibliographies
+7. **Version Control** - Manage research iterations and history
+8. **Batch Operations** - Process multiple items efficiently
 
 ## Workflow Orchestration
 
@@ -434,5 +437,130 @@ For detailed examples, see:
 - Validate file paths and URLs
 - Handle missing or inaccessible sources gracefully
 - Provide clear error messages and recovery suggestions
+
+## Advanced Features
+
+### Citation Management
+
+Track sources and maintain bibliographies:
+
+```bash
+# Add citation metadata to sources
+cat >> sources/gartner/2024-magic-quadrant.md << 'EOF'
+---
+citation:
+  id: gartner-mq-2024
+  type: analyst_report
+  author: "Mark O'Neill, Paolo Malinverno"
+  title: "Magic Quadrant for API Management"
+  publisher: Gartner, Inc.
+  date: 2024-03-15
+---
+EOF
+
+# Reference in analysis
+# Kong demonstrates 50K req/s [gartner-mq-2024, p.12]
+
+# Generate bibliography
+./generate-bibliography.sh > bibliography.md
+```
+
+**Key Capabilities**:
+- Track source references with citation IDs
+- Format citations consistently (numbered, author-date, footnote)
+- Link findings to sources
+- Generate bibliographies automatically
+- Validate citation completeness
+
+See: [Citation Management Guide](guides/citation-management.md)
+
+### Version Control
+
+Track research iterations and maintain history:
+
+```bash
+# Git-based version control
+git init
+git add .
+git commit -m "feat: initial project setup"
+
+# File-based versioning
+cp report.md report-v1.md
+cp report.md report-v2.md
+cp report.md report-final.md
+
+# Hybrid approach
+git commit -m "docs: daily progress"
+cp report.md report-v1-milestone.md
+git add report-v1-milestone.md
+git commit -m "milestone: v1 complete"
+```
+
+**Key Capabilities**:
+- Track changes to analysis over time
+- Compare iterations and understand evolution
+- Rollback to previous versions if needed
+- Maintain changelog of modifications
+- Tag important milestones
+
+See: [Version Control Guide](guides/version-control.md)
+
+### Batch Operations
+
+Process multiple items efficiently:
+
+```bash
+# Batch document conversion
+for pdf in sources/raw/*.pdf; do
+  category=$(determine_category "$pdf")
+  docling "$pdf" --output "sources/$category/$(basename "$pdf" .pdf).md" --no-images
+done
+
+# Batch web scraping
+while IFS= read -r url; do
+  crawl4ai "$url" --output "sources/web/$(date +%Y-%m-%d)-page.md"
+  sleep 2
+done < urls.txt
+
+# Batch report generation
+pandoc report.md -o output/report.docx
+pandoc report.md -o output/report.pdf --pdf-engine=xelatex
+pandoc report.md -o output/report.html --standalone
+```
+
+**Key Capabilities**:
+- Convert multiple documents at once
+- Scrape multiple URLs systematically
+- Generate multiple report formats
+- Update multiple projects
+- Validate multiple sources
+
+See: [Batch Operations Guide](guides/batch-operations.md)
+
+## Documentation Structure
+
+### Guides
+- [Project Initialization](guides/project-initialization.md) - Setting up research projects
+- [Source Organization](guides/source-organization.md) - Managing research materials
+- [Conversation Flows](guides/conversation-flows.md) - User interaction patterns
+- [Common Commands](guides/common-commands.md) - CLI command reference
+- [Citation Management](guides/citation-management.md) - Tracking sources and references
+- [Version Control](guides/version-control.md) - Managing research iterations
+- [Batch Operations](guides/batch-operations.md) - Bulk processing workflows
+
+### Templates
+- [Executive Summary](templates/executive-summary.md)
+- [Competitive Analysis](templates/competitive-analysis.md)
+- [Literature Review](templates/literature-review.md)
+- [Research Report](templates/research-report.md)
+- [Technical Deep Dive](templates/technical-deep-dive.md)
+
+### Examples
+- [Document Conversion](examples/document-conversion/) - PDF/DOCX conversion workflows
+- [Web Scraping](examples/web-scraping/) - Content extraction and versioning
+- [Research Analysis](examples/research-analysis/) - Analysis methodologies
+- [Report Generation](examples/report-generation/) - Creating deliverables
+- [Folder Management](examples/folder-management/) - Project organization
+- [User Interaction](examples/user-interaction/) - Complete workflows
 - Confirm successful completion of operations
 - Offer alternatives when primary approach fails
