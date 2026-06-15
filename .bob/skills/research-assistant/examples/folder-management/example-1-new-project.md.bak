@@ -17,12 +17,13 @@ User: "I need to start a new research project on API management trends for 2024"
 
 **Step 1: Clarify Requirements**
 ```
-Bob: "I'll help you set up a research project on API management trends.
+Bob: "I'll help you set up a research project on API management trends. 
 Let me ask a few questions to structure this properly:
 
 1. What's the primary goal? (e.g., vendor comparison, market analysis, trend identification)
 2. Do you have specific sources in mind?
-3. What deliverables do you need? (e.g., executive summary, full report, presentation)"
+3. What deliverables do you need? (e.g., executive summary, full report, presentation)
+4. What's your timeline?"
 ```
 
 ### User Clarification
@@ -30,7 +31,8 @@ Let me ask a few questions to structure this properly:
 User: "I need to:
 1. Analyze market trends and identify emerging patterns
 2. Start with Gartner and Forrester reports
-3. Deliver an executive summary and full research report"
+3. Deliver an executive summary and full research report
+4. Complete in 2 weeks"
 ```
 
 ### Bob's Actions
@@ -224,6 +226,7 @@ cat > research/api-management-trends-2024/notes.md << 'EOF'
 - Created project structure
 - Defined research questions
 - Identified initial sources
+- Set 2-week timeline
 
 ### Initial Observations
 [To be added as research progresses]
@@ -318,7 +321,7 @@ Would you like me to start converting the analyst reports?"
 ### What Bob Did Well
 
 1. **Asked Clarifying Questions**: Understood requirements before creating structure
-2. **Created Comprehensive Metadata**: Included scope and methodology
+2. **Created Comprehensive Metadata**: Included timeline, scope, methodology
 3. **Set Up Tracking**: Source index and progress tracking
 4. **Provided Templates**: Pre-populated files with structure
 5. **Clear Next Steps**: Outlined what to do next
@@ -336,6 +339,7 @@ Would you like me to start converting the analyst reports?"
 1. **Metadata First**: Created comprehensive README before starting work
 2. **Source Tracking**: Set up index to track all sources
 3. **Template Usage**: Pre-populated files with structure
+4. **Timeline Planning**: Broke work into manageable phases
 5. **Clear Deliverables**: Defined what will be produced
 
 ## Variations

@@ -33,7 +33,7 @@ Effective user interaction requires:
 - Multiple deliverable formats
 - Professional project completion
 
-**Duration**: ~20 hours of work
+**Duration**: 2 weeks (20 hours of work)
 
 **Deliverables**:
 - Executive summary (3 pages)
@@ -56,7 +56,8 @@ Effective user interaction requires:
 ```
 Bob: "Let me understand your needs:
 1. What's your primary goal?
-2. What deliverables do you need?
+2. What's your timeline?
+3. What deliverables do you need?
 4. Do you have existing sources?"
 ```
 
@@ -100,7 +101,7 @@ Bob: "I can proceed in three ways:
 2. Standard analysis (2 hours)
 3. Deep analysis (4 hours)
 
-Which approach would you prefer?"
+Which fits your timeline?"
 ```
 
 **Benefits**:
@@ -214,12 +215,13 @@ Bob: "Analyzing 7 sources...
 
 **Goals**:
 - Understand requirements
-- Set scope
+- Set scope and timeline
 - Create project structure
 - Identify sources
 
 **Key Questions**:
 - What's your goal?
+- What's your timeline?
 - What deliverables do you need?
 - Do you have existing sources?
 
@@ -412,7 +414,7 @@ Or specify the file path."
 2. What format? (summary, full report, presentation)
 3. What depth? (high-level, detailed, comprehensive)
 
-I'll focus on what matters most for your needs."
+I'll focus on what matters most for your timeline."
 ```
 
 ## Error Handling

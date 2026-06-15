@@ -22,6 +22,7 @@ Proper folder management is essential for:
 - Directory structure creation
 - Metadata setup
 - Source tracking
+- Timeline planning
 - Deliverable definition
 
 **Key Concepts**:
@@ -329,7 +330,7 @@ status: [current | archived]
 2. Initialize README with metadata
 3. Create working files (notes, analysis, report)
 4. Set up source tracking
-5. Define deliverables
+5. Define deliverables and timeline
 
 **Tools**: `mkdir`, `touch`, text editor
 
@@ -345,9 +346,9 @@ status: [current | archived]
 
 ### Workflow 3: Maintain Organization
 
-1. Review and update indexes regularly
-2. Refresh web content periodically
-3. Archive old sources as needed
+1. Review and update indexes weekly
+2. Refresh web content monthly
+3. Archive old sources quarterly
 4. Update metadata as needed
 5. Track usage statistics
 

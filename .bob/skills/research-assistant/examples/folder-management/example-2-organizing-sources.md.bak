@@ -192,6 +192,7 @@ cat > sources/index.md << 'EOF'
 ## Maintenance Notes
 - All sources current as of 2024-06-12
 - Web content should be refreshed monthly
+- Next update scheduled: 2024-07-12
 EOF
 ```
 
@@ -328,9 +329,9 @@ cat > sources/vendor-docs/index.md << 'EOF'
   - **Topics**: Core concepts, terminology
 
 ## Refresh Schedule
-- **Kong**: Monthly
-- **Apigee**: Monthly
-- **AWS**: Monthly
+- **Kong**: Monthly (next: 2024-07-12)
+- **Apigee**: Monthly (next: 2024-07-12)
+- **AWS**: Monthly (next: 2024-07-12)
 
 ## Related Categories
 - [Gartner Reports](../gartner/index.md)
@@ -474,13 +475,17 @@ find sources/ -name "*.md" -mtime -1
 
 ## Maintenance Tasks
 
-### Regular Maintenance
+### Weekly
 - Update master index with new sources
 - Check for broken links in web content
 - Review source usage statistics
+
+### Monthly
 - Refresh web content (vendor docs)
 - Update category indexes
 - Archive old versions
+
+### Quarterly
 - Review organization structure
 - Consolidate duplicate sources
 - Update metadata standards

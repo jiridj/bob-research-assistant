@@ -17,11 +17,12 @@ Identifying gaps in research coverage, missing information, and areas requiring 
 - What's the research objective? (vendor selection, strategy, etc.)
 - What decisions need to be made?
 - What information is critical vs nice-to-have?
+- What's the timeline for decisions?
 
 **User Response Example**:
 ```
 "We're evaluating API gateway vendors for enterprise deployment.
-Critical information:
+Need to make decision in 3 months. Critical information:
 - Technical capabilities
 - Pricing and TCO
 - Implementation complexity
@@ -142,9 +143,9 @@ find sources/ -name "*-20*.md" | grep -o '20[0-9][0-9]-[0-9][0-9]' | sort | uniq
 **Risk**: Project cancellation or scope reduction
 
 ## 3. Implementation Complexity
-**What's Missing**: Realistic implementation complexity and resources
+**What's Missing**: Realistic implementation timelines and resources
 **Why Critical**: Need to plan project and resources
-**Impact**: Can't plan implementation
+**Impact**: Can't commit to timeline
 **Risk**: Project delays, cost overruns
 
 ## 4. Customer References
@@ -172,7 +173,7 @@ find sources/ -name "*-20*.md" | grep -o '20[0-9][0-9]-[0-9][0-9]' | sort | uniq
 
 ## 3. Training Requirements
 **What's Missing**: Training needs and availability
-**Why Important**: Team readiness affects implementation
+**Why Important**: Team readiness affects timeline
 **Impact**: Can't plan onboarding
 **Priority**: Medium
 
@@ -252,7 +253,7 @@ find sources/ -name "*-20*.md" | grep -o '20[0-9][0-9]-[0-9][0-9]' | sort | uniq
 **Suggested Sources**:
 1. **Implementation Guides**
    - Search vendor docs for: "implementation guide", "deployment guide"
-   - Look for: Step-by-step processes, complexity estimates
+   - Look for: Step-by-step processes, timelines
    - Action: Scrape implementation documentation
 
 2. **Partner Information**
@@ -311,12 +312,12 @@ find sources/ -name "*-20*.md" | grep -o '20[0-9][0-9]-[0-9][0-9]' | sort | uniq
    - Document findings
    - Confidence target: Medium-High
 
-## Phase 2: Important Gaps
+## Phase 2: Important Gaps (Week 3-4)
 **Should have for confidence**
 
-4. **Implementation Complexity**
+4. **Implementation Complexity** (3 days)
    - Gather implementation guides
-   - Estimate complexity and resources
+   - Estimate timeline and resources
    - Identify risks
    - Confidence target: Medium
 
@@ -380,13 +381,13 @@ find sources/ -name "*-20*.md" | grep -o '20[0-9][0-9]-[0-9][0-9]' | sort | uniq
 
 ### 4. Proof of Concept
 - **Opportunity**: Hands-on testing of top candidates
-- **Effort**: High
+- **Effort**: High (2-3 weeks)
 - **Value**: Very High
 - **Action**: Set up POC environment, run tests
 
 ### 5. Customer Interviews
 - **Opportunity**: Direct feedback from users
-- **Effort**: Medium
+- **Effort**: Medium (1-2 weeks to arrange)
 - **Value**: High
 - **Action**: Identify and contact references
 
@@ -462,7 +463,7 @@ find sources/ -name "*-20*.md" | grep -o '20[0-9][0-9]-[0-9][0-9]' | sort | uniq
 
 ### Wednesday-Friday: Implementation Research
 - [ ] Scrape implementation guides
-- [ ] Estimate complexity
+- [ ] Estimate timelines
 - [ ] Identify resource needs
 - [ ] Document risks
 - **Owner**: [Name]
@@ -489,12 +490,14 @@ find sources/ -name "*-20*.md" | grep -o '20[0-9][0-9]-[0-9][0-9]' | sort | uniq
 ### 2. Prioritization
 - Focus on decision-critical gaps first
 - Consider effort vs value
+- Align with timeline
 - Be realistic about resources
 
 ### 3. Specificity
 - Identify specific missing information
 - Suggest specific sources
 - Provide concrete actions
+- Assign owners and deadlines
 
 ### 4. Continuous Assessment
 - Reassess gaps as research progresses

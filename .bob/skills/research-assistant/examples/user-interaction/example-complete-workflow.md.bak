@@ -4,7 +4,7 @@ This example demonstrates a full end-to-end research workflow from project initi
 
 ## Scenario
 
-A product manager needs to research API management trends to inform their 2024 technology strategy and deliver an executive summary and full research report.
+A product manager needs to research API management trends to inform their 2024 technology strategy. They have 2 weeks to deliver an executive summary and full research report.
 
 ## Complete Conversation
 
@@ -22,24 +22,27 @@ Bob: "I'd be happy to help you research API management trends. Let me understand
    - Technology evaluation
    - All of the above
 
-2. What deliverables do you need?
+2. What's your timeline?
+
+3. What deliverables do you need?
 
 4. Do you have existing sources or should I help you find them?"
 
-User: "I need to identify key trends and compare top vendors. I need an executive summary and a full report. I have some Gartner and Forrester reports, plus I want to look at vendor documentation."
+User: "I need to identify key trends and compare top vendors. Timeline is 2 weeks. I need an executive summary and a full report. I have some Gartner and Forrester reports, plus I want to look at vendor documentation."
 
 Bob: "Perfect! I'll set up a comprehensive research project.
 
 Project scope:
 - Trend identification
 - Vendor comparison
+- Timeline: 2 weeks (due June 26)
 - Deliverables: Executive summary + full report
 - Sources: Analyst reports + vendor docs
 
 Creating project structure...
 
 ✓ Created: research/api-management-trends-2024/
-  - Project metadata
+  - Project metadata with timeline
   - Source tracking
   - Analysis templates
   - Report templates
@@ -163,7 +166,7 @@ Analysis approach:
 3. Categorize by theme (technology, market, adoption)
 4. Identify patterns across sources
 5. Rank by frequency and importance
-6. Note predictions
+6. Note predictions and timelines
 
 This will take a few minutes. Proceed?"
 
@@ -383,14 +386,17 @@ Decision Matrix (weighted scoring):
 Implementation Considerations:
 
 Kong:
+- Timeline: 4-6 weeks
 - Skills needed: Kubernetes, Lua (for plugins)
 - Support: Community + Enterprise options
 
 Apigee:
+- Timeline: 2-4 weeks
 - Skills needed: Google Cloud, API design
 - Support: Google Cloud support
 
 AWS API Gateway:
+- Timeline: 1-2 weeks
 - Skills needed: AWS services, IAM
 - Support: AWS support plans
 
@@ -434,6 +440,7 @@ Bob: "Generating reports...
 Executive Summary Contents:
 1. Overview
    - Research scope and methodology
+   - Timeline: 2 weeks, completed on schedule
    
 2. Key Findings (Top 5 Trends)
    - AI/ML Integration: Becoming standard by 2026-2027
@@ -464,7 +471,7 @@ Full Research Report Contents:
 4. Trend Analysis (5 pages)
    - Detailed analysis of 5 major trends
    - 3 emerging patterns
-   - Predictions
+   - Predictions and timelines
 5. Vendor Comparison (8 pages)
    - Detailed profiles for Kong, Apigee, AWS
    - Comparison matrices
@@ -482,6 +489,7 @@ Full Research Report Contents:
 Your research project is complete! 
 
 Project Summary:
+- Duration: 2 weeks (on schedule)
 - Sources analyzed: 9 (3 analyst reports, 6 vendor docs)
 - Analysis documents: 4 (trends, comparison, framework, synthesis)
 - Deliverables: 2 (executive summary, full report)
@@ -541,6 +549,7 @@ Presentation highlights:
 - Trend charts and statistics
 - Vendor positioning diagrams
 - Decision framework flowchart
+- Action timeline
 
 To convert to PowerPoint:
 pandoc presentation.md -o output/api-management-trends-presentation.pptx
@@ -618,7 +627,7 @@ Good luck with your technology strategy! Feel free to ask if you need any update
 - Vendor comparison: 6 hours
 - Decision framework: 3 hours
 - Report generation: 3 hours
-- **Total: ~20 hours**
+- **Total: ~20 hours over 2 weeks**
 
 ### Deliverables Quality
 

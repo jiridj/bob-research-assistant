@@ -475,12 +475,12 @@ done
 
 ```bash
 #!/bin/bash
-# version-report.sh
+# timeline-report.sh
 
 COMPANY=$1
 PAGE=$2
 
-echo "# ${COMPANY} ${PAGE} Version History"
+echo "# ${COMPANY} ${PAGE} Timeline"
 echo ""
 echo "| Date | File Size | Word Count | Changes |"
 echo "|------|-----------|------------|---------|"
@@ -518,9 +518,9 @@ done
 
 ### 3. Regular Cadence
 - Define scraping frequency (daily, weekly, monthly)
-- Maintain consistent tracking
+- Stick to schedule for consistent tracking
 - Adjust frequency based on change rate
-- Document scraping frequency in metadata
+- Document scraping schedule in metadata
 
 ### 4. Automate Change Detection
 - Compare with previous version automatically
@@ -535,7 +535,7 @@ done
 - Define retention policy if necessary
 
 ### 6. Documentation
-- Document scraping frequency
+- Document scraping schedule
 - Note any manual interventions
 - Track URL changes
 - Record analysis findings
