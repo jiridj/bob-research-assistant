@@ -75,33 +75,35 @@ sources/
 
 **Documents**:
 ```
-[provider]-[type]-[topic]-[year].md
+[year]-[provider]-[type]-[topic].md
 
 Examples:
-- gartner-magic-quadrant-api-management-2024.md
-- forrester-wave-integration-platforms-2024.md
-- aws-whitepaper-security-best-practices-2024.md
+- 2024-gartner-magic-quadrant-api-management.md
+- 2024-forrester-wave-integration-platforms.md
+- 2024-aws-whitepaper-security-best-practices.md
 ```
 
 **Web Content**:
 ```
-[domain]-[page-name]-[date].md
+[date]-[domain]-[page-name].md
 
 Examples:
-- kong-features-overview-2024-06-12.md
-- aws-lambda-documentation-2024-06-12.md
-- apigee-pricing-2024-06-12.md
+- 2024-06-12-kong-features-overview.md
+- 2024-06-12-aws-lambda-documentation.md
+- 2024-06-12-apigee-pricing.md
 ```
 
 **Raw Files**:
 ```
-[original-name].[extension]
+[year]-[original-name].[extension]
 
 Examples:
-- gartner-mq-api-2024.pdf
-- forrester-wave-2024.pdf
-- aws-security-whitepaper.pdf
+- 2024-gartner-mq-api.pdf
+- 2024-forrester-wave.pdf
+- 2024-aws-security-whitepaper.pdf
 ```
+
+**Note**: Date/year prefixes enable chronological sorting and make it easy to identify the most recent versions.
 
 ### Directory Names
 

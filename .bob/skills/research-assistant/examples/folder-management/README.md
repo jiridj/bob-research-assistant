@@ -201,36 +201,42 @@ sources/
 
 ### Projects
 ```
-✓ api-management-trends-2024
-✓ vendor-comparison-q2
-✓ cloud-security-analysis
+✓ 2024-api-management-trends
+✓ 2024-q2-vendor-comparison
+✓ 2024-cloud-security-analysis
 
 ✗ API Management Trends
 ✗ VendorComp
 ✗ project1
 ```
 
+**Note**: Year prefix enables chronological sorting
+
 ### Documents
 ```
-✓ gartner-magic-quadrant-api-management-2024.md
-✓ forrester-wave-integration-platforms-2024.md
-✓ aws-whitepaper-security-best-practices-2024.md
+✓ 2024-gartner-magic-quadrant-api-management.md
+✓ 2024-forrester-wave-integration-platforms.md
+✓ 2024-aws-whitepaper-security-best-practices.md
 
 ✗ Gartner_MQ_2024.md
 ✗ report.md
 ✗ doc1.md
 ```
 
+**Note**: Year prefix enables chronological sorting
+
 ### Web Content
 ```
-✓ kong-features-overview-2024-06-12.md
-✓ aws-lambda-documentation-2024-06-12.md
-✓ apigee-pricing-2024-06-12.md
+✓ 2024-06-12-kong-features-overview.md
+✓ 2024-06-12-aws-lambda-documentation.md
+✓ 2024-06-12-apigee-pricing.md
 
 ✗ kong.md
 ✗ page1.md
 ✗ content-2024.md
 ```
+
+**Note**: Date prefix (YYYY-MM-DD) enables chronological sorting
 
 ## Metadata Templates
 

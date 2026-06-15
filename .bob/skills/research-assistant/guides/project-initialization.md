@@ -523,13 +523,15 @@ chmod +x init-research-project-advanced.sh
 
 **Project Names**:
 - Use lowercase with hyphens: `api-management-trends`
-- Include year if relevant: `cloud-security-2024`
-- Be descriptive but concise: `vendor-comparison-q2`
+- Include year at front if relevant: `2024-cloud-security`
+- Be descriptive but concise: `2024-q2-vendor-comparison`
 
 **File Names**:
-- Use descriptive names: `gartner-magic-quadrant-2024.md`
-- Include dates for versions: `analysis-2024-06-12.md`
+- Use descriptive names with date prefix: `2024-gartner-magic-quadrant.md`
+- Include dates for versions: `2024-06-12-analysis.md`
 - Use consistent prefixes: `report-executive-summary.md`
+
+**Note**: Date/year prefixes enable chronological sorting and make it easy to identify the most recent versions.
 
 ### 2. Metadata Management
 
