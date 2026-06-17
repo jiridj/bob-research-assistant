@@ -262,11 +262,21 @@ See [IMPLEMENTATION_ROADMAP.md](IMPLEMENTATION_ROADMAP.md) for details.
 
 ## 🤝 Contributing
 
-This skill is part of the Bob AI assistant framework. For issues or suggestions:
+We welcome contributions from team members! See **[CONTRIBUTING.md](CONTRIBUTING.md)** for detailed guidelines.
 
-1. Review the [documentation](.bob/skills/research-assistant/README.md)
-2. Check [troubleshooting](.bob/skills/research-assistant/README.md#troubleshooting)
-3. Consult [examples](.bob/skills/research-assistant/examples/)
+**Quick Start for Contributors:**
+1. Clone repository and install: `./install.sh`
+2. Make changes to `.bob/skills/research-assistant/`
+3. Reinstall to test: `./install.sh`
+4. Commit and push: `git commit -m "feat: Your change"`
+
+**What to Contribute:**
+- New templates and examples
+- Utility scripts and automation
+- Documentation improvements
+- Bug fixes and enhancements
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for complete guidelines, code style, and submission process.
 
 ## 📄 License
 
