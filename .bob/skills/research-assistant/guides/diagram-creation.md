@@ -252,7 +252,26 @@ mmdc -i diagram.mmd -o diagram.png -w 1920 -H 1080
 
 ### In Research Reports
 
-**Option 1: Keep as Mermaid Code** (Recommended)
+#### When to Use Each Approach
+
+**Use Mermaid Code (Option 1)** - Recommended for:
+- ✅ Internal documentation and working documents
+- ✅ GitHub/GitLab repositories (native Mermaid support)
+- ✅ VS Code with Mermaid Preview extension
+- ✅ Documents that change frequently
+- ✅ Collaborative editing (easy to review changes)
+- ✅ Version control (text-based, shows diffs)
+
+**Use Rendered Images (Option 2)** - Required for:
+- ✅ Final reports exported to Word/PDF via Pandoc
+- ✅ Presentations (PPTX, PDF)
+- ✅ Platforms without Mermaid support
+- ✅ Print publications
+- ✅ Email attachments
+- ✅ Static documentation sites without Mermaid plugin
+
+#### Option 1: Keep as Mermaid Code (Recommended for Working Documents)
+
 ```markdown
 ## Research Workflow
 
@@ -264,7 +283,21 @@ flowchart TD
 ```
 ```
 
-**Option 2: Render to Image**
+**Advantages:**
+- Live preview in VS Code with extension
+- Easy to edit and update
+- Version control friendly
+- No separate image files to manage
+- Automatic rendering on GitHub/GitLab
+
+**When to use:**
+- During research and analysis phase
+- In markdown files viewed in VS Code or GitHub
+- For collaborative documents
+- When diagrams change frequently
+
+#### Option 2: Render to Image (Required for Final Deliverables)
+
 ```bash
 # Render diagram
 mmdc -i workflow.mmd -o images/workflow.png
@@ -272,6 +305,39 @@ mmdc -i workflow.mmd -o images/workflow.png
 # Reference in markdown
 ![Research Workflow](images/workflow.png)
 ```
+
+**Advantages:**
+- Works in any document format (Word, PDF, PowerPoint)
+- Consistent rendering across all platforms
+- No plugin dependencies
+- Professional appearance in final reports
+
+**When to use:**
+- Generating final reports with Pandoc
+- Creating presentations
+- Exporting to Word/PDF
+- Sharing with non-technical stakeholders
+- Publishing to platforms without Mermaid support
+
+#### Recommended Workflow
+
+```bash
+# 1. During Research: Use Mermaid code in markdown
+# Edit in VS Code with live preview
+vim research/project/analysis.md
+
+# 2. Before Final Report: Render to images
+mmdc -i diagrams/workflow.mmd -o images/workflow.png
+mmdc -i diagrams/architecture.mmd -o images/architecture.png
+
+# 3. Generate Report: Pandoc uses the images
+pandoc research/project/report.md -o output/report.docx
+```
+
+**Pro Tip:** Keep both! Store `.mmd` source files in `diagrams/` and rendered images in `images/`. This way you can:
+- Edit diagrams easily (from `.mmd` files)
+- Use in final reports (from `.png` files)
+- Track changes in version control (`.mmd` files show diffs)
 
 ## Best Practices
 
