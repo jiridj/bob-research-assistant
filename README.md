@@ -187,6 +187,42 @@ Bob: ✓ Synthesized findings from 8 sources
 
 ## 🔧 Development
 
+### For Contributors
+
+If you're actively developing this skill, you can update your local Bob installation after making changes:
+
+```bash
+# 1. Make changes to skill files
+vim .bob/skills/research-assistant/SKILL.md
+
+# 2. Reinstall to test changes
+./install.sh  # Say 'y' to overwrite
+
+# 3. Test with Bob (uses updated skill immediately)
+
+# 4. Commit when satisfied
+git add .
+git commit -m "feat: Your changes"
+```
+
+**Quick Development Options:**
+
+**Option 1: Reinstall after changes** (recommended for testing)
+```bash
+./install.sh  # Overwrites ~/.bob/skills/research-assistant/
+```
+
+**Option 2: Symlink for live development** (advanced)
+```bash
+# Remove installed version
+rm -rf ~/.bob/skills/research-assistant
+
+# Create symlink to your repo
+ln -s $(pwd)/.bob/skills/research-assistant ~/.bob/skills/research-assistant
+
+# Now edits are immediately live in Bob - no reinstall needed!
+```
+
 ### Implementation Status
 
 ✅ **Phase 1-10 Complete** (5,000+ lines of documentation)
