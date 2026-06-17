@@ -142,8 +142,21 @@ Bob: ✓ Synthesized findings from 8 sources
    choco install pandoc
    ```
 
+4. **mermaid-cli** - Diagram generation (optional but recommended)
+   ```bash
+   npm install -g @mermaid-js/mermaid-cli
+   ```
+
+### Recommended Tools
+
+1. **VS Code Mermaid Extension** - For diagram editing
+   - Install: [Mermaid Preview](https://marketplace.visualstudio.com/items?itemName=bierner.markdown-mermaid)
+   - Enables live preview of Mermaid diagrams in markdown files
+   - Essential for creating and editing diagrams in research documents
+
 ### System Requirements
 - Python 3.8 or higher
+- Node.js 14+ (for mermaid-cli)
 - 2GB free disk space
 - Internet connection (for web scraping)
 

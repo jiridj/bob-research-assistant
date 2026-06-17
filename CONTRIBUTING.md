@@ -24,9 +24,16 @@ cd bob-research-assistant-skill
 # Install the skill locally
 ./install.sh
 
+# Install optional tools for diagram support
+npm install -g @mermaid-js/mermaid-cli
+
 # Verify installation
 # Ask Bob: "What research capabilities do you have?"
 ```
+
+**Recommended VS Code Extensions:**
+- [Mermaid Preview](https://marketplace.visualstudio.com/items?itemName=bierner.markdown-mermaid) - Live preview of Mermaid diagrams
+- Essential for creating and editing diagrams in research documents
 
 ### 2. Choose Your Development Workflow
 
