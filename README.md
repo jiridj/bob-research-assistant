@@ -108,13 +108,18 @@ Bob: ✓ Synthesized findings from 8 sources
 
 ### Resources
 - **[Templates](.bob/skills/research-assistant/templates/)** - 5 report templates (2,000+ lines)
-- **[Guides](.bob/skills/research-assistant/guides/)** - 9 comprehensive guides
+- **[Guides](.bob/skills/research-assistant/guides/)** - 10 comprehensive guides
+  - [Diagram Creation](.bob/skills/research-assistant/guides/diagram-creation.md) - Mermaid.js diagrams
+  - [Batch Operations](.bob/skills/research-assistant/guides/batch-operations.md) - Bulk processing
+  - [Citation Management](.bob/skills/research-assistant/guides/citation-management.md) - Source tracking
+  - [And 7 more...](.bob/skills/research-assistant/guides/)
 - **[Examples](.bob/skills/research-assistant/examples/)** - 20+ practical examples
 - **[Utility Scripts](scripts/README.md)** - 13 automation scripts
 - **[Troubleshooting](.bob/skills/research-assistant/README.md#troubleshooting)** - Common issues and solutions
 
-### Sharing
+### Sharing & Contributing
 - **[Sharing Guide](SHARING.md)** - How to share this skill with others
+- **[Contributing Guide](CONTRIBUTING.md)** - Guidelines for contributors
 
 ## 🛠️ Prerequisites
 

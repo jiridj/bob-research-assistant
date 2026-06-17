@@ -789,6 +789,7 @@ See: [Error Handling Guide](guides/error-handling.md)
 - [Batch Operations](guides/batch-operations.md) - Bulk processing workflows
 - [Quality Assurance](guides/quality-assurance.md) - Validation checks and quality metrics
 - [Error Handling](guides/error-handling.md) - Troubleshooting and recovery strategies
+- [Diagram Creation](guides/diagram-creation.md) - Creating diagrams with Mermaid.js
 
 ### Templates
 - [Executive Summary](templates/executive-summary.md)
