@@ -4,13 +4,41 @@ A comprehensive Bob skill that streamlines research workflows through automated 
 
 ## 🚀 Quick Start
 
+### Installation
+
+```bash
+# Clone this repository
+git clone <repo-url>
+cd bob-research-assistant-skill
+
+# Run the installer (installs dependencies and skill)
+./install.sh
+```
+
+Or install manually:
+
 ```bash
 # 1. Install prerequisites
 pip install docling crawl4ai
 brew install pandoc  # macOS (or apt-get/choco for Linux/Windows)
 
-# 2. Start using the skill with Bob
+# 2. Copy skill to Bob
+cp -r .bob/skills/research-assistant ~/.bob/skills/
+
+# 3. Make scripts executable
+chmod +x scripts/*.sh
+```
+
+### Using the Skill
+
+```bash
+# Start using with Bob
 # Bob will automatically use this skill when you ask for research assistance
+
+# Or use utility scripts directly
+./scripts/init-research-project.sh my-project
+./scripts/batch-convert-pdfs.sh sources/raw sources
+./scripts/search-sources.sh "API Gateway"
 ```
 
 ## 📚 What This Skill Does
@@ -82,7 +110,11 @@ Bob: ✓ Synthesized findings from 8 sources
 - **[Templates](.bob/skills/research-assistant/templates/)** - 5 report templates (2,000+ lines)
 - **[Guides](.bob/skills/research-assistant/guides/)** - 9 comprehensive guides
 - **[Examples](.bob/skills/research-assistant/examples/)** - 20+ practical examples
+- **[Utility Scripts](scripts/README.md)** - 13 automation scripts
 - **[Troubleshooting](.bob/skills/research-assistant/README.md#troubleshooting)** - Common issues and solutions
+
+### Sharing
+- **[Sharing Guide](SHARING.md)** - How to share this skill with others
 
 ## 🛠️ Prerequisites
 
