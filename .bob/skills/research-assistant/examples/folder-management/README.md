@@ -100,7 +100,7 @@ docling report.pdf --output sources/gartner/report-2024.md --no-images
 
 **Scrape Web Content**:
 ```bash
-crawl4ai https://example.com --output sources/web/page-2024-06-12.md
+crwl crawl https://example.com --output markdown --output-file sources/web/page-2024-06-12.md
 ```
 
 **Create Indexes**:

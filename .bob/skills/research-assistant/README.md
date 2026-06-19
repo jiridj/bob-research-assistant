@@ -58,7 +58,7 @@ pip install crawl4ai
 
 **Verify installation:**
 ```bash
-crawl4ai --version
+crwl --version
 ```
 
 ### 3. Pandoc (Report Generation)
@@ -172,7 +172,7 @@ See [Document Conversion Examples](examples/document-conversion/README.md) for d
 **Steps:**
 1. Identify target URLs
 2. Determine scraping strategy (single page vs. site crawl)
-3. Execute crawl4ai with appropriate options
+3. Execute crwl crawl with appropriate options
 4. Clean and format output
 5. Organize in sources folder
 

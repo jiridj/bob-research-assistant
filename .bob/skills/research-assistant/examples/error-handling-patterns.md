@@ -307,7 +307,7 @@ validate_url() {
 # Usage
 if validate_url "https://example.com/article"; then
     echo "Proceeding with scraping..."
-    crawl4ai "https://example.com/article"
+    crwl crawl "https://example.com/article" --output markdown
 else
     echo "Scraping aborted"
 fi
@@ -349,7 +349,7 @@ scrape_with_rate_limit() {
         while [ $attempts -lt $max_attempts ]; do
             attempts=$((attempts + 1))
             
-            if crawl4ai "$url" --output "$output_file" 2>&1; then
+            if crwl crawl "$url" --output markdown --output-file "$output_file" 2>&1; then
                 if [ -f "$output_file" ] && [ -s "$output_file" ]; then
                     echo "  ✓ Success"
                     success=true
@@ -867,7 +867,7 @@ main() {
     
     # Step 2: Scrape web content with validation
     if validate_url "$url"; then
-        crawl4ai "$url" --output "scraped.md"
+        crwl crawl "$url" --output markdown --output-file "scraped.md"
         echo "✓ Web scraping complete"
     else
         echo "❌ Web scraping failed"

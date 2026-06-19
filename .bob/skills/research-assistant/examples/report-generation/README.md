@@ -458,7 +458,7 @@ git tag report-v1.0
 docling report.pdf --output sources/report.md
 
 # 2. Scrape web content
-crawl4ai https://example.com --output sources/web-content.md
+crwl crawl https://example.com --output markdown --output-file sources/web-content.md
 
 # 3. Analyze (using research-analysis examples)
 # Create analysis in research/my-project/analysis.md

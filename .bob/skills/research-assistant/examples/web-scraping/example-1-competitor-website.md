@@ -39,7 +39,7 @@ curl -I https://konghq.com/products/api-gateway
 ### 3. Execute Crawl4ai
 **Command**:
 ```bash
-crawl4ai https://konghq.com/products/api-gateway \
+crwl crawl https://konghq.com/products/api-gateway --output markdown \
   --output sources/Competitors/Kong/features.md
 ```
 
@@ -138,11 +138,11 @@ Actions:
 **Commands**:
 ```bash
 # Scrape pricing
-crawl4ai https://konghq.com/products/api-gateway/pricing \
+crwl crawl https://konghq.com/products/api-gateway/pricing --output markdown \
   --output sources/Competitors/Kong/pricing.md
 
 # Scrape documentation
-crawl4ai https://konghq.com/products/api-gateway/documentation \
+crwl crawl https://konghq.com/products/api-gateway/documentation --output markdown \
   --output sources/Competitors/Kong/documentation.md
 ```
 
@@ -184,7 +184,7 @@ EOF
 # Batch scrape
 for url in $(cat kong-urls.txt); do
   filename=$(echo $url | sed 's|.*/||').md
-  crawl4ai "$url" --output "sources/Competitors/Kong/$filename"
+  crwl crawl "$url" --output markdown --output-file "sources/Competitors/Kong/$filename"
 done
 ```
 
@@ -284,8 +284,8 @@ Possible issues:
 3. Unusual page structure
 
 Options:
-1. Try with JavaScript rendering: crawl4ai --js-render
-2. Use specific content selector: crawl4ai --selector "main.content"
+1. Try with JavaScript rendering: Use Python API for JS rendering
+2. Use specific content selector: Use Python API for selectors "main.content"
 3. Manual review of the page structure
 
 Would you like me to try with JavaScript rendering?

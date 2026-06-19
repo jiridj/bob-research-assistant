@@ -175,7 +175,7 @@ while IFS= read -r url; do
   output_file="$OUTPUT_DIR/${DATE}-${filename}.md"
   
   echo "Scraping: $url"
-  crawl4ai "$url" --output "$output_file"
+  crwl crawl "$url" --output markdown --output-file "$output_file"
   
   if [ $? -eq 0 ]; then
     echo "✓ Scraped: $filename"
@@ -231,7 +231,7 @@ for category in "${!URLS[@]}"; do
     output_file="sources/vendor-docs/$category/${DATE}-${page}.md"
     
     echo "  Scraping: $url"
-    crawl4ai "$url" --output "$output_file"
+    crwl crawl "$url" --output markdown --output-file "$output_file"
     
     if [ $? -eq 0 ]; then
       echo "  ✓ Scraped: $page"
@@ -283,7 +283,7 @@ scrape_recursive() {
   output_file="$OUTPUT_DIR/$(date +%Y-%m-%d)-${filename}.md"
   
   # Scrape page
-  crawl4ai "$url" --output "$output_file"
+  crwl crawl "$url" --output markdown --output-file "$output_file"
   
   # Mark as visited
   echo "$url" >> "$VISITED_FILE"
@@ -460,7 +460,7 @@ find "$SOURCES_DIR" -name "*.md" -type f -mtime +$REFRESH_AGE | while read -r fi
     mv "$file" "${file}.old"
     
     # Scrape fresh content
-    crawl4ai "$url" --output "$file"
+    crwl crawl "$url" --output markdown --output-file "$file"
     
     if [ $? -eq 0 ]; then
       echo "✓ Refreshed: $(basename "$file")"
@@ -721,7 +721,7 @@ done
 ```bash
 # Respect rate limits when scraping
 for url in "${urls[@]}"; do
-  crawl4ai "$url" --output "output.md"
+  crwl crawl "$url" --output markdown --output-file "output.md"
   sleep 2  # Wait between requests
 done
 ```

@@ -114,24 +114,24 @@ docling sources/raw/forrester-predictions-2024.pdf \
 **Step 5: Scrape Vendor Documentation**
 ```bash
 # Scrape Kong documentation
-crawl4ai https://konghq.com/products/kong-gateway/features \
+crwl crawl https://konghq.com/products/kong-gateway/features --output markdown \
   --output sources/vendor-docs/kong/features-overview-2024-06-12.md
 
-crawl4ai https://konghq.com/products/kong-gateway/architecture \
+crwl crawl https://konghq.com/products/kong-gateway/architecture --output markdown \
   --output sources/vendor-docs/kong/architecture-2024-06-12.md
 
 # Scrape Apigee documentation
-crawl4ai https://cloud.google.com/apigee/docs/api-platform/get-started/overview \
+crwl crawl https://cloud.google.com/apigee/docs/api-platform/get-started/overview --output markdown \
   --output sources/vendor-docs/apigee/overview-2024-06-12.md
 
-crawl4ai https://cloud.google.com/apigee/docs/api-platform/fundamentals/capabilities \
+crwl crawl https://cloud.google.com/apigee/docs/api-platform/fundamentals/capabilities --output markdown \
   --output sources/vendor-docs/apigee/capabilities-2024-06-12.md
 
 # Scrape AWS documentation
-crawl4ai https://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html \
+crwl crawl https://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html --output markdown \
   --output sources/vendor-docs/aws/api-gateway-overview-2024-06-12.md
 
-crawl4ai https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-basic-concept.html \
+crwl crawl https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-basic-concept.html --output markdown \
   --output sources/vendor-docs/aws/basic-concepts-2024-06-12.md
 ```
 

@@ -113,7 +113,7 @@ crwl crawl https://example.com --output markdown --output-file sources/web/artic
 **Workflow Steps**:
 1. Validate URL(s)
 2. Determine target category
-3. Execute crawl4ai with appropriate options
+3. Execute crwl crawl with appropriate options
 4. Analyze scraped content for relevant links
 5. Suggest related pages to scrape (if applicable)
 6. Clean and format output
@@ -517,7 +517,7 @@ done
 
 # Batch web scraping
 while IFS= read -r url; do
-  crawl4ai "$url" --output "sources/web/$(date +%Y-%m-%d)-page.md"
+  crwl crawl "$url" --output markdown --output-file "sources/web/$(date +%Y-%m-%d)-page.md"
   sleep 2
 done < urls.txt
 
@@ -690,7 +690,7 @@ fi
 **Missing Dependencies**:
 ```bash
 # Check for required tools
-for tool in docling crawl4ai pandoc; do
+for tool in docling crwl pandoc; do
   if ! command -v $tool &> /dev/null; then
     echo "❌ $tool not found"
     echo "💡 Install: pip install $tool (or brew install $tool)"

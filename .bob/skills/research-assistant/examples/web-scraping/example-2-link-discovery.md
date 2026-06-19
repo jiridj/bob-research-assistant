@@ -38,7 +38,7 @@ Scraping AWS Lambda documentation with intelligent link discovery to build a com
 ### 3. Execute Crawl4ai
 **Command**:
 ```bash
-crawl4ai https://docs.aws.amazon.com/lambda/latest/dg/welcome.html \
+crwl crawl https://docs.aws.amazon.com/lambda/latest/dg/welcome.html --output markdown \
   --output sources/Hyperscalers/AWS/Lambda/introduction.md
 ```
 
@@ -189,7 +189,7 @@ declare -A pages=(
 
 # Scrape each page
 for name in "${!pages[@]}"; do
-  crawl4ai "$BASE_URL/${pages[$name]}" \
+  crwl crawl "$BASE_URL/${pages[$name]}" --output markdown \
     --output "sources/Hyperscalers/AWS/Lambda/$name.md"
   echo "✓ Scraped $name"
 done
@@ -242,13 +242,13 @@ Actions:
 BASE_URL="https://docs.aws.amazon.com/lambda/latest/dg"
 
 # Scrape selected pages
-crawl4ai "$BASE_URL/getting-started.html" \
+crwl crawl "$BASE_URL/getting-started.html" --output markdown \
   --output sources/Hyperscalers/AWS/Lambda/getting-started.md
 
-crawl4ai "$BASE_URL/best-practices.html" \
+crwl crawl "$BASE_URL/best-practices.html" --output markdown \
   --output sources/Hyperscalers/AWS/Lambda/best-practices.md
 
-crawl4ai "$BASE_URL/configuration-layers.html" \
+crwl crawl "$BASE_URL/configuration-layers.html" --output markdown \
   --output sources/Hyperscalers/AWS/Lambda/layers.md
 ```
 
@@ -307,7 +307,7 @@ EOF
 BASE_URL="https://docs.aws.amazon.com/lambda/latest/dg"
 while read page; do
   filename=$(echo $page | sed 's/\.html/.md/')
-  crawl4ai "$BASE_URL/$page" \
+  crwl crawl "$BASE_URL/$page" --output markdown \
     --output "sources/Hyperscalers/AWS/Lambda/$filename"
   echo "✓ Scraped $filename"
   sleep 1  # Be respectful to the server

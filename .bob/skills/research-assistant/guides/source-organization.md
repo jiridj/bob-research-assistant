@@ -659,7 +659,7 @@ git commit -m "Add Gartner Magic Quadrant 2024"
 
 ```bash
 # 1. Scrape content
-crawl4ai https://example.com --output sources/web/example-2024-06-12.md
+crwl crawl https://example.com --output markdown --output-file sources/web/example-2024-06-12.md
 
 # 2. Add metadata
 # Edit sources/web/example-2024-06-12.md

@@ -279,7 +279,7 @@ Effective error handling ensures smooth research workflows even when issues aris
 
 5. For authentication-required sites:
    ```python
-   # Add authentication to crawl4ai
+   # Add authentication to crwl
    crawler.crawl(url, headers={'Authorization': 'Bearer TOKEN'})
    ```
 

@@ -39,7 +39,7 @@ sources/Competitors/Kong/
 ```bash
 # Scrape with date in filename
 DATE=$(date +%Y-%m-%d)
-crawl4ai https://konghq.com/products/api-gateway \
+crwl crawl https://konghq.com/products/api-gateway --output markdown \
   --output "sources/Competitors/Kong/features-${DATE}.md"
 ```
 
@@ -64,7 +64,7 @@ mkdir -p "$OUTPUT_DIR"
 
 # Scrape content
 echo "Scraping ${COMPANY} ${PAGE}..."
-crawl4ai "$URL" --output "$OUTPUT_FILE"
+crwl crawl "$URL" --output markdown --output-file "$OUTPUT_FILE"
 
 # Create metadata
 cat > "$METADATA_FILE" << EOF
@@ -292,7 +292,7 @@ mkdir -p "$OUTPUT_DIR"
 
 # Scrape current version
 echo "Scraping ${COMPANY} ${PAGE} page..."
-crawl4ai "$URL" --output "$OUTPUT_FILE"
+crwl crawl "$URL" --output markdown --output-file "$OUTPUT_FILE"
 
 # Create metadata
 cat > "$METADATA_FILE" << EOF
@@ -358,7 +358,7 @@ for COMPANY in "${COMPETITORS[@]}"; do
   mkdir -p "$OUTPUT_DIR"
   
   # Scrape
-  crawl4ai "$URL" --output "$OUTPUT_FILE"
+  crwl crawl "$URL" --output markdown --output-file "$OUTPUT_FILE"
   
   # Extract pricing information
   grep -i '\$\|price\|tier\|plan' "$OUTPUT_FILE" > "${OUTPUT_DIR}/pricing-extract-${DATE}.txt"
@@ -405,7 +405,7 @@ for PAGE in "${!PAGES[@]}"; do
   OUTPUT_FILE="${BASE_DIR}/${PAGE}-${DATE}.md"
   
   echo "Scraping ${PAGE}..."
-  crawl4ai "$URL" --output "$OUTPUT_FILE"
+  crwl crawl "$URL" --output markdown --output-file "$OUTPUT_FILE"
   
   # Check for changes
   PREVIOUS=$(ls -t ${BASE_DIR}/${PAGE}-*.md 2>/dev/null | head -2 | tail -1)

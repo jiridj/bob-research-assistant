@@ -49,7 +49,7 @@ Web scraping enables you to extract content from websites and convert it to mark
 
 **Command Pattern**:
 ```bash
-crawl4ai https://competitor.com/product \
+crwl crawl https://competitor.com/product --output markdown \
   --output sources/Competitors/Company/page.md
 ```
 
@@ -74,7 +74,7 @@ crawl4ai https://competitor.com/product \
 
 **Command Pattern**:
 ```bash
-crawl4ai https://docs.example.com/service/intro \
+crwl crawl https://docs.example.com/service/intro --output markdown \
   --output sources/Category/Service/intro.md
 ```
 
@@ -84,7 +84,7 @@ crawl4ai https://docs.example.com/service/intro \
 
 1. **Scrape Initial Page**
    ```bash
-   crawl4ai https://example.com/page --output sources/page.md
+   crwl crawl https://example.com/page --output markdown --output-file sources/page.md
    ```
 
 2. **Analyze Content**
@@ -160,10 +160,10 @@ crawl4ai https://docs.example.com/service/intro \
 ### Single Page Scraping
 ```bash
 # Basic scrape
-crawl4ai https://example.com/page --output sources/category/page.md
+crwl crawl https://example.com/page --output markdown --output-file sources/category/page.md
 
 # With content selector
-crawl4ai https://example.com/page \
+crwl crawl https://example.com/page --output markdown \
   --selector "article.main-content" \
   --output sources/category/page.md
 ```
@@ -184,7 +184,7 @@ https://example.com/page3
 EOF
 
 # Scrape all URLs
-crawl4ai --urls urls.txt --output sources/category/
+./scripts/batch-scrape-urls.sh urls.txt sources/category/
 ```
 
 **When to use**:
@@ -196,7 +196,7 @@ crawl4ai --urls urls.txt --output sources/category/
 ### Link Discovery Workflow
 ```bash
 # 1. Scrape initial page
-crawl4ai https://example.com/intro --output sources/intro.md
+crwl crawl https://example.com/intro --output markdown --output-file sources/intro.md
 
 # 2. Analyze for links (manual or automated)
 grep -o 'https://example.com[^)]*' sources/intro.md
@@ -204,7 +204,7 @@ grep -o 'https://example.com[^)]*' sources/intro.md
 # 3. Scrape discovered links
 for url in $(cat discovered-urls.txt); do
   filename=$(echo $url | sed 's|.*/||').md
-  crawl4ai "$url" --output "sources/$filename"
+  crwl crawl "$url" --output markdown --output-file "sources/$filename"
 done
 ```
 
@@ -293,15 +293,15 @@ nslookup example.com
 ### Content Not Extracted
 ```bash
 # Try with JavaScript rendering
-crawl4ai --js-render https://example.com/page \
+# For JS rendering, use Python API - see examples
   --output sources/page.md
 
 # Use specific selector
-crawl4ai --selector "main.content" https://example.com/page \
+crwl crawl https://example.com/page --output markdown \
   --output sources/page.md
 
 # Increase timeout
-crawl4ai --timeout 30 https://example.com/page \
+crwl crawl https://example.com/page --output markdown \
   --output sources/page.md
 ```
 
@@ -315,7 +315,7 @@ crawl4ai --timeout 30 https://example.com/page \
 ```bash
 # Add delays between requests
 for url in $(cat urls.txt); do
-  crawl4ai "$url" --output "sources/$(basename $url).md"
+  crwl crawl "$url" --output markdown --output-file "sources/$(basename $url).md"
   sleep 2  # Wait 2 seconds between requests
 done
 ```
@@ -471,7 +471,7 @@ After scraping web content:
 
 ## Tools Required
 
-- **crawl4ai** - Web scraping CLI tool
+- **crwl** - Web scraping CLI tool (from crawl4ai package)
   - Installation: `pip install crawl4ai`
   - Documentation: [crawl4ai docs](https://github.com/unclecode/crawl4ai)
 
@@ -481,7 +481,7 @@ For issues or questions:
 1. Check the troubleshooting section above
 2. Review the example workflows
 3. Consult the main SKILL.md documentation
-4. Verify crawl4ai installation and version
+4. Verify crwl installation and version
 5. Test with simple URL first
 
 ## Advanced Topics
@@ -489,20 +489,20 @@ For issues or questions:
 ### Custom Selectors
 Use CSS selectors to target specific content:
 ```bash
-crawl4ai --selector "article.post-content" https://example.com/blog/post
+crwl crawl https://example.com/blog/post --output markdown
 ```
 
 ### JavaScript Rendering
 For dynamic content:
 ```bash
-crawl4ai --js-render https://example.com/dynamic-page
+# For JS rendering, use Python API - see examples
 ```
 
 ### Batch Processing with Error Handling
 ```bash
 while read url; do
   filename=$(echo $url | md5sum | cut -d' ' -f1).md
-  if crawl4ai "$url" --output "sources/$filename" 2>/dev/null; then
+  if crwl crawl "$url" --output markdown --output-file "sources/$filename" 2>/dev/null; then
     echo "✓ $url"
   else
     echo "✗ $url" >> failed-urls.txt
