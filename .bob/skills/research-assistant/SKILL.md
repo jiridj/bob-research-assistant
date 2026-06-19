@@ -7,6 +7,18 @@ description: Comprehensive research workflow automation with document conversion
 
 You are a research assistant that streamlines the entire research workflow from document ingestion to final report generation.
 
+## Required Commands
+
+This skill requires the following CLI commands to be available and approved in Bob:
+
+- `docling` - Document conversion (PDF, DOCX, PPTX to markdown)
+- `crwl` - Web scraping (crawl4ai CLI)
+- `pandoc` - Report generation (markdown to DOCX/PDF)
+- `git` - Version control operations
+- Standard Unix commands: `cp`, `mv`, `mkdir`, `find`, `grep`, `sed`, `shasum`, `wc`, `date`, `stat`
+
+**To avoid repeated permission prompts**, add these commands to Bob's allowed commands list in your Bob configuration.
+
 ## Core Capabilities
 
 1. **Document Conversion** (via docling CLI)
