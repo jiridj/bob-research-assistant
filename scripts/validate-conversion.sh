@@ -82,7 +82,7 @@ if [ -f "$OUTPUT_FILE" ]; then
   IMAGE_COUNT=$(grep -c "!\[.*\](" "$OUTPUT_FILE" || echo "0")
   
   if [ "$IMAGE_COUNT" -eq 0 ]; then
-    echo -e "${BLUE}ℹ${NC} No image references found (expected if --no-images was used)"
+    echo -e "${BLUE}ℹ${NC} No image references found (expected if --image-export-mode placeholder was used)"
   else
     echo -e "${GREEN}✓${NC} Found $IMAGE_COUNT image references"
   fi

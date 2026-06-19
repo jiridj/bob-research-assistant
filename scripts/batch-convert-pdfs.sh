@@ -100,7 +100,7 @@ for pdf in "$SOURCE_DIR"/*.pdf; do
     # Convert with docling
     echo -e "${BLUE}→${NC} Converting: $filename → $category/"
     
-    if docling "$pdf" --output "$output_file" --no-images 2>/dev/null; then
+    if docling "$pdf" --output "$output_file" --image-export-mode placeholder 2>/dev/null; then
       echo -e "${GREEN}✓${NC} Converted: $filename"
       CONVERTED=$((CONVERTED + 1))
       
