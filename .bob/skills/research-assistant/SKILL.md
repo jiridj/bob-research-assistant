@@ -83,41 +83,39 @@ Include project metadata:
 ### Document Conversion (Docling)
 
 **Key Principles**:
-- Images excluded by default
-- Optional image export as separate reference files
+- Images excluded by default (use `--image-export-mode placeholder`)
+- If user requests images: use `--image-export-mode referenced`
 - Never embed images as base64/encoded blobs
 - Preserve document structure and formatting
+- **ALWAYS use wrapper scripts, never direct docling commands**
 
-**Command Patterns**:
+**Required Script**: `./scripts/batch-convert-pdfs.sh`
 
 ```bash
-# PDF conversion
-docling input.pdf --output sources/pdf/document.md --image-export-mode placeholder
+# Default conversion (no images)
+./scripts/batch-convert-pdfs.sh
 
-# Word document conversion
-docling input.docx --output sources/docx/document.md --image-export-mode placeholder
-
-# PowerPoint conversion
-docling input.pptx --output sources/pptx/presentation.md --image-export-mode placeholder
-
-# With image export to shared images folder
+# With image export (if user explicitly requests images)
+# Note: Script needs to be updated to support --image-export-mode referenced
+# For now, manually convert with:
 docling input.pdf \
   --output sources/pdf/document.md \
+  --image-export-mode referenced \
   --export-images sources/images/
-
-# Batch processing
-for file in raw/*.pdf; do
-  docling "$file" --output "sources/pdf/$(basename "$file" .pdf).md" --image-export-mode placeholder
-done
 ```
 
 **Workflow Steps**:
 1. Identify document type (PDF, DOCX, PPTX)
 2. **Copy original file** to originals/{pdf,docx,pptx}/ folder (preserving filename)
-3. **Convert and route** to appropriate sources folder: sources/pdf/, sources/docx/, or sources/pptx/
-4. Check if images should be exported (use sources/images/ for all image exports)
-5. Execute docling with appropriate flags
-6. Verify output and organize files
+3. **Use batch-convert-pdfs.sh script** for conversion:
+   - Script automatically routes to appropriate sources folder (pdf/docx/pptx)
+   - Script adds metadata footer with source file and conversion date
+   - Default: images as placeholders (no image files)
+4. **If user requests images**:
+   - Use `--image-export-mode referenced` flag
+   - Move image folder to sources/images/ alongside markdown
+   - Update markdown image references to point to sources/images/
+5. Verify output and organize files
 7. Create metadata/index entry
 
 **Example with archiving**:
@@ -125,8 +123,8 @@ done
 # Copy original to archive
 cp /path/to/document.pdf originals/pdf/document.pdf
 
-# Convert to markdown
-docling /path/to/document.pdf --output sources/pdf/document.md --image-export-mode placeholder
+# Convert using batch script
+./scripts/batch-convert-pdfs.sh
 
 # Original file remains at /path/to/document.pdf
 # Copy is in originals/pdf/document.pdf
@@ -395,11 +393,11 @@ Actions:
 User: "Convert the Gartner Magic Quadrant PDF to markdown"
 
 Actions:
-1. Identify file location
+1. Identify file location and copy to originals/pdf/
 2. Determine category (Gartner)
-3. Execute: docling gartner-mq.pdf --output sources/Gartner/magic-quadrant-2024.md --no-images
+3. Execute: ./scripts/batch-convert-pdfs.sh
 4. Confirm successful conversion
-5. Report location of output file
+5. Report location of output file (sources/pdf/magic-quadrant-2024.md)
 ```
 
 **Example 2: Convert with Image References**
@@ -407,13 +405,15 @@ Actions:
 User: "Convert the AWS whitepaper and keep the architecture diagrams"
 
 Actions:
-1. Identify file location
+1. Identify file location and copy to originals/pdf/
 2. Determine category (Hyperscalers/AWS)
 3. Execute: docling aws-whitepaper.pdf \
-   --output sources/Hyperscalers/AWS/whitepaper.md \
-   --export-images sources/Hyperscalers/AWS/images/
-4. Confirm conversion and image export
-5. Report locations
+   --output sources/pdf/whitepaper.md \
+   --image-export-mode referenced \
+   --export-images sources/images/aws-whitepaper/
+4. Move image folder to sources/images/
+5. Update markdown image references
+6. Confirm conversion and image export
 ```
 
 ### Web Scraping Examples
@@ -550,11 +550,8 @@ See: [Version Control Guide](guides/version-control.md)
 Process multiple items efficiently:
 
 ```bash
-# Batch document conversion
-for pdf in sources/raw/*.pdf; do
-  category=$(determine_category "$pdf")
-  docling "$pdf" --output "sources/$category/$(basename "$pdf" .pdf).md" --no-images
-done
+# Batch document conversion - use the script
+./scripts/batch-convert-pdfs.sh
 
 # Batch web scraping
 while IFS= read -r url; do
@@ -712,9 +709,9 @@ fi
 **Conversion Failed**:
 ```bash
 # Provide clear error messages
-if ! docling input.pdf --output output.md; then
+if ! ./scripts/batch-convert-pdfs.sh; then
   echo "❌ Conversion failed"
-  echo "💡 Try: Check if file is corrupted or password-protected"
+  echo "💡 Try: Check if files are corrupted or password-protected"
   echo "💡 Alternative: Use pandoc as fallback"
 fi
 ```
@@ -793,8 +790,8 @@ Track these metrics to ensure consistent quality:
 **Example recovery workflow**:
 ```bash
 # Primary method
-if ! docling input.pdf --output output.md; then
-  echo "⚠️  Primary conversion failed, trying alternative..."
+if ! ./scripts/batch-convert-pdfs.sh; then
+  echo "⚠️  Batch conversion failed, trying manual conversion..."
   
   # Fallback method
   if pandoc input.pdf -o output.md; then

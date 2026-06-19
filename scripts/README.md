@@ -264,11 +264,13 @@ cd research/my-research
 
 ### 2. Convert Documents
 ```bash
-# Single PDF
-docling document.pdf --output sources/category/document.md --no-images
+# Use the batch conversion script (recommended)
+./scripts/batch-convert-pdfs.sh
 
-# Batch convert
-./scripts/batch-convert-pdfs.sh sources/raw sources
+# The script handles:
+# - Automatic categorization
+# - Metadata addition
+# - Original file archiving
 ```
 
 ### 3. Scrape Web Content
