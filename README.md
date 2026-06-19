@@ -95,31 +95,68 @@ Bob: ✓ Synthesized findings from 8 sources
 
 ## 📖 Documentation
 
-### Getting Started
-- **[Skill Documentation](.bob/skills/research-assistant/README.md)** - Complete user guide with examples
-- **[Quick Start Guide](.bob/skills/research-assistant/README.md#quick-start)** - Get up and running in minutes
-- **[Prerequisites](.bob/skills/research-assistant/README.md#prerequisites)** - Installation instructions
+### 📚 Main Documentation
 
-### Workflows
-- **[Document Conversion](.bob/skills/research-assistant/examples/document-conversion/)** - Convert PDFs, DOCX, PPTX
-- **[Web Scraping](.bob/skills/research-assistant/examples/web-scraping/)** - Extract web content
-- **[Research Analysis](.bob/skills/research-assistant/examples/research-analysis/)** - 4 analysis methodologies
-- **[Report Generation](.bob/skills/research-assistant/examples/report-generation/)** - Create professional reports
+#### Project Root
+- **[README.md](README.md)** - This file: project overview, installation, and quick start
+- **[SHARING.md](SHARING.md)** - Distribution and sharing guide (520 lines)
+- **[CONTRIBUTING.md](CONTRIBUTING.md)** - Contribution guidelines (467 lines)
+- **[install.sh](install.sh)** - Installation script (242 lines)
 
-### Resources
-- **[Templates](.bob/skills/research-assistant/templates/)** - 5 report templates (2,000+ lines)
-- **[Guides](.bob/skills/research-assistant/guides/)** - 10 comprehensive guides
-  - [Diagram Creation](.bob/skills/research-assistant/guides/diagram-creation.md) - Mermaid.js diagrams
-  - [Batch Operations](.bob/skills/research-assistant/guides/batch-operations.md) - Bulk processing
-  - [Citation Management](.bob/skills/research-assistant/guides/citation-management.md) - Source tracking
-  - [And 7 more...](.bob/skills/research-assistant/guides/)
-- **[Examples](.bob/skills/research-assistant/examples/)** - 20+ practical examples
-- **[Utility Scripts](scripts/README.md)** - 13 automation scripts
-- **[Troubleshooting](.bob/skills/research-assistant/README.md#troubleshooting)** - Common issues and solutions
+#### Utility Scripts
+- **[scripts/README.md](scripts/README.md)** - Script documentation (437 lines)
+- **[scripts/](scripts/)** - 13 automation scripts (2,369 lines total)
 
-### Sharing & Contributing
-- **[Sharing Guide](SHARING.md)** - How to share this skill with others
-- **[Contributing Guide](CONTRIBUTING.md)** - Guidelines for contributors
+### 🎯 Skill Documentation
+
+#### Core Files
+- **[SKILL.md](.bob/skills/research-assistant/SKILL.md)** - Skill definition for Bob (808 lines)
+- **[README.md](.bob/skills/research-assistant/README.md)** - Complete user guide (738 lines)
+
+#### Guides (10 files)
+1. **[Batch Operations](.bob/skills/research-assistant/guides/batch-operations.md)** - Bulk processing workflows
+2. **[Citation Management](.bob/skills/research-assistant/guides/citation-management.md)** - Source tracking and bibliographies
+3. **[Common Commands](.bob/skills/research-assistant/guides/common-commands.md)** - CLI command reference
+4. **[Conversation Flows](.bob/skills/research-assistant/guides/conversation-flows.md)** - User interaction patterns
+5. **[Diagram Creation](.bob/skills/research-assistant/guides/diagram-creation.md)** - Mermaid.js diagrams (586 lines)
+6. **[Error Handling](.bob/skills/research-assistant/guides/error-handling.md)** - Troubleshooting and recovery
+7. **[Project Initialization](.bob/skills/research-assistant/guides/project-initialization.md)** - Setting up projects
+8. **[Quality Assurance](.bob/skills/research-assistant/guides/quality-assurance.md)** - Validation and quality metrics
+9. **[Source Organization](.bob/skills/research-assistant/guides/source-organization.md)** - Managing research materials
+10. **[Version Control](.bob/skills/research-assistant/guides/version-control.md)** - Managing research iterations
+
+#### Templates (5 files)
+1. **[Competitive Analysis](.bob/skills/research-assistant/templates/competitive-analysis.md)**
+2. **[Executive Summary](.bob/skills/research-assistant/templates/executive-summary.md)**
+3. **[Literature Review](.bob/skills/research-assistant/templates/literature-review.md)**
+4. **[Research Report](.bob/skills/research-assistant/templates/research-report.md)**
+5. **[Technical Deep Dive](.bob/skills/research-assistant/templates/technical-deep-dive.md)**
+
+#### Examples (6 directories, 20+ files)
+1. **[Document Conversion](.bob/skills/research-assistant/examples/document-conversion/)** - PDF/DOCX conversion
+2. **[Web Scraping](.bob/skills/research-assistant/examples/web-scraping/)** - Content extraction
+3. **[Research Analysis](.bob/skills/research-assistant/examples/research-analysis/)** - Analysis methodologies
+4. **[Report Generation](.bob/skills/research-assistant/examples/report-generation/)** - Creating deliverables
+5. **[Folder Management](.bob/skills/research-assistant/examples/folder-management/)** - Project organization
+6. **[User Interaction](.bob/skills/research-assistant/examples/user-interaction/)** - Complete workflows
+
+### 🔗 Quick Links by Audience
+
+#### For End Users
+- [Installation Guide](#installation)
+- [Quick Start](#quick-start)
+- [Skill Documentation](.bob/skills/research-assistant/README.md)
+- [Troubleshooting](.bob/skills/research-assistant/README.md#troubleshooting)
+
+#### For Contributors
+- [Contributing Guidelines](CONTRIBUTING.md)
+- [Development Workflow](#for-contributors)
+- [Script Documentation](scripts/README.md)
+
+#### For Sharing
+- [Sharing Guide](SHARING.md)
+- [Installation Script](install.sh)
+- [Distribution Options](SHARING.md#distribution-options)
 
 ## 🛠️ Prerequisites
 
@@ -269,14 +306,22 @@ ln -s $(pwd)/.bob/skills/research-assistant ~/.bob/skills/research-assistant
 
 See [IMPLEMENTATION_ROADMAP.md](IMPLEMENTATION_ROADMAP.md) for details.
 
-## 📊 Statistics
+## 📊 Documentation Statistics
 
-- **36 markdown files** with comprehensive documentation
-- **5,000+ lines** of guides, examples, and templates
-- **20+ practical examples** covering all workflows
-- **5 report templates** for different use cases
-- **9 detailed guides** for advanced usage
-- **6 troubleshooting sections** with solutions
+### Totals
+- **Total Files**: 50+ markdown files
+- **Total Lines**: 8,000+ lines of documentation
+- **Guides**: 10 comprehensive guides
+- **Templates**: 5 report templates (2,035 lines)
+- **Examples**: 20+ practical examples
+- **Scripts**: 13 utility scripts (2,369 lines)
+- **Main Docs**: 3 files (README, SHARING, CONTRIBUTING - 1,424 lines)
+
+### By Category
+- **Skill Documentation**: 5,000+ lines
+- **Project Documentation**: 1,424 lines
+- **Utility Scripts**: 2,369 lines
+- **Script Documentation**: 437 lines
 
 ## 🤝 Contributing
 
