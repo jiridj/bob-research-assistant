@@ -87,36 +87,44 @@ Include project metadata:
 - If user requests images: use `--image-export-mode referenced`
 - Never embed images as base64/encoded blobs
 - Preserve document structure and formatting
-- **Use batch script for multiple files, direct docling for single files**
 
-**Single File Conversion**:
+**IMPORTANT: Choose the right approach**:
+- **Single specific file** → Use direct `docling` command
+- **Multiple files or "all files"** → Use `./scripts/batch-convert-pdfs.sh`
+
+**Single File Conversion** (DEFAULT for specific file requests):
 ```bash
-# Convert single PDF (no images)
-docling input.pdf --output sources/pdf/document.md --image-export-mode placeholder
+# When user asks to convert a SPECIFIC file (e.g., "convert sample.pdf")
+# Use direct docling command:
 
-# Convert single PDF (with images)
-docling input.pdf \
-  --output sources/pdf/document.md \
+# Without images (default)
+docling /path/to/input.pdf --output sources/pdf/output.md --image-export-mode placeholder
+
+# With images (if requested)
+docling /path/to/input.pdf \
+  --output sources/pdf/output.md \
   --image-export-mode referenced \
-  --export-images sources/images/document/
+  --export-images sources/images/output/
 ```
 
-**Batch Conversion**: `./scripts/batch-convert-pdfs.sh`
+**Batch Conversion** (ONLY for multiple files):
 ```bash
-# Convert all PDFs in originals/pdf/ folder
+# When user asks to convert "all PDFs" or "multiple files"
+# First copy files to originals/pdf/, then:
 ./scripts/batch-convert-pdfs.sh
 ```
 
-**Workflow Steps**:
-1. Identify document type (PDF, DOCX, PPTX)
-2. **Copy original file** to originals/{pdf,docx,pptx}/ folder (preserving filename)
-3. **For single file**: Use direct docling command with appropriate output path
-4. **For multiple files**: Use batch-convert-pdfs.sh script
-5. **If user requests images**:
-   - Use `--image-export-mode referenced` flag
-   - Images exported to sources/images/[document-name]/
-6. Verify output and organize files
-7. Create metadata/index entry
+**Workflow for Single File**:
+1. Identify the specific file path (e.g., test-data/pdfs/sample.pdf)
+2. Copy original to originals/pdf/ (preserving filename)
+3. **Use direct docling command** with the source file path
+4. Output to sources/pdf/[filename].md
+5. Verify conversion success
+
+**Workflow for Multiple Files**:
+1. Copy all files to originals/pdf/ folder
+2. Run ./scripts/batch-convert-pdfs.sh
+3. Script processes all files in originals/pdf/
 
 **Example with archiving**:
 ```bash
