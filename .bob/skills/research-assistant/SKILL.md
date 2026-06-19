@@ -38,6 +38,7 @@ When starting a new research project:
 # Create project structure with organized source folders
 mkdir -p research/[topic-name]/{notes,analysis,reports}
 mkdir -p research/[topic-name]/sources/{pdf,docx,pptx,web,images}
+mkdir -p research/[topic-name]/originals/{pdf,docx,pptx}
 touch research/[topic-name]/notes/research-notes.md
 touch research/[topic-name]/analysis/findings.md
 ```
@@ -46,11 +47,15 @@ touch research/[topic-name]/analysis/findings.md
 ```
 research/[topic-name]/
 ├── sources/
-│   ├── pdf/          # Converted PDF documents
-│   ├── docx/         # Converted Word documents
-│   ├── pptx/         # Converted PowerPoint files
+│   ├── pdf/          # Converted PDF documents (markdown)
+│   ├── docx/         # Converted Word documents (markdown)
+│   ├── pptx/         # Converted PowerPoint files (markdown)
 │   ├── web/          # Scraped web content (organized by company/source)
 │   └── images/       # Extracted images and diagrams
+├── originals/        # Copies of original files for reference
+│   ├── pdf/          # Copy of original PDF files
+│   ├── docx/         # Copy of original Word files
+│   └── pptx/         # Copy of original PowerPoint files
 ├── notes/            # Research notes and observations
 ├── analysis/         # Analysis and synthesis documents
 └── reports/          # Final reports and deliverables
@@ -108,11 +113,25 @@ done
 
 **Workflow Steps**:
 1. Identify document type (PDF, DOCX, PPTX)
-2. **Route to appropriate folder**: sources/pdf/, sources/docx/, or sources/pptx/
-3. Check if images should be exported (use sources/images/ for all image exports)
-4. Execute docling with appropriate flags
-5. Verify output and organize files
-6. Create metadata/index entry
+2. **Copy original file** to originals/{pdf,docx,pptx}/ folder (preserving filename)
+3. **Convert and route** to appropriate sources folder: sources/pdf/, sources/docx/, or sources/pptx/
+4. Check if images should be exported (use sources/images/ for all image exports)
+5. Execute docling with appropriate flags
+6. Verify output and organize files
+7. Create metadata/index entry
+
+**Example with archiving**:
+```bash
+# Copy original to archive
+cp /path/to/document.pdf originals/pdf/document.pdf
+
+# Convert to markdown
+docling /path/to/document.pdf --output sources/pdf/document.md --image-export-mode placeholder
+
+# Original file remains at /path/to/document.pdf
+# Copy is in originals/pdf/document.pdf
+# Converted markdown is in sources/pdf/document.md
+```
 
 ### Web Scraping (Crawl4ai)
 
