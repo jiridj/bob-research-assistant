@@ -100,15 +100,14 @@ done
 
 ```bash
 # Single page
-crawl4ai https://example.com --output sources/web/page.md
+crwl crawl https://example.com --output markdown --output-file sources/web/page.md
 
-# Multiple URLs from file
-crawl4ai --urls urls.txt --output sources/web/
+# Multiple URLs - use batch script
+./scripts/batch-scrape-urls.sh urls.txt sources/web/
 
-# With specific selectors
-crawl4ai https://example.com \
-  --selector "article.content" \
-  --output sources/web/article.md
+# With specific selectors (use Python API for advanced options)
+# See examples/web-scraping/ for selector usage
+crwl crawl https://example.com --output markdown --output-file sources/web/article.md
 ```
 
 **Workflow Steps**:
@@ -134,8 +133,8 @@ Use date-based filenames to track changes over time:
 ```bash
 # Scrape with date in filename
 DATE=$(date +%Y-%m-%d)
-crawl4ai https://example.com/page \
-  --output "sources/category/page-${DATE}.md"
+crwl crawl https://example.com/page \
+  --output markdown --output-file "sources/category/page-${DATE}.md"
 
 # Create metadata file
 cat > "sources/category/page-${DATE}.json" << EOF
@@ -385,8 +384,8 @@ User: "Scrape the Kong API Gateway features page"
 Actions:
 1. Validate URL
 2. Determine category (Competitors/Kong)
-3. Execute: crawl4ai https://konghq.com/products/api-gateway \
-   --output sources/Competitors/Kong/features.md
+3. Execute: crwl crawl https://konghq.com/products/api-gateway \
+   --output markdown --output-file sources/Competitors/Kong/features.md
 4. Verify content extraction
 5. Analyze content for relevant links
 6. Present discovered links:
@@ -406,8 +405,8 @@ User: "Scrape Kong's pricing page and track it monthly"
 Actions:
 1. Validate URL
 2. Create dated filename: pricing-2024-06-12.md
-3. Execute: crawl4ai https://konghq.com/pricing \
-   --output sources/Competitors/Kong/pricing-2024-06-12.md
+3. Execute: crwl crawl https://konghq.com/pricing \
+   --output markdown --output-file sources/Competitors/Kong/pricing-2024-06-12.md
 4. Create metadata file with scrape timestamp
 5. Compare with previous version if exists
 6. Report changes detected (if any)

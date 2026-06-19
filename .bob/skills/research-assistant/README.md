@@ -342,11 +342,11 @@ pip install docling
 
 **Solution:**
 ```bash
-# Use JavaScript rendering option
-crawl4ai --js-render https://example.com --output sources/web/page.md
+# For JavaScript-rendered content, use the Python API with browser options
+# See examples/web-scraping/ for advanced scraping with JS rendering
 
-# Increase wait time for dynamic content
-crawl4ai --wait 5000 https://example.com --output sources/web/page.md
+# Basic scraping with crwl
+crwl crawl https://example.com --output markdown --output-file sources/web/page.md
 ```
 
 #### Issue: Pandoc conversion fails
@@ -407,14 +407,14 @@ docling large-file.pdf --output output.md --max-memory 4096
 
 **Solution:**
 ```bash
-# Use custom user agent
-crawl4ai --user-agent "Mozilla/5.0" https://example.com
+# Use browser configuration for custom user agent and delays
+# See crwl crawl --help for browser configuration options
 
-# Add delay between requests
-crawl4ai --delay 2000 https://example.com
+# Basic approach: use the batch scraping script which includes delays
+./scripts/batch-scrape-urls.sh urls.txt output-dir/
 
-# Respect robots.txt
-crawl4ai --respect-robots https://example.com
+# For advanced options, use the Python API directly
+# See examples/web-scraping/ for configuration examples
 ```
 
 ### Getting Help
