@@ -38,7 +38,7 @@ if ! command -v crwl &> /dev/null; then
 fi
 
 DATE=$(date +%Y-%m-%d)
-OUTPUT_DIR="sources/Competitors/${COMPANY}"
+OUTPUT_DIR="sources/web/${COMPANY}"
 OUTPUT_FILE="${OUTPUT_DIR}/${PAGE}-${DATE}.md"
 METADATA_FILE="${OUTPUT_DIR}/${PAGE}-${DATE}.json"
 
