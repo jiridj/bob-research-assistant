@@ -370,6 +370,8 @@ pandoc intro.md findings.md conclusions.md \
 - `research-report.md`: Comprehensive research document
 - `technical-deep-dive.md`: Detailed technical analysis of technologies, protocols, open source projects
 - `golden-circle.md`: Strategic document using Simon Sinek's Why-How-What methodology (2-3 pages)
+- `company-deep-dive.md`: Comprehensive M&A due diligence analysis
+- `ma-pov.md`: Short opinionated M&A fit assessment (2-3 pages)
 
 **Template Usage**:
 1. User selects report type
