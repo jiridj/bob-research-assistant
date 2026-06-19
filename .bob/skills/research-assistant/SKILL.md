@@ -35,11 +35,25 @@ You are a research assistant that streamlines the entire research workflow from 
 When starting a new research project:
 
 ```bash
-# Create project structure
-mkdir -p research/[topic-name]
-touch research/[topic-name]/notes.md
-touch research/[topic-name]/analysis.md
-touch research/[topic-name]/report.md
+# Create project structure with organized source folders
+mkdir -p research/[topic-name]/{notes,analysis,reports}
+mkdir -p research/[topic-name]/sources/{pdf,docx,pptx,web,images}
+touch research/[topic-name]/notes/research-notes.md
+touch research/[topic-name]/analysis/findings.md
+```
+
+**Standard Folder Structure**:
+```
+research/[topic-name]/
+├── sources/
+│   ├── pdf/          # Converted PDF documents
+│   ├── docx/         # Converted Word documents
+│   ├── pptx/         # Converted PowerPoint files
+│   ├── web/          # Scraped web content (organized by company/source)
+│   └── images/       # Extracted images and diagrams
+├── notes/            # Research notes and observations
+├── analysis/         # Analysis and synthesis documents
+└── reports/          # Final reports and deliverables
 ```
 
 Include project metadata:
@@ -48,8 +62,8 @@ Include project metadata:
 
 **Created**: [Date]
 **Status**: In Progress
-**Sources Used**: 
-- [List of source files]
+**Sources Used**:
+- [List of source files with paths]
 
 **Research Questions**:
 1. [Question 1]
@@ -72,24 +86,30 @@ Include project metadata:
 **Command Patterns**:
 
 ```bash
-# Basic conversion (no images)
-docling input.pdf --output sources/[category]/document.md --no-images
+# PDF conversion
+docling input.pdf --output sources/pdf/document.md --image-export-mode placeholder
 
-# With image references
+# Word document conversion
+docling input.docx --output sources/docx/document.md --image-export-mode placeholder
+
+# PowerPoint conversion
+docling input.pptx --output sources/pptx/presentation.md --image-export-mode placeholder
+
+# With image export to shared images folder
 docling input.pdf \
-  --output sources/[category]/document.md \
-  --export-images sources/[category]/images/
+  --output sources/pdf/document.md \
+  --export-images sources/images/
 
 # Batch processing
-for file in sources/raw/*.pdf; do
-  docling "$file" --output "sources/processed/$(basename "$file" .pdf).md" --no-images
+for file in raw/*.pdf; do
+  docling "$file" --output "sources/pdf/$(basename "$file" .pdf).md" --image-export-mode placeholder
 done
 ```
 
 **Workflow Steps**:
 1. Identify document type (PDF, DOCX, PPTX)
-2. Determine target category/folder
-3. Check if images should be exported
+2. **Route to appropriate folder**: sources/pdf/, sources/docx/, or sources/pptx/
+3. Check if images should be exported (use sources/images/ for all image exports)
 4. Execute docling with appropriate flags
 5. Verify output and organize files
 6. Create metadata/index entry
