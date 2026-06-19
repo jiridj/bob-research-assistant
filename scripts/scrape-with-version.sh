@@ -70,7 +70,7 @@ fi
 # Scrape content
 echo -e "${BLUE}→${NC} Scraping ${COMPANY} ${PAGE}..."
 
-if crwl "$URL" --output "$OUTPUT_FILE" 2>/dev/null; then
+if crwl crawl "$URL" --output markdown --output-file "$OUTPUT_FILE" 2>/dev/null; then
   echo -e "${GREEN}✓${NC} Content scraped successfully"
 else
   echo -e "${RED}✗${NC} Failed to scrape content"

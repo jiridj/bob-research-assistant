@@ -100,7 +100,7 @@ while IFS= read -r url; do
   fi
   
   # Scrape URL
-  if crwl "$url" --output "$output_file" 2>/dev/null; then
+  if crwl crawl "$url" --output markdown --output-file "$output_file" 2>/dev/null; then
     echo -e "${GREEN}  ✓ Scraped: $output_file${NC}"
     SCRAPED=$((SCRAPED + 1))
     
