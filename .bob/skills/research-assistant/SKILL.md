@@ -44,61 +44,53 @@ This skill requires the following CLI commands to be available:
 
 ### Project Initialization
 
-**Two-Tier Source Organization:**
+**Source Organization:**
 
-This skill uses a two-tier approach for organizing research materials:
+This skill uses a **single top-level `sources/` folder** as the central repository for all converted documents and scraped content:
 
-1. **Top-level `sources/` folder** - Shared library of all converted documents and scraped content
-   - Acts as a central repository accessible across all research projects
-   - Organized by source type (Gartner, Forrester, Competitors, etc.)
-   - Documents are converted once and reused across multiple projects
+- **One source of truth** - All sources stored in a single location
+- **Organized by source type** - Gartner/, Forrester/, Competitors/, Hyperscalers/, web/
+- **Reusable across projects** - Convert once, reference from multiple research projects
+- **Easy to search** - Search once across all sources
+- **Simple to maintain** - No duplication or confusion
 
-2. **Project-specific `research/[topic]/sources/` folder** - Project-scoped materials
-   - Contains sources specific to this research project
-   - Can include symlinks to top-level sources or project-specific copies
-   - Keeps project self-contained for sharing or archiving
-
-**Recommended workflow:**
-- Convert documents to the **top-level `sources/`** folder for reuse
-- Reference or link to these sources from project-specific folders
-- Use project-specific `sources/` only for materials unique to that project
+**Projects reference sources by path** rather than duplicating folder structures. This keeps projects focused on analysis, notes, and reports.
 
 When starting a new research project:
 
 ```bash
-# Create project structure with organized source folders
+# Create project structure
 mkdir -p research/[topic-name]/{notes,analysis,reports}
-mkdir -p research/[topic-name]/sources/{pdf,docx,pptx,web,images}
-mkdir -p research/[topic-name]/originals/{pdf,docx,pptx}
 touch research/[topic-name]/notes/research-notes.md
 touch research/[topic-name]/analysis/findings.md
+touch research/[topic-name]/bibliography.md
 ```
 
 **Standard Folder Structure**:
 ```
-# Top-level (shared across projects)
+# Top-level sources (shared across ALL projects)
 sources/
-├── Gartner/          # Analyst reports
-├── Forrester/        # Analyst reports
-├── Competitors/      # Competitor materials
-├── Hyperscalers/     # Cloud provider docs
-└── web/              # Scraped web content
+├── pdf/              # Converted PDF documents (markdown)
+├── docx/             # Converted Word documents (markdown)
+├── pptx/             # Converted PowerPoint files (markdown)
+├── web/              # Scraped web content (organized by company/source)
+│   ├── Wikipedia/
+│   ├── Kong/
+│   └── AWS/
+└── images/           # Extracted images and diagrams
 
-# Project-specific
+originals/            # Copies of original files for reference
+├── pdf/              # Original PDF files
+├── docx/             # Original Word files
+├── pptx/             # Original PowerPoint files
+└── images/           # Original images with extracted content
+
+# Project-specific (references sources by path)
 research/[topic-name]/
-├── sources/          # Project-specific sources (or symlinks to top-level)
-│   ├── pdf/          # Converted PDF documents (markdown)
-│   ├── docx/         # Converted Word documents (markdown)
-│   ├── pptx/         # Converted PowerPoint files (markdown)
-│   ├── web/          # Scraped web content (organized by company/source)
-│   └── images/       # Extracted images and diagrams
-├── originals/        # Copies of original files for reference
-│   ├── pdf/          # Copy of original PDF files
-│   ├── docx/         # Copy of original Word files
-│   └── pptx/         # Copy of original PowerPoint files
 ├── notes/            # Research notes and observations
 ├── analysis/         # Analysis and synthesis documents
-└── reports/          # Final reports and deliverables
+├── reports/          # Final reports and deliverables
+└── bibliography.md   # List of sources used (with paths to sources/)
 ```
 
 Include project metadata:
