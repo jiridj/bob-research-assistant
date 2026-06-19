@@ -12,14 +12,14 @@ BLUE='\033[0;34m'
 NC='\033[0m'
 
 URL_FILE="$1"
-DELAY="${2:-2}"  # Default 2 seconds delay between requests
+DELAY="${2:-0}"  # Default 0 seconds delay between requests
 
 if [ -z "$URL_FILE" ]; then
   echo "Usage: ./batch-scrape-urls.sh URL_FILE [DELAY]"
   echo ""
   echo "Arguments:"
   echo "  URL_FILE - File containing URLs (one per line)"
-  echo "  DELAY    - Delay between requests in seconds (default: 2)"
+  echo "  DELAY    - Delay between requests in seconds (default: 0)"
   echo ""
   echo "URL file format:"
   echo "  https://example.com/page1"
