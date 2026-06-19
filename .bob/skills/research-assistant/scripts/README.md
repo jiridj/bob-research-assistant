@@ -10,7 +10,7 @@ This directory contains utility scripts that enhance the Research Assistant skil
 Initialize a new research project with proper structure.
 
 ```bash
-./scripts/init-research-project.sh project-name
+./.bob/skills/research-assistant/scripts/init-research-project.sh project-name
 ```
 
 **Creates:**
@@ -21,7 +21,7 @@ Initialize a new research project with proper structure.
 
 **Example:**
 ```bash
-./scripts/init-research-project.sh api-management-trends
+./.bob/skills/research-assistant/scripts/init-research-project.sh api-management-trends
 ```
 
 ---
@@ -30,7 +30,7 @@ Initialize a new research project with proper structure.
 Convert multiple PDFs to markdown with smart categorization.
 
 ```bash
-./scripts/batch-convert-pdfs.sh [source-dir] [output-dir]
+./.bob/skills/research-assistant/scripts/batch-convert-pdfs.sh [source-dir] [output-dir]
 ```
 
 **Features:**
@@ -41,7 +41,7 @@ Convert multiple PDFs to markdown with smart categorization.
 
 **Example:**
 ```bash
-./scripts/batch-convert-pdfs.sh sources/raw sources
+./.bob/skills/research-assistant/scripts/batch-convert-pdfs.sh sources/raw sources
 ```
 
 ---
@@ -50,7 +50,7 @@ Convert multiple PDFs to markdown with smart categorization.
 Scrape web content with automatic versioning and metadata.
 
 ```bash
-./scripts/scrape-with-version.sh URL COMPANY PAGE
+./.bob/skills/research-assistant/scripts/scrape-with-version.sh URL COMPANY PAGE
 ```
 
 **Features:**
@@ -61,7 +61,7 @@ Scrape web content with automatic versioning and metadata.
 
 **Example:**
 ```bash
-./scripts/scrape-with-version.sh \
+./.bob/skills/research-assistant/scripts/scrape-with-version.sh \
   "https://konghq.com/products/api-gateway" \
   "Kong" \
   "features"
@@ -73,7 +73,7 @@ Scrape web content with automatic versioning and metadata.
 Auto-generate bibliography from all research sources.
 
 ```bash
-./scripts/generate-bibliography.sh [sources-dir] [output-file]
+./.bob/skills/research-assistant/scripts/generate-bibliography.sh [sources-dir] [output-file]
 ```
 
 **Features:**
@@ -84,7 +84,7 @@ Auto-generate bibliography from all research sources.
 
 **Example:**
 ```bash
-./scripts/generate-bibliography.sh sources bibliography.md
+./.bob/skills/research-assistant/scripts/generate-bibliography.sh sources bibliography.md
 ```
 
 ---
@@ -93,7 +93,7 @@ Auto-generate bibliography from all research sources.
 Smart search across all research sources with context.
 
 ```bash
-./scripts/search-sources.sh 'search term' [context_lines] [sources_dir]
+./.bob/skills/research-assistant/scripts/search-sources.sh 'search term' [context_lines] [sources_dir]
 ```
 
 **Features:**
@@ -104,7 +104,7 @@ Smart search across all research sources with context.
 
 **Example:**
 ```bash
-./scripts/search-sources.sh "API Gateway" 5
+./.bob/skills/research-assistant/scripts/search-sources.sh "API Gateway" 5
 ```
 
 ---
@@ -115,7 +115,7 @@ Smart search across all research sources with context.
 Verify document conversion quality.
 
 ```bash
-./scripts/validate-conversion.sh INPUT_FILE OUTPUT_FILE
+./.bob/skills/research-assistant/scripts/validate-conversion.sh INPUT_FILE OUTPUT_FILE
 ```
 
 **Checks:**
@@ -126,7 +126,7 @@ Verify document conversion quality.
 
 **Example:**
 ```bash
-./scripts/validate-conversion.sh document.pdf sources/Gartner/document.md
+./.bob/skills/research-assistant/scripts/validate-conversion.sh document.pdf sources/Gartner/document.md
 ```
 
 ---
@@ -135,7 +135,7 @@ Verify document conversion quality.
 Detect and analyze changes between versions.
 
 ```bash
-./scripts/detect-changes.sh COMPANY PAGE
+./.bob/skills/research-assistant/scripts/detect-changes.sh COMPANY PAGE
 ```
 
 **Features:**
@@ -146,7 +146,7 @@ Detect and analyze changes between versions.
 
 **Example:**
 ```bash
-./scripts/detect-changes.sh Kong features
+./.bob/skills/research-assistant/scripts/detect-changes.sh Kong features
 ```
 
 ---
@@ -155,7 +155,7 @@ Detect and analyze changes between versions.
 Batch generate reports from all research projects.
 
 ```bash
-./scripts/generate-all-reports.sh [template]
+./.bob/skills/research-assistant/scripts/generate-all-reports.sh [template]
 ```
 
 **Features:**
@@ -166,7 +166,7 @@ Batch generate reports from all research projects.
 
 **Example:**
 ```bash
-./scripts/generate-all-reports.sh templates/corporate.docx
+./.bob/skills/research-assistant/scripts/generate-all-reports.sh templates/corporate.docx
 ```
 
 ---
@@ -175,7 +175,7 @@ Batch generate reports from all research projects.
 Update source index files with current inventory.
 
 ```bash
-./scripts/update-source-index.sh [sources-dir]
+./.bob/skills/research-assistant/scripts/update-source-index.sh [sources-dir]
 ```
 
 **Features:**
@@ -186,7 +186,7 @@ Update source index files with current inventory.
 
 **Example:**
 ```bash
-./scripts/update-source-index.sh sources
+./.bob/skills/research-assistant/scripts/update-source-index.sh sources
 ```
 
 ---
@@ -197,7 +197,7 @@ Update source index files with current inventory.
 Extract citations from analysis documents.
 
 ```bash
-./scripts/extract-citations.sh ANALYSIS_FILE [OUTPUT_FILE]
+./.bob/skills/research-assistant/scripts/extract-citations.sh ANALYSIS_FILE [OUTPUT_FILE]
 ```
 
 **Features:**
@@ -208,7 +208,7 @@ Extract citations from analysis documents.
 
 **Example:**
 ```bash
-./scripts/extract-citations.sh research/api-trends/analysis.md
+./.bob/skills/research-assistant/scripts/extract-citations.sh research/api-trends/analysis.md
 ```
 
 ---
@@ -217,7 +217,7 @@ Extract citations from analysis documents.
 Archive old or outdated sources.
 
 ```bash
-./scripts/archive-old-sources.sh [days-old] [sources-dir]
+./.bob/skills/research-assistant/scripts/archive-old-sources.sh [days-old] [sources-dir]
 ```
 
 **Features:**
@@ -228,7 +228,7 @@ Archive old or outdated sources.
 
 **Example:**
 ```bash
-./scripts/archive-old-sources.sh 180 sources
+./.bob/skills/research-assistant/scripts/archive-old-sources.sh 180 sources
 ```
 
 ---
@@ -237,7 +237,7 @@ Archive old or outdated sources.
 Scrape multiple URLs from a file.
 
 ```bash
-./scripts/batch-scrape-urls.sh URL_FILE [COMPANY] [DELAY]
+./.bob/skills/research-assistant/scripts/batch-scrape-urls.sh URL_FILE [COMPANY] [DELAY]
 ```
 
 **Features:**
@@ -249,7 +249,7 @@ Scrape multiple URLs from a file.
 **Example:**
 ```bash
 # Create urls.txt with one URL per line
-./scripts/batch-scrape-urls.sh urls.txt Kong 3
+./.bob/skills/research-assistant/scripts/batch-scrape-urls.sh urls.txt Kong 3
 ```
 
 ---
@@ -258,14 +258,14 @@ Scrape multiple URLs from a file.
 
 ### 1. Start a New Research Project
 ```bash
-./scripts/init-research-project.sh my-research
+./.bob/skills/research-assistant/scripts/init-research-project.sh my-research
 cd research/my-research
 ```
 
 ### 2. Convert Documents
 ```bash
 # Use the batch conversion script (recommended)
-./scripts/batch-convert-pdfs.sh
+./.bob/skills/research-assistant/scripts/batch-convert-pdfs.sh
 
 # The script handles:
 # - Automatic categorization
@@ -276,19 +276,19 @@ cd research/my-research
 ### 3. Scrape Web Content
 ```bash
 # Single page with versioning
-./scripts/scrape-with-version.sh "https://example.com" "Company" "page"
+./.bob/skills/research-assistant/scripts/scrape-with-version.sh "https://example.com" "Company" "page"
 
 # Multiple URLs
-./scripts/batch-scrape-urls.sh urls.txt Company 2
+./.bob/skills/research-assistant/scripts/batch-scrape-urls.sh urls.txt Company 2
 ```
 
 ### 4. Search and Analyze
 ```bash
 # Search sources
-./scripts/search-sources.sh "keyword" 3
+./.bob/skills/research-assistant/scripts/search-sources.sh "keyword" 3
 
 # Detect changes
-./scripts/detect-changes.sh Company page
+./.bob/skills/research-assistant/scripts/detect-changes.sh Company page
 ```
 
 ### 5. Generate Reports
@@ -298,7 +298,7 @@ cd research/my-project
 pandoc report.md -o output/report.docx --toc
 
 # All projects
-./scripts/generate-all-reports.sh
+./.bob/skills/research-assistant/scripts/generate-all-reports.sh
 ```
 
 ---
@@ -309,26 +309,26 @@ pandoc report.md -o output/report.docx --toc
 
 ```bash
 # 1. Initialize project
-./scripts/init-research-project.sh api-gateway-comparison
+./.bob/skills/research-assistant/scripts/init-research-project.sh api-gateway-comparison
 
 # 2. Convert analyst reports
-./scripts/batch-convert-pdfs.sh sources/raw sources
+./.bob/skills/research-assistant/scripts/batch-convert-pdfs.sh sources/raw sources
 
 # 3. Scrape competitor websites
-./scripts/scrape-with-version.sh "https://konghq.com/products" "Kong" "features"
-./scripts/scrape-with-version.sh "https://apigee.com/products" "Apigee" "features"
+./.bob/skills/research-assistant/scripts/scrape-with-version.sh "https://konghq.com/products" "Kong" "features"
+./.bob/skills/research-assistant/scripts/scrape-with-version.sh "https://apigee.com/products" "Apigee" "features"
 
 # 4. Update indexes
-./scripts/update-source-index.sh sources
+./.bob/skills/research-assistant/scripts/update-source-index.sh sources
 
 # 5. Search for specific topics
-./scripts/search-sources.sh "rate limiting" 5
+./.bob/skills/research-assistant/scripts/search-sources.sh "rate limiting" 5
 
 # 6. Generate bibliography
-./scripts/generate-bibliography.sh sources bibliography.md
+./.bob/skills/research-assistant/scripts/generate-bibliography.sh sources bibliography.md
 
 # 7. Generate final report
-./scripts/generate-all-reports.sh
+./.bob/skills/research-assistant/scripts/generate-all-reports.sh
 ```
 
 ### Competitive Intelligence Workflow
@@ -342,14 +342,14 @@ https://competitor3.com/pricing
 EOF
 
 # 2. Scrape all pages
-./scripts/batch-scrape-urls.sh competitor-urls.txt Competitors 3
+./.bob/skills/research-assistant/scripts/batch-scrape-urls.sh competitor-urls.txt Competitors 3
 
 # 3. Detect changes over time
-./scripts/detect-changes.sh Competitor1 pricing
-./scripts/detect-changes.sh Competitor2 pricing
+./.bob/skills/research-assistant/scripts/detect-changes.sh Competitor1 pricing
+./.bob/skills/research-assistant/scripts/detect-changes.sh Competitor2 pricing
 
 # 4. Search for pricing changes
-./scripts/search-sources.sh "pricing" 5 sources/Competitors
+./.bob/skills/research-assistant/scripts/search-sources.sh "pricing" 5 sources/Competitors
 ```
 
 ---
@@ -378,7 +378,7 @@ Edit scripts to customize:
 
 ### Script Not Executable
 ```bash
-chmod +x scripts/*.sh
+chmod +x .bob/skills/research-assistant/scripts/*.sh
 ```
 
 ### Command Not Found

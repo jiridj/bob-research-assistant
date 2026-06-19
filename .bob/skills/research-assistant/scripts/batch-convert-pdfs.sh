@@ -157,7 +157,7 @@ fi
 
 echo "Next steps:"
 echo "  1. Review converted files in $OUTPUT_BASE"
-echo "  2. Update source indexes with: ./scripts/update-source-index.sh"
+echo "  2. Update source indexes with: ./update-source-index.sh"
 echo "  3. Start your research analysis"
 echo ""
 

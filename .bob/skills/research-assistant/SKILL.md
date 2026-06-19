@@ -116,7 +116,7 @@ sed -i '' 's|./sample/|../../originals/images/sample/|g' sources/pdf/sample.md
 ```bash
 # When user asks to convert "all PDFs" or "multiple files"
 # First copy files to originals/pdf/, then:
-.bob/skills/research-assistant/scripts/batch-convert-pdfs.sh
+./scripts/batch-convert-pdfs.sh
 ```
 
 **Workflow for Single File (No Images)**:
@@ -138,7 +138,7 @@ sed -i '' 's|./sample/|../../originals/images/sample/|g' sources/pdf/sample.md
 
 **Workflow for Multiple Files**:
 1. Copy all files to originals/pdf/ folder
-2. Run .bob/skills/research-assistant/scripts/batch-convert-pdfs.sh
+2. Run ./scripts/batch-convert-pdfs.sh
 3. Script processes all files in originals/pdf/
 
 **Example with archiving**:
@@ -173,19 +173,19 @@ When a user asks to scrape a URL, you MUST:
 
 # Single page with versioning and metadata
 # REQUIRES three arguments: URL, COMPANY (category), PAGE (identifier)
-.bob/skills/research-assistant/scripts/scrape-with-version.sh 'https://example.com/page' 'CompanyName' 'page-identifier'
+./scripts/scrape-with-version.sh 'https://example.com/page' 'CompanyName' 'page-identifier'
 
 # Example: Scraping Wikipedia article
-.bob/skills/research-assistant/scripts/scrape-with-version.sh 'https://en.wikipedia.org/wiki/Artificial_intelligence' 'Wikipedia' 'artificial-intelligence'
+./scripts/scrape-with-version.sh 'https://en.wikipedia.org/wiki/Artificial_intelligence' 'Wikipedia' 'artificial-intelligence'
 
 # Example: Scraping competitor features page
-.bob/skills/research-assistant/scripts/scrape-with-version.sh 'https://konghq.com/products/api-gateway' 'Kong' 'features'
+./scripts/scrape-with-version.sh 'https://konghq.com/products/api-gateway' 'Kong' 'features'
 
 # Multiple URLs with batch processing (automatically extracts COMPANY and PAGE from each URL)
-.bob/skills/research-assistant/scripts/batch-scrape-urls.sh urls.txt [DELAY]
+./scripts/batch-scrape-urls.sh urls.txt [DELAY]
 
 # Example: Batch scrape with 3 second delay between requests
-.bob/skills/research-assistant/scripts/batch-scrape-urls.sh urls.txt 3
+./scripts/batch-scrape-urls.sh urls.txt 3
 
 # Direct crwl command (only if scripts unavailable)
 crwl crawl https://example.com --output markdown --output-file sources/web/page.md
@@ -228,14 +228,14 @@ When user provides a URL, automatically determine:
 1. Validate URL
 2. **AUTOMATICALLY determine COMPANY parameter** from URL (domain/source)
 3. **AUTOMATICALLY determine PAGE parameter** from URL path or content type
-4. **ALWAYS call script with all three arguments**: `.bob/skills/research-assistant/scripts/scrape-with-version.sh URL COMPANY PAGE`
+4. **ALWAYS call script with all three arguments**: `./scripts/scrape-with-version.sh URL COMPANY PAGE`
 5. Verify metadata JSON was created
 6. Analyze scraped content for relevant links
 7. Suggest related pages to scrape (if applicable)
 
 **For Multiple URLs (Batch):**
 1. Validate URL file exists
-2. **Call batch script with URL file and optional delay**: `.bob/skills/research-assistant/scripts/batch-scrape-urls.sh URL_FILE [DELAY]`
+2. **Call batch script with URL file and optional delay**: `./scripts/batch-scrape-urls.sh URL_FILE [DELAY]`
 3. Script automatically extracts COMPANY and PAGE from each URL
 4. Verify metadata JSON files were created for each URL
 5. Review batch summary
@@ -505,7 +505,7 @@ User: "Convert all the PDFs in the downloads folder"
 
 Actions:
 1. Copy all PDFs to originals/pdf/ folder
-2. Execute: .bob/skills/research-assistant/scripts/batch-convert-pdfs.sh
+2. Execute: ./scripts/batch-convert-pdfs.sh
 3. Report conversion summary (converted, skipped, failed counts)
 ```
 
@@ -519,7 +519,7 @@ Actions:
 1. Validate URL
 2. Determine category (COMPANY: 'Kong')
 3. Determine page identifier (PAGE: 'features')
-4. Execute: .bob/skills/research-assistant/scripts/scrape-with-version.sh \
+4. Execute: ./scripts/scrape-with-version.sh \
    'https://konghq.com/products/api-gateway' \
    'Kong' \
    'features'
@@ -543,7 +543,7 @@ Actions:
 1. Validate URL
 2. Determine category (COMPANY: 'Kong')
 3. Determine page identifier (PAGE: 'pricing')
-4. Execute: .bob/skills/research-assistant/scripts/scrape-with-version.sh \
+4. Execute: ./scripts/scrape-with-version.sh \
    'https://konghq.com/pricing' \
    'Kong' \
    'pricing'
@@ -651,7 +651,7 @@ Process multiple items efficiently:
 
 ```bash
 # Batch document conversion - use the script
-.bob/skills/research-assistant/scripts/batch-convert-pdfs.sh
+./scripts/batch-convert-pdfs.sh
 
 # Batch web scraping
 while IFS= read -r url; do
@@ -809,7 +809,7 @@ fi
 **Conversion Failed**:
 ```bash
 # Provide clear error messages
-if ! .bob/skills/research-assistant/scripts/batch-convert-pdfs.sh; then
+if ! ./scripts/batch-convert-pdfs.sh; then
   echo "❌ Conversion failed"
   echo "💡 Try: Check if files are corrupted or password-protected"
   echo "💡 Alternative: Use pandoc as fallback"
@@ -890,7 +890,7 @@ Track these metrics to ensure consistent quality:
 **Example recovery workflow**:
 ```bash
 # Primary method
-if ! .bob/skills/research-assistant/scripts/batch-convert-pdfs.sh; then
+if ! ./scripts/batch-convert-pdfs.sh; then
   echo "⚠️  Batch conversion failed, trying manual conversion..."
   
   # Fallback method

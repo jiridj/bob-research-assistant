@@ -137,7 +137,7 @@ done
 echo "" >> "$MASTER_INDEX"
 echo "---" >> "$MASTER_INDEX"
 echo "" >> "$MASTER_INDEX"
-echo "*This index is automatically generated. Run \`./scripts/update-source-index.sh\` to update.*" >> "$MASTER_INDEX"
+echo "*This index is automatically generated. Run \`./update-source-index.sh\` to update.*" >> "$MASTER_INDEX"
 
 echo -e "${GREEN}  ✓ Updated: $MASTER_INDEX${NC}"
 UPDATED=$((UPDATED + 1))

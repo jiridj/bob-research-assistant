@@ -163,7 +163,7 @@ echo "  View all: ls -lt $OUTPUT_DIR/${PAGE}-*.md"
 echo ""
 echo "Next steps:"
 echo "  1. Review scraped content: cat $OUTPUT_FILE"
-echo "  2. Compare versions: ./scripts/detect-changes.sh $COMPANY $PAGE"
+echo "  2. Compare versions: ./detect-changes.sh $COMPANY $PAGE"
 echo "  3. Use in research analysis"
 echo ""
 

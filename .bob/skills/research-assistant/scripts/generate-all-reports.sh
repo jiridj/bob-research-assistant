@@ -34,7 +34,7 @@ fi
 if [ ! -d "$RESEARCH_DIR" ]; then
   echo -e "${YELLOW}No research directory found${NC}"
   echo "Create a research project first:"
-  echo "  ./scripts/init-research-project.sh project-name"
+  echo "  ./init-research-project.sh project-name"
   exit 0
 fi
 
@@ -143,7 +143,7 @@ fi
 
 echo "Next steps:"
 echo "  1. Review generated reports in $OUTPUT_DIR"
-echo "  2. Customize with templates: ./scripts/generate-all-reports.sh templates/corporate.docx"
+echo "  2. Customize with templates: ./generate-all-reports.sh templates/corporate.docx"
 echo "  3. Share reports with stakeholders"
 echo ""
 

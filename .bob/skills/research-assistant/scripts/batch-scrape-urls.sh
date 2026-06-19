@@ -239,7 +239,7 @@ fi
 
 echo "Next steps:"
 echo "  1. Review scraped content"
-echo "  2. Compare versions: ./scripts/detect-changes.sh COMPANY PAGE"
+echo "  2. Compare versions: ./detect-changes.sh COMPANY PAGE"
 echo "  3. Use in research analysis"
 echo ""
 
