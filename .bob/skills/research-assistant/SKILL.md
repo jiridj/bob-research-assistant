@@ -97,14 +97,17 @@ Include project metadata:
 # When user asks to convert a SPECIFIC file (e.g., "convert sample.pdf")
 # Use direct docling command:
 
+# IMPORTANT: --output expects a DIRECTORY path, not a file path
+# docling will create [filename].md inside the output directory
+
 # Without images (default)
-docling /path/to/input.pdf --output sources/pdf/output.md --image-export-mode placeholder
+docling /path/to/input.pdf --output sources/pdf/ --image-export-mode placeholder
 
 # With images (if requested)
 docling /path/to/input.pdf \
-  --output sources/pdf/output.md \
+  --output sources/pdf/ \
   --image-export-mode referenced \
-  --export-images sources/images/output/
+  --export-images sources/images/
 ```
 
 **Batch Conversion** (ONLY for multiple files):
@@ -117,8 +120,8 @@ docling /path/to/input.pdf \
 **Workflow for Single File**:
 1. Identify the specific file path (e.g., test-data/pdfs/sample.pdf)
 2. Copy original to originals/pdf/ (preserving filename)
-3. **Use direct docling command** with the source file path
-4. Output to sources/pdf/[filename].md
+3. **Use direct docling command**: `docling /path/to/file.pdf --output sources/pdf/ --image-export-mode placeholder`
+4. docling creates sources/pdf/[filename].md automatically
 5. Verify conversion success
 
 **Workflow for Multiple Files**:
@@ -131,12 +134,12 @@ docling /path/to/input.pdf \
 # Copy original to archive
 cp /path/to/document.pdf originals/pdf/document.pdf
 
-# Convert single file directly
-docling /path/to/document.pdf --output sources/pdf/document.md --image-export-mode placeholder
+# Convert single file directly (--output is a DIRECTORY)
+docling /path/to/document.pdf --output sources/pdf/ --image-export-mode placeholder
 
 # Original file remains at /path/to/document.pdf
 # Copy is in originals/pdf/document.pdf
-# Converted markdown is in sources/pdf/document.md
+# Converted markdown is in sources/pdf/document.md (created automatically by docling)
 ```
 
 ### Web Scraping (Crawl4ai)
@@ -404,10 +407,10 @@ Actions:
 1. Identify file location (e.g., ~/Downloads/gartner-mq.pdf)
 2. Copy to originals/pdf/gartner-mq.pdf
 3. Execute: docling ~/Downloads/gartner-mq.pdf \
-   --output sources/pdf/magic-quadrant-2024.md \
+   --output sources/pdf/ \
    --image-export-mode placeholder
-4. Confirm successful conversion
-5. Report location of output file
+4. docling creates sources/pdf/gartner-mq.md automatically
+5. Confirm successful conversion and report location
 ```
 
 **Example 2: Convert with Image References**
@@ -418,11 +421,11 @@ Actions:
 1. Identify file location (e.g., ~/Downloads/aws-whitepaper.pdf)
 2. Copy to originals/pdf/aws-whitepaper.pdf
 3. Execute: docling ~/Downloads/aws-whitepaper.pdf \
-   --output sources/pdf/aws-whitepaper.md \
+   --output sources/pdf/ \
    --image-export-mode referenced \
-   --export-images sources/images/aws-whitepaper/
-4. Confirm conversion and image export
-5. Report locations
+   --export-images sources/images/
+4. docling creates sources/pdf/aws-whitepaper.md and sources/images/aws-whitepaper/ automatically
+5. Confirm conversion and report locations
 ```
 
 **Example 3: Batch Convert Multiple PDFs**
