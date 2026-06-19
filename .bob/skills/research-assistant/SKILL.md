@@ -44,6 +44,25 @@ This skill requires the following CLI commands to be available:
 
 ### Project Initialization
 
+**Two-Tier Source Organization:**
+
+This skill uses a two-tier approach for organizing research materials:
+
+1. **Top-level `sources/` folder** - Shared library of all converted documents and scraped content
+   - Acts as a central repository accessible across all research projects
+   - Organized by source type (Gartner, Forrester, Competitors, etc.)
+   - Documents are converted once and reused across multiple projects
+
+2. **Project-specific `research/[topic]/sources/` folder** - Project-scoped materials
+   - Contains sources specific to this research project
+   - Can include symlinks to top-level sources or project-specific copies
+   - Keeps project self-contained for sharing or archiving
+
+**Recommended workflow:**
+- Convert documents to the **top-level `sources/`** folder for reuse
+- Reference or link to these sources from project-specific folders
+- Use project-specific `sources/` only for materials unique to that project
+
 When starting a new research project:
 
 ```bash
@@ -57,8 +76,17 @@ touch research/[topic-name]/analysis/findings.md
 
 **Standard Folder Structure**:
 ```
+# Top-level (shared across projects)
+sources/
+├── Gartner/          # Analyst reports
+├── Forrester/        # Analyst reports
+├── Competitors/      # Competitor materials
+├── Hyperscalers/     # Cloud provider docs
+└── web/              # Scraped web content
+
+# Project-specific
 research/[topic-name]/
-├── sources/
+├── sources/          # Project-specific sources (or symlinks to top-level)
 │   ├── pdf/          # Converted PDF documents (markdown)
 │   ├── docx/         # Converted Word documents (markdown)
 │   ├── pptx/         # Converted PowerPoint files (markdown)
