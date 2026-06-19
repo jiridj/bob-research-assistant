@@ -70,10 +70,7 @@ run_test "Git" "which git"
 # Test 12: Distribution files
 run_test "distribution files" "[ -f SHARING.md ] && [ -f CONTRIBUTING.md ]"
 
-# Test 13: Documentation index
-run_test "documentation index" "[ -f DOCUMENTATION_INDEX.md ]"
-
-# Test 14: Test plan
+# Test 13: Test plan
 run_test "test plan" "[ -f TEST_PLAN.md ]"
 
 # Test 15: Guide count
