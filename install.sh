@@ -95,7 +95,7 @@ fi
 
 # Install crawl4ai
 print_status "Installing crawl4ai..."
-if command -v crawl4ai &> /dev/null; then
+if python3 -c "import crawl4ai" &> /dev/null; then
     print_warning "crawl4ai already installed, skipping"
 else
     if $PIP_CMD install crawl4ai; then
@@ -193,8 +193,8 @@ if ! command -v docling &> /dev/null; then
     ERRORS=$((ERRORS + 1))
 fi
 
-if ! command -v crawl4ai &> /dev/null; then
-    print_error "crawl4ai not found in PATH"
+if ! python3 -c "import crawl4ai" &> /dev/null; then
+    print_error "crawl4ai Python module not found"
     ERRORS=$((ERRORS + 1))
 fi
 
