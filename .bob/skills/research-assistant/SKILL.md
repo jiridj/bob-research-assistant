@@ -87,35 +87,35 @@ Include project metadata:
 - If user requests images: use `--image-export-mode referenced`
 - Never embed images as base64/encoded blobs
 - Preserve document structure and formatting
-- **ALWAYS use wrapper scripts, never direct docling commands**
+- **Use batch script for multiple files, direct docling for single files**
 
-**Required Script**: `./scripts/batch-convert-pdfs.sh`
-
+**Single File Conversion**:
 ```bash
-# Default conversion (no images)
-./scripts/batch-convert-pdfs.sh
+# Convert single PDF (no images)
+docling input.pdf --output sources/pdf/document.md --image-export-mode placeholder
 
-# With image export (if user explicitly requests images)
-# Note: Script needs to be updated to support --image-export-mode referenced
-# For now, manually convert with:
+# Convert single PDF (with images)
 docling input.pdf \
   --output sources/pdf/document.md \
   --image-export-mode referenced \
-  --export-images sources/images/
+  --export-images sources/images/document/
+```
+
+**Batch Conversion**: `./scripts/batch-convert-pdfs.sh`
+```bash
+# Convert all PDFs in originals/pdf/ folder
+./scripts/batch-convert-pdfs.sh
 ```
 
 **Workflow Steps**:
 1. Identify document type (PDF, DOCX, PPTX)
 2. **Copy original file** to originals/{pdf,docx,pptx}/ folder (preserving filename)
-3. **Use batch-convert-pdfs.sh script** for conversion:
-   - Script automatically routes to appropriate sources folder (pdf/docx/pptx)
-   - Script adds metadata footer with source file and conversion date
-   - Default: images as placeholders (no image files)
-4. **If user requests images**:
+3. **For single file**: Use direct docling command with appropriate output path
+4. **For multiple files**: Use batch-convert-pdfs.sh script
+5. **If user requests images**:
    - Use `--image-export-mode referenced` flag
-   - Move image folder to sources/images/ alongside markdown
-   - Update markdown image references to point to sources/images/
-5. Verify output and organize files
+   - Images exported to sources/images/[document-name]/
+6. Verify output and organize files
 7. Create metadata/index entry
 
 **Example with archiving**:
@@ -123,8 +123,8 @@ docling input.pdf \
 # Copy original to archive
 cp /path/to/document.pdf originals/pdf/document.pdf
 
-# Convert using batch script
-./scripts/batch-convert-pdfs.sh
+# Convert single file directly
+docling /path/to/document.pdf --output sources/pdf/document.md --image-export-mode placeholder
 
 # Original file remains at /path/to/document.pdf
 # Copy is in originals/pdf/document.pdf
@@ -388,16 +388,18 @@ Actions:
 
 ### Document Conversion Examples
 
-**Example 1: Convert Gartner Report**
+**Example 1: Convert Single Gartner Report**
 ```
 User: "Convert the Gartner Magic Quadrant PDF to markdown"
 
 Actions:
-1. Identify file location and copy to originals/pdf/
-2. Determine category (Gartner)
-3. Execute: ./scripts/batch-convert-pdfs.sh
+1. Identify file location (e.g., ~/Downloads/gartner-mq.pdf)
+2. Copy to originals/pdf/gartner-mq.pdf
+3. Execute: docling ~/Downloads/gartner-mq.pdf \
+   --output sources/pdf/magic-quadrant-2024.md \
+   --image-export-mode placeholder
 4. Confirm successful conversion
-5. Report location of output file (sources/pdf/magic-quadrant-2024.md)
+5. Report location of output file
 ```
 
 **Example 2: Convert with Image References**
@@ -405,15 +407,24 @@ Actions:
 User: "Convert the AWS whitepaper and keep the architecture diagrams"
 
 Actions:
-1. Identify file location and copy to originals/pdf/
-2. Determine category (Hyperscalers/AWS)
-3. Execute: docling aws-whitepaper.pdf \
-   --output sources/pdf/whitepaper.md \
+1. Identify file location (e.g., ~/Downloads/aws-whitepaper.pdf)
+2. Copy to originals/pdf/aws-whitepaper.pdf
+3. Execute: docling ~/Downloads/aws-whitepaper.pdf \
+   --output sources/pdf/aws-whitepaper.md \
    --image-export-mode referenced \
    --export-images sources/images/aws-whitepaper/
-4. Move image folder to sources/images/
-5. Update markdown image references
-6. Confirm conversion and image export
+4. Confirm conversion and image export
+5. Report locations
+```
+
+**Example 3: Batch Convert Multiple PDFs**
+```
+User: "Convert all the PDFs in the downloads folder"
+
+Actions:
+1. Copy all PDFs to originals/pdf/ folder
+2. Execute: ./scripts/batch-convert-pdfs.sh
+3. Report conversion summary (converted, skipped, failed counts)
 ```
 
 ### Web Scraping Examples
