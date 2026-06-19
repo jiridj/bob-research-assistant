@@ -95,16 +95,17 @@ Include project metadata:
 **Single File Conversion** (DEFAULT for specific file requests):
 ```bash
 # When user asks to convert a SPECIFIC file (e.g., "convert sample.pdf")
-# Use direct docling command:
+# CRITICAL: Always convert from the COPY in originals/, not the original location
 
-# IMPORTANT: --output expects a DIRECTORY path, not a file path
-# docling will create [filename].md inside the output directory
+# Step 1: Copy to originals/
+cp /original/path/sample.pdf originals/pdf/sample.pdf
 
+# Step 2: Convert from the copy (--output expects a DIRECTORY path)
 # Without images (default)
-docling /path/to/input.pdf --output sources/pdf/ --image-export-mode placeholder
+docling originals/pdf/sample.pdf --output sources/pdf/ --image-export-mode placeholder
 
 # With images (if requested)
-docling /path/to/input.pdf \
+docling originals/pdf/sample.pdf \
   --output sources/pdf/ \
   --image-export-mode referenced \
   --export-images sources/images/
@@ -119,10 +120,11 @@ docling /path/to/input.pdf \
 
 **Workflow for Single File**:
 1. Identify the specific file path (e.g., test-data/pdfs/sample.pdf)
-2. Copy original to originals/pdf/ (preserving filename)
-3. **Use direct docling command**: `docling /path/to/file.pdf --output sources/pdf/ --image-export-mode placeholder`
-4. docling creates sources/pdf/[filename].md automatically
+2. **Copy to originals/**: `cp /original/path/sample.pdf originals/pdf/sample.pdf`
+3. **Convert from the copy**: `docling originals/pdf/sample.pdf --output sources/pdf/ --image-export-mode placeholder`
+4. docling creates sources/pdf/sample.md automatically
 5. Verify conversion success
+6. Original file at /original/path/sample.pdf remains untouched
 
 **Workflow for Multiple Files**:
 1. Copy all files to originals/pdf/ folder
@@ -131,15 +133,16 @@ docling /path/to/input.pdf \
 
 **Example with archiving**:
 ```bash
-# Copy original to archive
+# Step 1: Copy original to archive
 cp /path/to/document.pdf originals/pdf/document.pdf
 
-# Convert single file directly (--output is a DIRECTORY)
-docling /path/to/document.pdf --output sources/pdf/ --image-export-mode placeholder
+# Step 2: Convert from the copy (--output is a DIRECTORY)
+docling originals/pdf/document.pdf --output sources/pdf/ --image-export-mode placeholder
 
-# Original file remains at /path/to/document.pdf
-# Copy is in originals/pdf/document.pdf
-# Converted markdown is in sources/pdf/document.md (created automatically by docling)
+# Result:
+# - Original file remains untouched at /path/to/document.pdf
+# - Copy preserved in originals/pdf/document.pdf
+# - Converted markdown in sources/pdf/document.md
 ```
 
 ### Web Scraping (Crawl4ai)
@@ -405,8 +408,8 @@ User: "Convert the Gartner Magic Quadrant PDF to markdown"
 
 Actions:
 1. Identify file location (e.g., ~/Downloads/gartner-mq.pdf)
-2. Copy to originals/pdf/gartner-mq.pdf
-3. Execute: docling ~/Downloads/gartner-mq.pdf \
+2. Copy to originals: cp ~/Downloads/gartner-mq.pdf originals/pdf/gartner-mq.pdf
+3. Convert from copy: docling originals/pdf/gartner-mq.pdf \
    --output sources/pdf/ \
    --image-export-mode placeholder
 4. docling creates sources/pdf/gartner-mq.md automatically
@@ -419,8 +422,8 @@ User: "Convert the AWS whitepaper and keep the architecture diagrams"
 
 Actions:
 1. Identify file location (e.g., ~/Downloads/aws-whitepaper.pdf)
-2. Copy to originals/pdf/aws-whitepaper.pdf
-3. Execute: docling ~/Downloads/aws-whitepaper.pdf \
+2. Copy to originals: cp ~/Downloads/aws-whitepaper.pdf originals/pdf/aws-whitepaper.pdf
+3. Convert from copy: docling originals/pdf/aws-whitepaper.pdf \
    --output sources/pdf/ \
    --image-export-mode referenced \
    --export-images sources/images/
