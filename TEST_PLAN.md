@@ -203,21 +203,21 @@ which pandoc > /dev/null && echo "✓ pandoc" || echo "✗ pandoc"
 
 **Steps**:
 ```bash
-# In Bob, say:
+# Option 1: Ask Bob (creates markdown only)
 "Scrape the content from https://en.wikipedia.org/wiki/Artificial_intelligence"
 
-# Or use script:
+# Option 2: Use versioning script (creates markdown + metadata JSON)
 ./scripts/scrape-with-version.sh https://en.wikipedia.org/wiki/Artificial_intelligence
 ```
 
 **Expected Results**:
 - ✅ Content is extracted
-- ✅ Markdown file is created (e.g., `page-2024-06-19.md`)
-- ✅ Metadata JSON file is created (e.g., `page-2024-06-19.json`) containing:
+- ✅ Markdown file is created
+- ✅ Main content is captured (not just navigation)
+- ✅ If using `scrape-with-version.sh`: Metadata JSON file is also created containing:
   - URL, scrape date/time, company, page name
   - File statistics (size, word count, line count)
   - Content hash for change detection
-- ✅ Main content is captured (not just navigation)
 
 **Pass/Fail**: [ ]
 
