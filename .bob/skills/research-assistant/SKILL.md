@@ -104,11 +104,11 @@ cp /original/path/sample.pdf originals/pdf/sample.pdf
 # Without images (default)
 docling originals/pdf/sample.pdf --output sources/pdf/ --image-export-mode placeholder
 
-# With images (if requested)
-docling originals/pdf/sample.pdf \
-  --output sources/pdf/ \
-  --image-export-mode referenced \
-  --export-images sources/images/
+# With images (if requested) - images exported to originals/images/[filename]/
+docling originals/pdf/sample.pdf --output originals/images/ --image-export-mode referenced
+# Then move the markdown to sources/pdf/ and update image references
+mv originals/images/sample.md sources/pdf/sample.md
+# Update image paths in markdown from ./sample/ to ../../originals/images/sample/
 ```
 
 **Batch Conversion** (ONLY for multiple files):
@@ -118,13 +118,20 @@ docling originals/pdf/sample.pdf \
 ./scripts/batch-convert-pdfs.sh
 ```
 
-**Workflow for Single File**:
+**Workflow for Single File (No Images)**:
 1. Identify the specific file path (e.g., test-data/pdfs/sample.pdf)
 2. **Copy to originals/**: `cp /original/path/sample.pdf originals/pdf/sample.pdf`
 3. **Convert from the copy**: `docling originals/pdf/sample.pdf --output sources/pdf/ --image-export-mode placeholder`
 4. docling creates sources/pdf/sample.md automatically
 5. Verify conversion success
-6. Original file at /original/path/sample.pdf remains untouched
+
+**Workflow for Single File (With Images)**:
+1. Copy to originals/: `cp /original/path/sample.pdf originals/pdf/sample.pdf`
+2. Convert with images: `docling originals/pdf/sample.pdf --output originals/images/ --image-export-mode referenced`
+3. docling creates originals/images/sample.md and originals/images/sample/ (PNG images)
+4. Move markdown: `mv originals/images/sample.md sources/pdf/sample.md`
+5. Update image paths in markdown from `./sample/` to `../../originals/images/sample/`
+6. Verify images are accessible from markdown
 
 **Workflow for Multiple Files**:
 1. Copy all files to originals/pdf/ folder
@@ -402,7 +409,7 @@ Actions:
 
 ### Document Conversion Examples
 
-**Example 1: Convert Single Gartner Report**
+**Example 1: Convert Single Gartner Report (No Images)**
 ```
 User: "Convert the Gartner Magic Quadrant PDF to markdown"
 
@@ -416,19 +423,20 @@ Actions:
 5. Confirm successful conversion and report location
 ```
 
-**Example 2: Convert with Image References**
+**Example 2: Convert with Images**
 ```
 User: "Convert the AWS whitepaper and keep the architecture diagrams"
 
 Actions:
 1. Identify file location (e.g., ~/Downloads/aws-whitepaper.pdf)
 2. Copy to originals: cp ~/Downloads/aws-whitepaper.pdf originals/pdf/aws-whitepaper.pdf
-3. Convert from copy: docling originals/pdf/aws-whitepaper.pdf \
-   --output sources/pdf/ \
-   --image-export-mode referenced \
-   --export-images sources/images/
-4. docling creates sources/pdf/aws-whitepaper.md and sources/images/aws-whitepaper/ automatically
-5. Confirm conversion and report locations
+3. Convert with images: docling originals/pdf/aws-whitepaper.pdf \
+   --output originals/images/ \
+   --image-export-mode referenced
+4. docling creates originals/images/aws-whitepaper.md and originals/images/aws-whitepaper/ (PNGs)
+5. Move markdown: mv originals/images/aws-whitepaper.md sources/pdf/aws-whitepaper.md
+6. Update image paths in markdown from ./aws-whitepaper/ to ../../originals/images/aws-whitepaper/
+7. Confirm conversion and report locations
 ```
 
 **Example 3: Batch Convert Multiple PDFs**
