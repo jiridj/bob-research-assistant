@@ -89,23 +89,27 @@ pandoc --version
 - 2GB free disk space (for tool dependencies)
 - Internet connection (for web scraping)
 
-### Bob Configuration (Avoid Permission Prompts)
+### Bob Permission Prompts
 
-To avoid repeated permission prompts when using this skill, add the following commands to Bob's allowed commands list:
+This skill uses several CLI commands that Bob will ask permission to execute:
 
-**Required commands:**
+**Commands used:**
 - `docling` - Document conversion
 - `crwl` - Web scraping
 - `pandoc` - Report generation
 - `git` - Version control
 - Standard Unix commands: `cp`, `mv`, `mkdir`, `find`, `grep`, `sed`, `shasum`, `wc`, `date`, `stat`
 
-**How to configure:**
-1. Open Bob's settings/configuration
-2. Add these commands to the allowed/trusted commands list
-3. Save and restart Bob if needed
+**Managing permissions:**
+- Bob will prompt for approval the first time each command is used in a session
+- You can approve commands individually or approve all at once
+- These prompts are part of Bob's security model to ensure safe command execution
+- Once approved in a session, commands typically don't require re-approval
 
-This will allow the Research Assistant skill to execute these commands without prompting for approval each time.
+**Tips:**
+- When Bob asks for permission, review the command to ensure it's safe
+- Approve commands you trust to streamline your workflow
+- The skill uses well-established, safe CLI tools (docling, crwl, pandoc)
 
 ## Quick Start
 

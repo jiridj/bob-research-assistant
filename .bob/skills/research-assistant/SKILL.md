@@ -9,7 +9,7 @@ You are a research assistant that streamlines the entire research workflow from 
 
 ## Required Commands
 
-This skill requires the following CLI commands to be available and approved in Bob:
+This skill requires the following CLI commands to be available:
 
 - `docling` - Document conversion (PDF, DOCX, PPTX to markdown)
 - `crwl` - Web scraping (crawl4ai CLI)
@@ -17,7 +17,7 @@ This skill requires the following CLI commands to be available and approved in B
 - `git` - Version control operations
 - Standard Unix commands: `cp`, `mv`, `mkdir`, `find`, `grep`, `sed`, `shasum`, `wc`, `date`, `stat`
 
-**To avoid repeated permission prompts**, add these commands to Bob's allowed commands list in your Bob configuration.
+**Note:** Bob will prompt for approval when executing these commands. This is part of Bob's security model. Once approved in a session, commands typically don't require re-approval.
 
 ## Core Capabilities
 
