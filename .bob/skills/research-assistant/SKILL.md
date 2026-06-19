@@ -223,15 +223,22 @@ When user provides a URL, automatically determine:
 - `https://blog.example.com/2024/new-features` → COMPANY='Example', PAGE='new-features'
 
 **Workflow Steps**:
-1. Validate URL(s)
+
+**For Single URLs:**
+1. Validate URL
 2. **AUTOMATICALLY determine COMPANY parameter** from URL (domain/source)
 3. **AUTOMATICALLY determine PAGE parameter** from URL path or content type
 4. **ALWAYS call script with all three arguments**: `./scripts/scrape-with-version.sh URL COMPANY PAGE`
-5. **OR**: Use `./scripts/batch-scrape-urls.sh` for multiple URLs
+5. Verify metadata JSON was created
 6. Analyze scraped content for relevant links
 7. Suggest related pages to scrape (if applicable)
-8. Verify metadata JSON was created (if using wrapper scripts)
-9. Organize in sources folder
+
+**For Multiple URLs (Batch):**
+1. Validate URL file exists
+2. **Call batch script with URL file and optional delay**: `./scripts/batch-scrape-urls.sh URL_FILE [DELAY]`
+3. Script automatically extracts COMPANY and PAGE from each URL
+4. Verify metadata JSON files were created for each URL
+5. Review batch summary
 
 **Link Discovery**:
 When scraping a single page, automatically analyze content for relevant internal links:

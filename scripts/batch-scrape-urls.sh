@@ -48,7 +48,8 @@ fi
 # Function to extract company name from URL
 extract_company() {
   local url="$1"
-  local domain=$(echo "$url" | sed 's|https\?://||' | sed 's|/.*||' | sed 's|www\.||')
+  # Remove protocol and get domain
+  local domain=$(echo "$url" | sed -E 's|^https?://||' | sed 's|/.*||' | sed 's|^www\.||')
   
   # Special cases
   if [[ "$domain" == *"wikipedia.org"* ]]; then
@@ -70,13 +71,18 @@ extract_company() {
 # Function to extract page identifier from URL
 extract_page() {
   local url="$1"
-  local path=$(echo "$url" | sed 's|https\?://[^/]*/||' | sed 's|/$||')
+  # Remove protocol and domain, get path only
+  local path=$(echo "$url" | sed -E 's|^https?://[^/]+/?||' | sed 's|/$||')
   
-  # Convert path to slug
   # Remove query parameters and anchors
   path=$(echo "$path" | sed 's|[?#].*||')
   
-  # Convert to lowercase, replace slashes and special chars with hyphens
+  # For Wikipedia, extract just the article name after /wiki/
+  if [[ "$url" == *"wikipedia.org/wiki/"* ]]; then
+    path=$(echo "$path" | sed 's|^wiki/||')
+  fi
+  
+  # Convert to lowercase, replace slashes and underscores with hyphens
   local slug=$(echo "$path" | tr '[:upper:]' '[:lower:]' | sed 's|/|-|g' | sed 's|_|-|g' | sed 's|[^a-z0-9-]||g' | sed 's|--*|-|g' | sed 's|^-||' | sed 's|-$||')
   
   # If empty, use 'index'
