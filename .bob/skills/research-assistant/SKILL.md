@@ -96,19 +96,20 @@ Include project metadata:
 ```bash
 # When user asks to convert a SPECIFIC file (e.g., "convert sample.pdf")
 # CRITICAL: Always convert from the COPY in originals/, not the original location
+# CRITICAL: --output MUST be the full path: sources/pdf/ or originals/images/
 
 # Step 1: Copy to originals/
 cp /original/path/sample.pdf originals/pdf/sample.pdf
 
-# Step 2: Convert from the copy (--output expects a DIRECTORY path)
-# Without images (default)
+# Step 2: Convert from the copy
+# WITHOUT IMAGES (default) - output MUST be sources/pdf/
 docling originals/pdf/sample.pdf --output sources/pdf/ --image-export-mode placeholder
 
-# With images (if requested) - images exported to originals/images/[filename]/
+# WITH IMAGES (if requested) - output MUST be originals/images/
 docling originals/pdf/sample.pdf --output originals/images/ --image-export-mode referenced
-# Then move the markdown to sources/pdf/ and update image references
+# Then move markdown and update paths
 mv originals/images/sample.md sources/pdf/sample.md
-# Update image paths in markdown from ./sample/ to ../../originals/images/sample/
+sed -i '' 's|./sample/|../../originals/images/sample/|g' sources/pdf/sample.md
 ```
 
 **Batch Conversion** (ONLY for multiple files):
@@ -120,17 +121,19 @@ mv originals/images/sample.md sources/pdf/sample.md
 
 **Workflow for Single File (No Images)**:
 1. Identify the specific file path (e.g., test-data/pdfs/sample.pdf)
-2. **Copy to originals/**: `cp /original/path/sample.pdf originals/pdf/sample.pdf`
-3. **Convert from the copy**: `docling originals/pdf/sample.pdf --output sources/pdf/ --image-export-mode placeholder`
-4. docling creates sources/pdf/sample.md automatically
-5. Verify conversion success
+2. **Copy to originals/**: `cp test-data/pdfs/sample.pdf originals/pdf/sample.pdf`
+3. **Convert from the copy with EXPLICIT output path**:
+   `docling originals/pdf/sample.pdf --output sources/pdf/ --image-export-mode placeholder`
+4. Verify file created at sources/pdf/sample.md
+5. Report success with correct path
 
 **Workflow for Single File (With Images)**:
-1. Copy to originals/: `cp /original/path/sample.pdf originals/pdf/sample.pdf`
-2. Convert with images: `docling originals/pdf/sample.pdf --output originals/images/ --image-export-mode referenced`
-3. docling creates originals/images/sample.md and originals/images/sample/ (PNG images)
+1. Copy to originals/: `cp test-data/pdfs/sample.pdf originals/pdf/sample.pdf`
+2. Convert with images to originals/images/:
+   `docling originals/pdf/sample.pdf --output originals/images/ --image-export-mode referenced`
+3. Verify originals/images/sample.md and originals/images/sample/ created
 4. Move markdown: `mv originals/images/sample.md sources/pdf/sample.md`
-5. Update image paths in markdown from `./sample/` to `../../originals/images/sample/`
+5. Update image paths: `sed -i '' 's|./sample/|../../originals/images/sample/|g' sources/pdf/sample.md`
 6. Verify images are accessible from markdown
 
 **Workflow for Multiple Files**:
