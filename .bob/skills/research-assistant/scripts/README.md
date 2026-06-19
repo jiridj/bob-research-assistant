@@ -69,27 +69,7 @@ Scrape web content with automatic versioning and metadata.
 
 ---
 
-#### 4. `generate-bibliography.sh`
-Auto-generate bibliography from all research sources.
-
-```bash
-./.bob/skills/research-assistant/scripts/generate-bibliography.sh [sources-dir] [output-file]
-```
-
-**Features:**
-- Extracts metadata from sources
-- Organizes by category
-- Generates formatted bibliography
-- Includes statistics
-
-**Example:**
-```bash
-./.bob/skills/research-assistant/scripts/generate-bibliography.sh sources bibliography.md
-```
-
----
-
-#### 5. `search-sources.sh`
+#### 4. `search-sources.sh`
 Smart search across all research sources with context.
 
 ```bash
@@ -131,7 +111,7 @@ Verify document conversion quality.
 
 ---
 
-#### 7. `detect-changes.sh`
+#### 6. `detect-changes.sh`
 Detect and analyze changes between versions.
 
 ```bash
@@ -151,7 +131,7 @@ Detect and analyze changes between versions.
 
 ---
 
-#### 8. `generate-all-reports.sh`
+#### 7. `generate-all-reports.sh`
 Batch generate reports from all research projects.
 
 ```bash
@@ -171,7 +151,7 @@ Batch generate reports from all research projects.
 
 ---
 
-#### 9. `update-source-index.sh`
+#### 8. `update-source-index.sh`
 Update source index files with current inventory.
 
 ```bash
@@ -213,7 +193,7 @@ Extract citations from analysis documents.
 
 ---
 
-#### 11. `archive-old-sources.sh`
+#### 10. `archive-old-sources.sh`
 Archive old or outdated sources.
 
 ```bash
@@ -233,7 +213,7 @@ Archive old or outdated sources.
 
 ---
 
-#### 12. `batch-scrape-urls.sh`
+#### 11. `batch-scrape-urls.sh`
 Scrape multiple URLs from a file.
 
 ```bash
@@ -324,10 +304,7 @@ pandoc report.md -o output/report.docx --toc
 # 5. Search for specific topics
 ./.bob/skills/research-assistant/scripts/search-sources.sh "rate limiting" 5
 
-# 6. Generate bibliography
-./.bob/skills/research-assistant/scripts/generate-bibliography.sh sources bibliography.md
-
-# 7. Generate final report
+# 6. Generate final report
 ./.bob/skills/research-assistant/scripts/generate-all-reports.sh
 ```
 

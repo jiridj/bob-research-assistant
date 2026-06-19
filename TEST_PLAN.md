@@ -246,18 +246,18 @@ ls -la ~/test-projects/ai-ethics/
 
 ---
 
-### Test 2.5: Bibliography Generation
+### Test 2.5: Citation Extraction
 
-**Objective**: Test citation extraction and bibliography creation.
+**Objective**: Test citation extraction from sources.
 
 **Steps**:
 ```bash
-# Generate bibliography from test sources
-./scripts/generate-bibliography.sh test-data/markdown/ bibliography.md
+# Extract citations from test sources
+./scripts/extract-citations.sh test-data/markdown/sample.md
 ```
 
 **Expected Results**:
-- ✅ Bibliography file created
+- ✅ Citations extracted and listed
 - ✅ Citations extracted from sources
 - ✅ Proper formatting (APA, MLA, or specified style)
 - ✅ Alphabetically sorted
@@ -567,9 +567,6 @@ cd ~/test-integration
 # 3. Convert PDFs
 ./scripts/batch-convert-pdfs.sh ../test-data/pdfs/ sources/documents/
 
-# 4. Generate bibliography
-./scripts/generate-bibliography.sh sources/ bibliography.md
-
 # 5. Create reports
 ./scripts/generate-all-reports.sh sources/ reports/
 
@@ -596,8 +593,7 @@ cd ~/test-integration
 2. Say: "I need to research AI ethics. Can you help me set up a project?"
 3. Follow Bob's guidance
 4. Ask: "Can you scrape content from [URL]?"
-5. Ask: "Generate a bibliography from my sources"
-6. Ask: "Create a research report"
+5. Ask: "Create a research report"
 
 **Expected Results**:
 - ✅ Bob understands requests

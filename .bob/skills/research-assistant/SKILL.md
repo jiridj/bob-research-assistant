@@ -26,7 +26,7 @@ This skill requires the following CLI commands to be available:
 3. **Research Analysis & Synthesis**
 4. **Report Generation** (via pandoc CLI)
 5. **Source Organization & Discovery**
-6. **Citation Management** - Track sources and maintain bibliographies
+6. **Citation Management** - Track sources and references
 7. **Version Control** - Manage research iterations and history
 8. **Batch Operations** - Process multiple items efficiently
 
@@ -648,7 +648,7 @@ For detailed examples, see:
 
 ### Citation Management
 
-Track sources and maintain bibliographies:
+Track sources and maintain references:
 
 ```bash
 # Add citation metadata to sources
@@ -666,16 +666,12 @@ EOF
 
 # Reference in analysis
 # Kong demonstrates 50K req/s [gartner-mq-2024, p.12]
-
-# Generate bibliography
-./generate-bibliography.sh > bibliography.md
 ```
 
 **Key Capabilities**:
 - Track source references with citation IDs
 - Format citations consistently (numbered, author-date, footnote)
 - Link findings to sources
-- Generate bibliographies automatically
 - Validate citation completeness
 
 See: [Citation Management Guide](guides/citation-management.md)
