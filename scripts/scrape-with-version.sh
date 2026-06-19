@@ -30,9 +30,9 @@ if [ -z "$URL" ] || [ -z "$COMPANY" ] || [ -z "$PAGE" ]; then
   exit 1
 fi
 
-# Check if crawl4ai is installed
-if ! command -v crawl4ai &> /dev/null; then
-  echo -e "${RED}Error: crawl4ai is not installed${NC}"
+# Check if crwl (crawl4ai CLI) is installed
+if ! command -v crwl &> /dev/null; then
+  echo -e "${RED}Error: crawl4ai CLI (crwl) is not installed${NC}"
   echo "Install with: pip install crawl4ai"
   exit 1
 fi
@@ -70,7 +70,7 @@ fi
 # Scrape content
 echo -e "${BLUE}→${NC} Scraping ${COMPANY} ${PAGE}..."
 
-if crawl4ai "$URL" --output "$OUTPUT_FILE" 2>/dev/null; then
+if crwl "$URL" --output "$OUTPUT_FILE" 2>/dev/null; then
   echo -e "${GREEN}✓${NC} Content scraped successfully"
 else
   echo -e "${RED}✗${NC} Failed to scrape content"

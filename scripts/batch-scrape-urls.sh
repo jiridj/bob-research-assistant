@@ -38,9 +38,9 @@ if [ ! -f "$URL_FILE" ]; then
   exit 1
 fi
 
-# Check if crawl4ai is installed
-if ! command -v crawl4ai &> /dev/null; then
-  echo -e "${RED}Error: crawl4ai is not installed${NC}"
+# Check if crwl (crawl4ai CLI) is installed
+if ! command -v crwl &> /dev/null; then
+  echo -e "${RED}Error: crawl4ai CLI (crwl) is not installed${NC}"
   echo "Install with: pip install crawl4ai"
   exit 1
 fi
@@ -100,7 +100,7 @@ while IFS= read -r url; do
   fi
   
   # Scrape URL
-  if crawl4ai "$url" --output "$output_file" 2>/dev/null; then
+  if crwl "$url" --output "$output_file" 2>/dev/null; then
     echo -e "${GREEN}  ✓ Scraped: $output_file${NC}"
     SCRAPED=$((SCRAPED + 1))
     
