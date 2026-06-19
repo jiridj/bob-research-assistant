@@ -364,10 +364,12 @@ pandoc intro.md findings.md conclusions.md \
 
 **Template Library**:
 - `literature-review.md`: Academic-style review
-- `competitive-analysis.md`: Business intelligence format
+- `market-analysis.md`: Market-level analysis (PESTLE, TAM/SAM, dynamics)
+- `competitor-analysis.md`: Single competitor deep dive
 - `executive-summary.md`: Leadership brief
 - `research-report.md`: Comprehensive research document
-- `technical-deep-dive.md`: Detailed technical analysis
+- `technical-deep-dive.md`: Detailed technical analysis of technologies, protocols, open source projects
+- `golden-circle.md`: Strategic document using Simon Sinek's Why-How-What methodology (2-3 pages)
 
 **Template Usage**:
 1. User selects report type
