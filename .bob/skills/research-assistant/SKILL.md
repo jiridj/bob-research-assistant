@@ -59,12 +59,23 @@ This skill uses a **single top-level `sources/` folder** as the central reposito
 When starting a new research project:
 
 ```bash
-# Create project structure
+# Create minimal project structure
 mkdir -p research/[topic-name]/{notes,analysis,reports}
-touch research/[topic-name]/notes/research-notes.md
-touch research/[topic-name]/analysis/findings.md
-touch research/[topic-name]/bibliography.md
 ```
+
+**Then gather context by asking the user:**
+- What are you trying to learn or understand?
+- What decisions will this research inform?
+- What specific questions need answers?
+- What's the scope and timeline?
+
+**Create a goals.md file** at the project root with:
+- High-level research objectives
+- Key questions to answer
+- Success criteria
+- Timeline/milestones (if applicable)
+
+Users create additional files (notes, analysis, reports) as needed during their research process.
 
 **Standard Folder Structure**:
 ```
@@ -87,27 +98,50 @@ originals/            # Copies of original files for reference
 
 # Project-specific (references sources by path)
 research/[topic-name]/
-├── notes/            # Research notes and observations
-├── analysis/         # Analysis and synthesis documents
-├── reports/          # Final reports and deliverables
-└── bibliography.md   # List of sources used (with paths to sources/)
+├── goals.md          # Research objectives and key questions
+├── notes/            # Research notes (created as needed)
+├── analysis/         # Analysis documents (created as needed)
+└── reports/          # Final reports (created as needed)
 ```
 
-Include project metadata:
+**Project files are created on-demand** as the research progresses, not automatically at initialization.
+
+**Example goals.md template:**
 ```markdown
-# Research Project: [Topic Name]
+# Research Goals: [Topic Name]
 
 **Created**: [Date]
-**Status**: In Progress
-**Sources Used**:
-- [List of source files with paths]
+**Timeline**: [Duration or deadline]
 
-**Research Questions**:
+## Objectives
+
+What are you trying to learn or understand?
+- [Objective 1]
+- [Objective 2]
+
+## Key Questions
+
+What specific questions need answers?
 1. [Question 1]
 2. [Question 2]
+3. [Question 3]
 
-**Key Findings**:
-[To be populated]
+## Success Criteria
+
+How will you know when this research is complete?
+- [ ] [Criterion 1]
+- [ ] [Criterion 2]
+
+## Scope
+
+What's included and excluded from this research?
+- **In scope**: [What you'll investigate]
+- **Out of scope**: [What you won't cover]
+
+## Context
+
+What decisions will this research inform?
+[Brief description of how this research will be used]
 ```
 
 ## CLI Tool Integration
