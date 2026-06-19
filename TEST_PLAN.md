@@ -212,8 +212,11 @@ which pandoc > /dev/null && echo "✓ pandoc" || echo "✗ pandoc"
 
 **Expected Results**:
 - ✅ Content is extracted
-- ✅ Markdown file is created
-- ✅ Metadata is included (URL, date, version)
+- ✅ Markdown file is created (e.g., `page-2024-06-19.md`)
+- ✅ Metadata JSON file is created (e.g., `page-2024-06-19.json`) containing:
+  - URL, scrape date/time, company, page name
+  - File statistics (size, word count, line count)
+  - Content hash for change detection
 - ✅ Main content is captured (not just navigation)
 
 **Pass/Fail**: [ ]
