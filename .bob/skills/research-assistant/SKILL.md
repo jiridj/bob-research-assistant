@@ -157,13 +157,29 @@ docling originals/pdf/document.pdf --output sources/pdf/ --image-export-mode pla
 
 ### Web Scraping (Crawl4ai)
 
+**CRITICAL: The scrape-with-version.sh script REQUIRES three arguments**
+
+When a user asks to scrape a URL, you MUST:
+1. Extract or infer the COMPANY (category/source name)
+2. Extract or infer the PAGE (descriptive identifier)
+3. Call the script with ALL THREE arguments
+
+**Never call the script with only the URL** - it will fail with a usage error.
+
 **Command Patterns**:
 
 ```bash
 # ALWAYS use wrapper scripts for automatic metadata and versioning
 
 # Single page with versioning and metadata
-./scripts/scrape-with-version.sh https://example.com
+# REQUIRES three arguments: URL, COMPANY (category), PAGE (identifier)
+./scripts/scrape-with-version.sh 'https://example.com/page' 'CompanyName' 'page-identifier'
+
+# Example: Scraping Wikipedia article
+./scripts/scrape-with-version.sh 'https://en.wikipedia.org/wiki/Artificial_intelligence' 'Wikipedia' 'artificial-intelligence'
+
+# Example: Scraping competitor features page
+./scripts/scrape-with-version.sh 'https://konghq.com/products/api-gateway' 'Kong' 'features'
 
 # Multiple URLs with batch processing
 ./scripts/batch-scrape-urls.sh urls.txt sources/web/
@@ -172,16 +188,40 @@ docling originals/pdf/document.pdf --output sources/pdf/ --image-export-mode pla
 crwl crawl https://example.com --output markdown --output-file sources/web/page.md
 ```
 
+**Parameter Determination Rules**:
+
+When user provides a URL, automatically determine:
+
+**COMPANY (Category/Source)**:
+- For Wikipedia: Use 'Wikipedia'
+- For company sites: Extract domain (e.g., 'konghq.com' → 'Kong', 'aws.amazon.com' → 'AWS')
+- For documentation: Use product/service name
+- For blogs: Use blog/author name
+- Default: Use domain name
+
+**PAGE (Identifier)**:
+- Extract from URL path (e.g., '/artificial_intelligence' → 'artificial-intelligence')
+- Use descriptive slug: 'features', 'pricing', 'docs', 'overview', 'api-reference'
+- Convert underscores to hyphens
+- Remove special characters
+- Keep it short and meaningful
+
+**Examples of Parameter Extraction**:
+- `https://en.wikipedia.org/wiki/Machine_learning` → COMPANY='Wikipedia', PAGE='machine-learning'
+- `https://konghq.com/products/api-gateway` → COMPANY='Kong', PAGE='api-gateway'
+- `https://docs.aws.amazon.com/lambda/` → COMPANY='AWS', PAGE='lambda-docs'
+- `https://blog.example.com/2024/new-features` → COMPANY='Example', PAGE='new-features'
+
 **Workflow Steps**:
 1. Validate URL(s)
-2. Determine target category
-3. **PREFER**: Use `./scripts/scrape-with-version.sh` for single URLs (creates metadata + versioning)
-4. **OR**: Use `./scripts/batch-scrape-urls.sh` for multiple URLs
-5. Analyze scraped content for relevant links
-6. Suggest related pages to scrape (if applicable)
-7. Verify metadata JSON was created (if using wrapper scripts)
-8. Organize in sources folder
-8. Create metadata entry
+2. **AUTOMATICALLY determine COMPANY parameter** from URL (domain/source)
+3. **AUTOMATICALLY determine PAGE parameter** from URL path or content type
+4. **ALWAYS call script with all three arguments**: `./scripts/scrape-with-version.sh URL COMPANY PAGE`
+5. **OR**: Use `./scripts/batch-scrape-urls.sh` for multiple URLs
+6. Analyze scraped content for relevant links
+7. Suggest related pages to scrape (if applicable)
+8. Verify metadata JSON was created (if using wrapper scripts)
+9. Organize in sources folder
 
 **Link Discovery**:
 When scraping a single page, automatically analyze content for relevant internal links:
@@ -460,19 +500,22 @@ User: "Scrape the Kong API Gateway features page"
 
 Actions:
 1. Validate URL
-2. Determine category (Competitors/Kong)
-3. Execute: crwl crawl https://konghq.com/products/api-gateway \
-   --output markdown --output-file sources/Competitors/Kong/features.md
-4. Verify content extraction
-5. Analyze content for relevant links
-6. Present discovered links:
+2. Determine category (COMPANY: 'Kong')
+3. Determine page identifier (PAGE: 'features')
+4. Execute: ./scripts/scrape-with-version.sh \
+   'https://konghq.com/products/api-gateway' \
+   'Kong' \
+   'features'
+5. Verify content extraction and metadata creation
+6. Analyze content for relevant links
+7. Present discovered links:
    "I found these related pages that might be useful:
    - /products/api-gateway/pricing
    - /products/api-gateway/documentation
    - /products/api-gateway/use-cases
    
    Would you like me to scrape any of these as well?"
-7. Report success
+8. Report success with file locations
 ```
 
 **Example 2: Scrape with Versioning**
@@ -481,12 +524,16 @@ User: "Scrape Kong's pricing page and track it monthly"
 
 Actions:
 1. Validate URL
-2. Create dated filename: pricing-2024-06-12.md
-3. Execute: crwl crawl https://konghq.com/pricing \
-   --output markdown --output-file sources/Competitors/Kong/pricing-2024-06-12.md
-4. Create metadata file with scrape timestamp
-5. Compare with previous version if exists
-6. Report changes detected (if any)
+2. Determine category (COMPANY: 'Kong')
+3. Determine page identifier (PAGE: 'pricing')
+4. Execute: ./scripts/scrape-with-version.sh \
+   'https://konghq.com/pricing' \
+   'Kong' \
+   'pricing'
+5. Script automatically creates dated filename: pricing-2026-06-19.md
+6. Script automatically creates metadata file with scrape timestamp
+7. Script automatically compares with previous version if exists
+8. Report changes detected (if any) and file locations
 ```
 
 For detailed examples, see:
