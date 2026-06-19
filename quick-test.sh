@@ -47,13 +47,13 @@ run_test "skill definition" "[ -f .bob/skills/research-assistant/SKILL.md ]"
 run_test "documentation" "[ -f .bob/skills/research-assistant/README.md ] && [ -d .bob/skills/research-assistant/guides ]"
 
 # Test 5: Scripts directory
-run_test "scripts directory" "[ -d scripts ] && [ -f scripts/README.md ]"
+run_test "scripts directory" "[ -d .bob/skills/research-assistant/scripts ] && [ -f .bob/skills/research-assistant/scripts/README.md ]"
 
 # Test 6: Essential scripts exist
-run_test "essential scripts" "[ -f scripts/init-research-project.sh ] && [ -f scripts/batch-convert-pdfs.sh ]"
+run_test "essential scripts" "[ -f .bob/skills/research-assistant/scripts/init-research-project.sh ] && [ -f .bob/skills/research-assistant/scripts/batch-convert-pdfs.sh ]"
 
 # Test 7: Script permissions
-run_test "script permissions" "[ -x scripts/init-research-project.sh ]"
+run_test "script permissions" "[ -x .bob/skills/research-assistant/scripts/init-research-project.sh ]"
 
 # Test 8: Templates exist
 run_test "templates" "[ -d .bob/skills/research-assistant/templates ] && [ -f .bob/skills/research-assistant/templates/research-report.md ]"
@@ -78,7 +78,7 @@ GUIDE_COUNT=$(find .bob/skills/research-assistant/guides -name "*.md" 2>/dev/nul
 run_test "guide count (10)" "[ $GUIDE_COUNT -eq 10 ]"
 
 # Test 16: Script count (12 utility scripts, quick-test.sh is in root)
-SCRIPT_COUNT=$(find scripts -name "*.sh" -type f 2>/dev/null | wc -l | tr -d ' ')
+SCRIPT_COUNT=$(find .bob/skills/research-assistant/scripts -name "*.sh" -type f 2>/dev/null | wc -l | tr -d ' ')
 run_test "script count (12)" "[ $SCRIPT_COUNT -eq 12 ]"
 
 # Test 17: Template count
