@@ -181,12 +181,22 @@ When a user asks to scrape a URL, you MUST:
 # Example: Scraping competitor features page
 ./scripts/scrape-with-version.sh 'https://konghq.com/products/api-gateway' 'Kong' 'features'
 
-# Multiple URLs with batch processing
-./scripts/batch-scrape-urls.sh urls.txt sources/web/
+# Multiple URLs with batch processing (automatically extracts COMPANY and PAGE from each URL)
+./scripts/batch-scrape-urls.sh urls.txt [DELAY]
+
+# Example: Batch scrape with 3 second delay between requests
+./scripts/batch-scrape-urls.sh urls.txt 3
 
 # Direct crwl command (only if scripts unavailable)
 crwl crawl https://example.com --output markdown --output-file sources/web/page.md
 ```
+
+**Batch Scraping Behavior**:
+- Automatically extracts COMPANY from domain (e.g., wikipedia.org → Wikipedia, konghq.com → Kong)
+- Automatically extracts PAGE from URL path (e.g., /wiki/Machine_learning → machine-learning)
+- Creates same structure as single-URL scraping: `sources/web/COMPANY/page-YYYY-MM-DD.md`
+- Generates JSON metadata files for each scraped page
+- Respects delay between requests to avoid rate limiting
 
 **Parameter Determination Rules**:
 

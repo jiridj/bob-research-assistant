@@ -1,6 +1,6 @@
 #!/bin/bash
-# Batch scrape multiple URLs from a file
-# Usage: ./batch-scrape-urls.sh URL_FILE [COMPANY] [DELAY]
+# Batch scrape multiple URLs from a file with versioning and metadata
+# Usage: ./batch-scrape-urls.sh URL_FILE [DELAY]
 
 set -e
 
@@ -12,15 +12,13 @@ BLUE='\033[0;34m'
 NC='\033[0m'
 
 URL_FILE="$1"
-COMPANY="${2:-Web}"
-DELAY="${3:-2}"  # Default 2 seconds delay between requests
+DELAY="${2:-2}"  # Default 2 seconds delay between requests
 
 if [ -z "$URL_FILE" ]; then
-  echo "Usage: ./batch-scrape-urls.sh URL_FILE [COMPANY] [DELAY]"
+  echo "Usage: ./batch-scrape-urls.sh URL_FILE [DELAY]"
   echo ""
   echo "Arguments:"
   echo "  URL_FILE - File containing URLs (one per line)"
-  echo "  COMPANY  - Company/category name (default: Web)"
   echo "  DELAY    - Delay between requests in seconds (default: 2)"
   echo ""
   echo "URL file format:"
@@ -29,7 +27,9 @@ if [ -z "$URL_FILE" ]; then
   echo "  https://example.com/page3"
   echo ""
   echo "Example:"
-  echo "  ./batch-scrape-urls.sh urls.txt Kong 3"
+  echo "  ./batch-scrape-urls.sh urls.txt 3"
+  echo ""
+  echo "Note: This script automatically extracts COMPANY and PAGE from each URL"
   exit 1
 fi
 
@@ -45,6 +45,48 @@ if ! command -v crwl &> /dev/null; then
   exit 1
 fi
 
+# Function to extract company name from URL
+extract_company() {
+  local url="$1"
+  local domain=$(echo "$url" | sed 's|https\?://||' | sed 's|/.*||' | sed 's|www\.||')
+  
+  # Special cases
+  if [[ "$domain" == *"wikipedia.org"* ]]; then
+    echo "Wikipedia"
+  elif [[ "$domain" == *"konghq.com"* ]]; then
+    echo "Kong"
+  elif [[ "$domain" == *"aws.amazon.com"* ]] || [[ "$domain" == *"amazonaws.com"* ]]; then
+    echo "AWS"
+  elif [[ "$domain" == *"github.com"* ]]; then
+    echo "GitHub"
+  elif [[ "$domain" == *"stackoverflow.com"* ]]; then
+    echo "StackOverflow"
+  else
+    # Extract main domain name (remove TLD)
+    echo "$domain" | sed 's|\.[^.]*$||' | sed 's|\.|-|g' | awk '{print toupper(substr($0,1,1)) tolower(substr($0,2))}'
+  fi
+}
+
+# Function to extract page identifier from URL
+extract_page() {
+  local url="$1"
+  local path=$(echo "$url" | sed 's|https\?://[^/]*/||' | sed 's|/$||')
+  
+  # Convert path to slug
+  # Remove query parameters and anchors
+  path=$(echo "$path" | sed 's|[?#].*||')
+  
+  # Convert to lowercase, replace slashes and special chars with hyphens
+  local slug=$(echo "$path" | tr '[:upper:]' '[:lower:]' | sed 's|/|-|g' | sed 's|_|-|g' | sed 's|[^a-z0-9-]||g' | sed 's|--*|-|g' | sed 's|^-||' | sed 's|-$||')
+  
+  # If empty, use 'index'
+  if [ -z "$slug" ]; then
+    slug="index"
+  fi
+  
+  echo "$slug"
+}
+
 # Count URLs
 URL_COUNT=$(grep -c "^http" "$URL_FILE" || echo "0")
 
@@ -54,17 +96,15 @@ if [ "$URL_COUNT" -eq 0 ]; then
 fi
 
 echo -e "${BLUE}╔════════════════════════════════════════════════════════════╗${NC}"
-echo -e "${BLUE}║   Batch URL Scraping                                       ║${NC}"
+echo -e "${BLUE}║   Batch URL Scraping with Versioning                       ║${NC}"
 echo -e "${BLUE}╚════════════════════════════════════════════════════════════╝${NC}"
 echo ""
 echo "URL file:  $URL_FILE"
-echo "Company:   $COMPANY"
 echo "URLs:      $URL_COUNT"
 echo "Delay:     ${DELAY}s between requests"
 echo ""
 
-OUTPUT_DIR="sources/Competitors/${COMPANY}"
-mkdir -p "$OUTPUT_DIR"
+DATE=$(date +%Y-%m-%d)
 
 # Statistics
 SCRAPED=0
@@ -83,16 +123,23 @@ while IFS= read -r url; do
   
   echo -e "${BLUE}[$URL_NUM/$URL_COUNT]${NC} Processing: $url"
   
-  # Generate filename from URL
-  # Extract path and convert to filename
-  filename=$(echo "$url" | sed 's|https\?://||' | sed 's|/|-|g' | sed 's|[^a-zA-Z0-9-]||g')
+  # Extract company and page from URL
+  COMPANY=$(extract_company "$url")
+  PAGE=$(extract_page "$url")
   
-  # Add date
-  DATE=$(date +%Y-%m-%d)
-  output_file="$OUTPUT_DIR/${filename}-${DATE}.md"
+  echo "  Company: $COMPANY"
+  echo "  Page:    $PAGE"
+  
+  # Set up output paths
+  OUTPUT_DIR="sources/web/${COMPANY}"
+  OUTPUT_FILE="${OUTPUT_DIR}/${PAGE}-${DATE}.md"
+  METADATA_FILE="${OUTPUT_DIR}/${PAGE}-${DATE}.json"
+  
+  # Create output directory
+  mkdir -p "$OUTPUT_DIR"
   
   # Check if already scraped today
-  if [ -f "$output_file" ]; then
+  if [ -f "$OUTPUT_FILE" ]; then
     echo -e "${YELLOW}  ⊘ Skipped: Already scraped today${NC}"
     SKIPPED=$((SKIPPED + 1))
     echo ""
@@ -100,20 +147,39 @@ while IFS= read -r url; do
   fi
   
   # Scrape URL
-  if crwl crawl "$url" --output markdown --output-file "$output_file" 2>/dev/null; then
-    echo -e "${GREEN}  ✓ Scraped: $output_file${NC}"
-    SCRAPED=$((SCRAPED + 1))
+  if crwl crawl "$url" --output markdown --output-file "$OUTPUT_FILE" 2>/dev/null; then
+    echo -e "${GREEN}  ✓ Content scraped successfully${NC}"
     
-    # Add metadata
-    cat >> "$output_file" << EOF
-
----
-metadata:
-  url: $url
-  scraped_date: $DATE
-  company: $COMPANY
----
+    # Get file statistics
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+      FILE_SIZE=$(stat -f%z "$OUTPUT_FILE")
+    else
+      FILE_SIZE=$(stat -c%s "$OUTPUT_FILE")
+    fi
+    
+    WORD_COUNT=$(wc -w < "$OUTPUT_FILE" | tr -d ' ')
+    LINE_COUNT=$(wc -l < "$OUTPUT_FILE" | tr -d ' ')
+    CONTENT_HASH=$(shasum -a 256 "$OUTPUT_FILE" | cut -d' ' -f1)
+    
+    # Create metadata file
+    cat > "$METADATA_FILE" << EOF
+{
+  "scraped_at": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+  "url": "$url",
+  "company": "$COMPANY",
+  "page": "$PAGE",
+  "date": "$DATE",
+  "file_size_bytes": $FILE_SIZE,
+  "word_count": $WORD_COUNT,
+  "line_count": $LINE_COUNT,
+  "content_hash": "$CONTENT_HASH"
+}
 EOF
+    
+    echo -e "${GREEN}  ✓ Metadata saved${NC}"
+    echo "  File: $OUTPUT_FILE"
+    
+    SCRAPED=$((SCRAPED + 1))
   else
     echo -e "${RED}  ✗ Failed to scrape${NC}"
     FAILED=$((FAILED + 1))
@@ -140,12 +206,13 @@ echo -e "${RED}Failed:               $FAILED${NC}"
 echo ""
 
 if [ $SCRAPED -gt 0 ]; then
-  echo "Scraped files saved to:"
-  echo "  $OUTPUT_DIR"
+  echo "Scraped files saved to sources/web/"
   echo ""
-  echo "Files:"
-  ls -1 "$OUTPUT_DIR"/*-${DATE}.md 2>/dev/null | head -10 | while read file; do
-    echo "  - $(basename "$file")"
+  echo "Files created:"
+  find sources/web -name "*-${DATE}.md" -type f 2>/dev/null | head -10 | while read file; do
+    dir=$(dirname "$file" | sed 's|sources/web/||')
+    base=$(basename "$file")
+    echo "  - $dir/$base"
   done
   
   if [ $SCRAPED -gt 10 ]; then
@@ -160,13 +227,13 @@ if [ $FAILED -gt 0 ]; then
   echo "  - URL not accessible"
   echo "  - Rate limiting"
   echo "  - Network issues"
-  echo "  - JavaScript-heavy pages (try with --js-render)"
+  echo "  - JavaScript-heavy pages"
   echo ""
 fi
 
 echo "Next steps:"
 echo "  1. Review scraped content"
-echo "  2. Update source indexes: ./scripts/update-source-index.sh"
+echo "  2. Compare versions: ./scripts/detect-changes.sh COMPANY PAGE"
 echo "  3. Use in research analysis"
 echo ""
 
