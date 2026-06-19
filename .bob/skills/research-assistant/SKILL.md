@@ -99,25 +99,27 @@ done
 **Command Patterns**:
 
 ```bash
-# Single page
-crwl crawl https://example.com --output markdown --output-file sources/web/page.md
+# ALWAYS use wrapper scripts for automatic metadata and versioning
 
-# Multiple URLs - use batch script
+# Single page with versioning and metadata
+./scripts/scrape-with-version.sh https://example.com
+
+# Multiple URLs with batch processing
 ./scripts/batch-scrape-urls.sh urls.txt sources/web/
 
-# With specific selectors (use Python API for advanced options)
-# See examples/web-scraping/ for selector usage
-crwl crawl https://example.com --output markdown --output-file sources/web/article.md
+# Direct crwl command (only if scripts unavailable)
+crwl crawl https://example.com --output markdown --output-file sources/web/page.md
 ```
 
 **Workflow Steps**:
 1. Validate URL(s)
 2. Determine target category
-3. Execute crwl crawl with appropriate options
-4. Analyze scraped content for relevant links
-5. Suggest related pages to scrape (if applicable)
-6. Clean and format output
-7. Organize in sources folder
+3. **PREFER**: Use `./scripts/scrape-with-version.sh` for single URLs (creates metadata + versioning)
+4. **OR**: Use `./scripts/batch-scrape-urls.sh` for multiple URLs
+5. Analyze scraped content for relevant links
+6. Suggest related pages to scrape (if applicable)
+7. Verify metadata JSON was created (if using wrapper scripts)
+8. Organize in sources folder
 8. Create metadata entry
 
 **Link Discovery**:
