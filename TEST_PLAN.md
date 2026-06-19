@@ -81,10 +81,9 @@ EOF
 ls -la ~/.bob/skills/research-assistant/
 
 # 3. Check dependencies
-python3 -c "import pypdf; print('pypdf OK')"
-python3 -c "import requests; print('requests OK')"
-python3 -c "import beautifulsoup4; print('beautifulsoup4 OK')" 2>/dev/null || \
-python3 -c "import bs4; print('beautifulsoup4 OK')"
+python3 -c "import docling; print('docling OK')"
+python3 -c "import crawl4ai; print('crawl4ai OK')"
+which pandoc && echo "pandoc OK"
 ```
 
 **Expected Results**:
@@ -128,7 +127,7 @@ echo $?  # Should be 0
 # Run dependency check
 python3 << 'EOF'
 import sys
-dependencies = ['pypdf', 'requests', 'bs4', 'markdown']
+dependencies = ['docling', 'crawl4ai']
 missing = []
 for dep in dependencies:
     try:
@@ -143,6 +142,9 @@ if missing:
 else:
     print("\nAll dependencies installed!")
 EOF
+
+# Also check pandoc
+which pandoc > /dev/null && echo "✓ pandoc" || echo "✗ pandoc"
 ```
 
 **Expected Results**:
@@ -843,7 +845,7 @@ echo "1. Testing installation..."
 
 # Test 2: Dependencies
 echo "2. Testing dependencies..."
-python3 -c "import pypdf, requests, bs4" 2>/dev/null && echo "✓ Dependencies OK" || echo "✗ Dependencies FAILED"
+python3 -c "import docling, crawl4ai" 2>/dev/null && echo "✓ Dependencies OK" || echo "✗ Dependencies FAILED"
 
 # Test 3: Scripts exist
 echo "3. Testing scripts..."
