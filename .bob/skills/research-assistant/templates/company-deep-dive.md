@@ -1,6 +1,8 @@
 # Company Deep Dive: [Company Name]
 
 > **Purpose:** Comprehensive analysis for M&A due diligence, investment evaluation, or strategic partnership assessment. Target audience: executives, investors, and M&A teams.
+>
+> 📚 **Shared Resources**: See [_common-elements.md](_common-elements.md) for document metadata, Pandoc commands, and writing guidelines.
 
 ---
 
@@ -592,6 +594,8 @@
 
 ## Appendices
 
+> 📋 **Standard Appendix Structure**: See [_common-elements.md](_common-elements.md) for the common appendix template.
+
 ### A. Financial Models
 [Link to detailed financial models and projections]
 
@@ -611,6 +615,8 @@
 [Detailed competitive analysis]
 
 ---
+
+> 📝 **Document Metadata**: See [_common-elements.md](_common-elements.md) for standard metadata format.
 
 **Prepared By:** [Name/Team]
 **Date:** [Date]

@@ -1,6 +1,8 @@
 # M&A POV: [Company Name]
 
 > **Purpose:** Short, opinionated assessment of M&A fit. Clear recommendation with supporting rationale. Target: 2-3 pages for executive decision-making.
+>
+> 📚 **Shared Resources**: See [_common-elements.md](_common-elements.md) for document metadata, Pandoc commands, and writing guidelines.
 
 ---
 
@@ -256,35 +258,7 @@ Structure:
 
 ---
 
-**Author:** [Name]
-**Date:** [Date]
-**Version:** [Version]
-**Classification:** Highly Confidential
-
----
-
-## Writing Guidelines
-
-**Be Opinionated:**
-- Take a clear stance - don't hedge
-- Use strong language when warranted
-- Back opinions with facts
-- Acknowledge uncertainty but don't hide behind it
-
-**Be Concise:**
-- Every sentence must add value
-- Cut fluff and jargon
-- Use bullets and tables
-- Target 2-3 pages total
-
-**Be Honest:**
-- Call out red flags clearly
-- Don't oversell opportunities
-- Acknowledge what you don't know
-- Present both sides fairly, then make the call
-
-**Be Actionable:**
-- Clear recommendation
-- Specific next steps
-- Defined decision criteria
-- Timeline for action
+> 📝 **Document Metadata & Guidelines**: See [_common-elements.md](_common-elements.md) for:
+> - Standard document metadata format
+> - Writing guidelines (opinionated, concise, honest, actionable)
+> - Pandoc conversion commands for generating Word documents

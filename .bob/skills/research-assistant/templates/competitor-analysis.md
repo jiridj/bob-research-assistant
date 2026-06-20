@@ -6,6 +6,8 @@ date: "[Date]"
 
 # Competitor Analysis: [Competitor Name]
 
+> 📚 **Shared Resources**: See [_common-elements.md](_common-elements.md) for document metadata, Pandoc commands, and writing guidelines.
+
 ## Executive Summary
 
 **The Bottom Line**: [One sentence stating whether this competitor poses a high/medium/low threat and why]
@@ -459,20 +461,18 @@ date: "[Date]"
 
 ## Appendices
 
-### Appendix A: Detailed Feature Comparison
+> 📋 **Standard Appendix Structure**: See [_common-elements.md](_common-elements.md) for the common appendix template.
 
+### Appendix A: Detailed Feature Comparison
 [Comprehensive feature-by-feature technical comparison]
 
 ### Appendix B: Pricing Analysis
-
 [Detailed pricing scenarios and TCO comparison]
 
 ### Appendix C: Customer Case Studies
-
 [Analysis of their customer success stories and use cases]
 
 ### Appendix D: Competitive Intelligence Sources
-
 **Data Sources**:
 1. [Source 1 with date and link]
 2. [Source 2 with date and link]
@@ -480,12 +480,15 @@ date: "[Date]"
 
 ---
 
-## Document Information
+> 📝 **Document Metadata & Conversion**: See [_common-elements.md](_common-elements.md) for:
+> - Standard document metadata format
+> - Pandoc conversion commands for generating Word documents
+> - Writing guidelines and best practices
 
-**Version**: 1.0
-**Last Updated**: [Date]
-**Next Review**: [Date - recommend quarterly updates]
-**Contact**: [Email/Contact information]
+**Version**: 1.0  
+**Last Updated**: [Date]  
+**Next Review**: [Date - recommend quarterly updates]  
+**Contact**: [Email/Contact information]  
 **Classification**: [Confidential / Internal Use Only]
 
 ---
@@ -499,14 +502,3 @@ This template is designed for deep-dive analysis of a single competitor. Use for
 - Competitive positioning
 
 Update quarterly or when significant competitive moves occur.
-
-**Pandoc Conversion**:
-```bash
-# Convert to Word
-pandoc competitor-analysis.md -o competitor-analysis.docx
-
-# With table of contents
-pandoc competitor-analysis.md --toc --toc-depth=2 -o competitor-analysis.docx
-
-# With reference template
-pandoc competitor-analysis.md --reference-doc=corporate-template.docx -o competitor-analysis.docx

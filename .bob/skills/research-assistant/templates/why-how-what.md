@@ -1,6 +1,8 @@
 # Golden Circle Strategy: [Project/Product/Initiative Name]
 
 > **Format:** 2-3 pages. High-density strategic document using Simon Sinek's Why-How-What methodology. Lead with core insights, eliminate filler.
+>
+> 📚 **Shared Resources**: See [_common-elements.md](_common-elements.md) for document metadata and Pandoc commands.
 
 ---
 
@@ -81,16 +83,10 @@
 
 ---
 
-## Writing Guidelines
+> 📝 **Writing Guidelines**: See [_common-elements.md](_common-elements.md) for comprehensive writing guidelines.
 
-**High-Density Requirements:**
+**Template-Specific Guidelines:**
 - Target 2-3 pages total
-- Every sentence adds value
-- No jargon or buzzwords
-- Concrete over abstract
-- Show, don't tell
-
-**Structure:**
 - Start with WHY (most important)
 - Make WHY inspiring and authentic
 - Ensure HOW and WHAT flow from WHY

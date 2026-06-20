@@ -6,6 +6,8 @@ date: "[Date]"
 
 # Market Analysis: [Market/Category Name]
 
+> 📚 **Shared Resources**: See [_common-elements.md](_common-elements.md) for document metadata, Pandoc commands, and writing guidelines.
+
 ## 1. Executive Summary
 
 **The Bottom Line First**: [State the absolute main takeaway, ultimate market opportunity size, and core strategic recommendation in the first two sentences.]
@@ -347,20 +349,18 @@ date: "[Date]"
 | [Risk 2] | High/Med/Low | High/Med/Low | [Strategy] |
 | [Risk 3] | High/Med/Low | High/Med/Low | [Strategy] |
 
----
+# With reference template
+pandoc market-analysis.md --reference-doc=corporate-template.docx -o market-analysis.docx## Appendices
 
-## Appendices
+> 📋 **Standard Appendix Structure**: See [_common-elements.md](_common-elements.md) for the common appendix template.
 
 ### Appendix A: Market Sizing Methodology
-
 [Detailed explanation of how TAM, SAM, and growth projections were calculated, including data sources and assumptions]
 
 ### Appendix B: PESTLE Analysis Details
-
 [Expanded analysis of Political, Economic, Social, Technological, Legal, and Environmental factors]
 
 ### Appendix C: Competitive Intelligence Sources
-
 **Analyst Reports**:
 - Gartner: [Report name, date, key findings]
 - Forrester: [Report name, date, key findings]
@@ -376,16 +376,18 @@ date: "[Date]"
 - Market databases
 
 ### Appendix D: Financial Models
-
 [Link to or summary of detailed financial projections, sensitivity analysis, and scenario planning]
 
 ---
 
-## Document Information
+> 📝 **Document Metadata & Conversion**: See [_common-elements.md](_common-elements.md) for:
+> - Standard document metadata format
+> - Pandoc conversion commands for generating Word documents
+> - Writing guidelines and best practices
 
-**Version**: 1.0
-**Last Updated**: [Date]
-**Next Review**: [Date]
+**Version**: 1.0  
+**Last Updated**: [Date]  
+**Next Review**: [Date]  
 **Contact**: [Email/Contact information]
 
 ---
@@ -396,14 +398,3 @@ This template follows a structured approach from high-level economic context to 
 - Market maturity stage
 - Strategic decision urgency
 - Audience level (Board / Executive / Operational)
-
-**Pandoc Conversion**:
-```bash
-# Convert to Word
-pandoc market-analysis.md -o market-analysis.docx
-
-# With table of contents
-pandoc market-analysis.md --toc --toc-depth=2 -o market-analysis.docx
-
-# With reference template
-pandoc market-analysis.md --reference-doc=corporate-template.docx -o market-analysis.docx

@@ -1,6 +1,8 @@
 # Technical Deep Dive: [Technology/Project/Protocol Name]
 
 > **Purpose:** Comprehensive technical analysis of [technology name], covering architecture, implementation, use cases, and evaluation. Target audience: technical decision-makers and engineering teams.
+>
+> 📚 **Shared Resources**: See [_common-elements.md](_common-elements.md) for document metadata, Pandoc commands, and writing guidelines.
 
 ---
 
@@ -383,6 +385,8 @@
 - [Related tech 2 with brief description]
 
 ---
+
+> 📝 **Document Metadata**: See [_common-elements.md](_common-elements.md) for standard metadata format.
 
 **Last Updated:** [Date]
 **Reviewed By:** [Name/Team]
