@@ -87,25 +87,38 @@ for pdf in "$SOURCE_DIR"/*.pdf; do
     # Create output directory
     output_dir="$OUTPUT_BASE/$category"
     mkdir -p "$output_dir"
-    
+
     output_file="$output_dir/$filename.md"
-    
+
     # Check if already converted
     if [ -f "$output_file" ]; then
       echo -e "${YELLOW}⊘${NC} Skipping (already exists): $filename → $category/"
       SKIPPED=$((SKIPPED + 1))
       continue
     fi
-    
-    # Convert with docling
+
+    # Convert with docling — pass the output directory; docling places <filename>.md inside it
     echo -e "${BLUE}→${NC} Converting: $filename → $category/"
-    
-    if docling "$pdf" --output "$output_file" --image-export-mode placeholder 2>/dev/null; then
-      echo -e "${GREEN}✓${NC} Converted: $filename"
-      CONVERTED=$((CONVERTED + 1))
-      
-      # Add metadata to the file
-      cat >> "$output_file" << EOF
+
+    if docling "$pdf" --output "$output_dir" --image-export-mode placeholder 2>/dev/null; then
+      # docling may produce <filename>.md or <filename>/<filename>.md depending on version
+      if [ -f "$output_file" ]; then
+        generated_file="$output_file"
+      elif [ -f "$output_dir/$filename/$filename.md" ]; then
+        # flatten: move the nested file up
+        mv "$output_dir/$filename/$filename.md" "$output_file"
+        rm -rf "$output_dir/$filename"
+        generated_file="$output_file"
+      else
+        generated_file=$(find "$output_dir" -name "$filename.md" | head -1)
+      fi
+
+      if [ -n "$generated_file" ]; then
+        echo -e "${GREEN}✓${NC} Converted: $filename"
+        CONVERTED=$((CONVERTED + 1))
+
+        # Add metadata to the file
+        cat >> "$generated_file" << EOF
 
 ---
 metadata:
@@ -114,6 +127,10 @@ metadata:
   category: $category
 ---
 EOF
+      else
+        echo -e "${RED}✗${NC} Failed (output not found): $filename"
+        FAILED=$((FAILED + 1))
+      fi
     else
       echo -e "${RED}✗${NC} Failed: $filename"
       FAILED=$((FAILED + 1))
