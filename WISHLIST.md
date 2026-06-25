@@ -1,0 +1,4 @@
+- Can we automate word to markdown and markdown to word for iterative editing of existing word documents without losing formatting, sharing etc?
+- Can we generate presentations for research reports using marp, open gamma, or similar?
+- Does [llm-wiki](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) + [qmd](https://github.com/tobi/qmd) make sense to use for our research repos?
+- Does [PageIndex](https://github.com/VectifyAI/PageIndex) make sense to use for our research repos? 
