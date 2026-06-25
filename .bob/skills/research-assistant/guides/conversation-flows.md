@@ -8,167 +8,78 @@ Effective research assistance requires maintaining context across multiple inter
 
 ## Flow Patterns
 
-### Pattern 1: New Research Project
+### Pattern 1: New Research Project with Wiki
 
-**Scenario**: User wants to start a comprehensive research project
+**Scenario**: User starts a new research project, ingests a source, reviews the inbox, and merges into the wiki.
 
 **Flow Structure**:
 1. Project initialization
-2. Source identification
-3. Analysis planning
-4. Execution and iteration
+2. Source ingest → inbox draft
+3. Human review and approval
+4. Merge into wiki
+5. Query against wiki
 
 **Complete Conversation**:
 
 ```
 User: "Start a new research project on API management trends"
 
-Bob: "I'll help you set up a research project on API management trends.
+Bob: "A few questions to scope this properly:
+1. What's the primary goal? (vendor comparison, trend identification, market sizing)
+2. What decisions will this research inform?
+3. Scope and timeline?
 
-Let me ask a few questions to structure this properly:
-1. What's the primary goal? (market analysis, vendor comparison, trend identification)
-2. What deliverables do you need?
+Or say 'just set it up' and I'll create the structure and we'll fill in goals.md together."
 
-Or I can create a standard project structure and we can refine it as we go."
+User: "Just set it up"
 
-User: "I need to identify emerging trends and create an executive summary."
+Bob: [Creates project structure]
 
-Bob: "Perfect. I'll create a project focused on trend identification.
+✓ Created research/api-management-trends/
+  goals.md, notes/, analysis/, reports/
+  wiki/ (index.md, log.md, overview.md, entities/, concepts/, sources/, analysis/)
+  inbox/.archive/
 
-Creating:
-- research/api-management-trends-2024/
-- Project metadata
-- Trend analysis template
-- Executive summary template
+Fill in goals.md when you're ready, then add your first source."
 
-[Creates project structure]
+User: "Ingest sources/pdf/gartner-mq-2025.md"
 
-✓ Project initialized: research/api-management-trends-2024/
+Bob: [Reads source, drafts inbox entry]
 
-Next, let's gather sources. I can:
-1. Search existing sources for relevant materials
-2. Help you convert new documents
-3. Scrape vendor websites
-4. All of the above
+✓ Inbox entry ready: inbox/gartner-mq-2025/
 
-What would you like to start with?"
+  manifest.md  — 5 items pending review
+  summary.md   — source summary page
+  new-pages.md — 3 proposed new pages (Apigee, Kong, API Management)
+  diff.md      — 2 proposed updates (overview.md, Kong entity)
 
-User: "Search existing sources first"
+Review the inbox folder, check off items you approve in manifest.md, edit any files freely.
+When ready: 'merge inbox/gartner-mq-2025'"
 
-Bob: "Searching for API management sources...
+User: [Reviews files, checks 4 of 5 items in manifest.md, edits a claim in diff.md]
 
-Found 8 relevant sources:
+User: "merge inbox/gartner-mq-2025"
 
-Analyst Reports (3):
-- Gartner Magic Quadrant API Management 2024 (High relevance)
-- Forrester Wave API Management 2024 (High relevance)
-- IDC MarketScape API Management 2024 (Medium relevance)
+Bob: [Reads manifest, processes checked items only]
 
-Vendor Documentation (5):
-- Kong Gateway features (Medium relevance)
-- Apigee capabilities (Medium relevance)
-- AWS API Gateway docs (Medium relevance)
-- Azure API Management (Low relevance)
-- MuleSoft Anypoint (Low relevance)
+✓ Merged inbox/gartner-mq-2025:
+  Created: wiki/sources/gartner-mq-2025.md
+  Created: wiki/entities/Apigee.md
+  Created: wiki/concepts/api-management.md
+  Updated: wiki/entities/Kong.md
+  Skipped: wiki/overview.md (unchecked)
+  Updated: wiki/index.md
+  Appended: wiki/log.md
+  Archived: inbox/.archive/gartner-mq-2025/
 
-Should I:
-1. Add all high-relevance sources to your project
-2. Let you select specific sources
-3. Show more details about each source"
+User: "What's Kong's current market position?"
 
-User: "Add all high-relevance sources"
+Bob: [Reads wiki/index.md → wiki/entities/Kong.md]
 
-Bob: "✓ Added 3 analyst reports to your project
+Based on wiki/entities/Kong.md (updated from gartner-mq-2025):
+Kong holds a Challengers position in the 2025 Gartner MQ, up from Niche Players in 2023...
 
-Updated: research/api-management-trends-2024/sources/index.md
-
-These reports cover:
-- Market positioning and vendor landscape
-- Technology trends and predictions
-- Use cases and adoption patterns
-
-Would you like me to:
-1. Start analyzing these sources for trends
-2. Add more sources first
-3. Review the project setup"
-
-User: "Start analyzing for trends"
-
-Bob: "I'll analyze the 3 analyst reports to identify API management trends.
-
-Analysis approach:
-1. Read each report
-2. Extract trend mentions
-3. Categorize by theme
-4. Identify patterns across sources
-5. Rank by frequency and importance
-
-This will take a few minutes. Proceed?"
-
-User: "Yes"
-
-Bob: [Performs analysis]
-
-"✓ Trend analysis complete
-
-Created: research/api-management-trends-2024/analysis/trend-analysis.md
-
-Key Findings:
-- 5 major trends identified
-- 12 emerging patterns
-- 3 predictions for 2025
-
-Top 3 Trends:
-1. AI/ML Integration (mentioned in all 3 reports)
-   - Intelligent routing, anomaly detection, predictive analytics
-   
-2. Serverless Adoption (mentioned in 2 reports)
-   - Event-driven architectures, auto-scaling, cost optimization
-   
-3. Security Focus (mentioned in all 3 reports)
-   - Zero-trust, API security gateways, threat detection
-
-Would you like me to:
-1. Create the executive summary now
-2. Add more sources for deeper analysis
-3. Create detailed trend profiles"
-
-User: "Create the executive summary"
-
-Bob: "I'll create an executive summary from the trend analysis.
-
-Using:
-- Template: templates/executive-summary.md
-- Content: research/api-management-trends-2024/analysis/trend-analysis.md
-- Format: 2-3 pages, leadership-focused
-
-Summary will include:
-- Top 5 trends with business impact
-- Strategic recommendations
-- Next steps
-
-Proceed?"
-
-User: "Yes"
-
-Bob: [Generates summary]
-
-"✓ Executive summary created
-
-Files:
-- Markdown: research/api-management-trends-2024/executive-summary.md
-- Word: output/api-management-trends-executive-summary.docx
-
-Summary:
-- 3 pages
-- 5 key trends with business implications
-- 3 strategic recommendations
-- Action items for next 6 months
-
-Your research project is complete! Would you like me to:
-1. Generate additional formats (PDF, presentation)
-2. Create a full research report
-3. Start a new related project"
+This answer is worth saving. Say 'file this answer' to add it to the wiki."
 ```
 
 ### Pattern 2: Document Processing Workflow

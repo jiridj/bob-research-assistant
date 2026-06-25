@@ -52,6 +52,7 @@ The Research Assistant skill enables Bob to help you with:
 - **📁 Source Management**: Organize and track research materials systematically
 - **🔗 Citation Management**: Track sources and maintain bibliographies
 - **📦 Batch Operations**: Process multiple documents efficiently
+- **🧠 Persistent Wiki**: LLM-maintained knowledge base that compounds across sessions, with human-in-the-loop inbox review before anything is written to the wiki
 
 ## 🎯 Use Cases
 
@@ -110,7 +111,7 @@ Bob: ✓ Synthesized findings from 8 sources
 ### 🎯 Skill Documentation
 
 #### Core Files
-- **[SKILL.md](.bob/skills/research-assistant/SKILL.md)** - Skill definition for Bob (808 lines)
+- **[SKILL.md](.bob/skills/research-assistant/SKILL.md)** - Skill definition for Bob
 - **[README.md](.bob/skills/research-assistant/README.md)** - Complete user guide (738 lines)
 
 #### Guides (10 files)

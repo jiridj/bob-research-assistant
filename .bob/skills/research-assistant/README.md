@@ -23,17 +23,19 @@ The Research Assistant skill helps you:
 - **Organize research materials** in a structured, searchable format
 - **Analyze and synthesize** information across multiple sources
 - **Generate professional reports** using pandoc (Word, PDF)
+- **Maintain a persistent wiki** — a compounding knowledge base that grows with every source ingested, with human-in-the-loop review before anything lands in the wiki
 
 ### Key Features
 
-✅ Multi-format document conversion  
-✅ Intelligent web scraping  
-✅ Organized source management  
-✅ Flexible research workflows  
-✅ Professional report generation  
-✅ Citation management  
-✅ Version control integration  
-✅ Batch processing support  
+✅ Multi-format document conversion
+✅ Intelligent web scraping
+✅ Organized source management
+✅ Flexible research workflows
+✅ Professional report generation
+✅ Citation management
+✅ Version control integration
+✅ Batch processing support
+✅ Persistent wiki with inbox review gate
 
 ## Prerequisites
 
@@ -132,7 +134,9 @@ You: "Start a new research project on API management trends"
 Bob: I'll set up a new research project for you.
 [Creates folder structure]
 ✓ Created research/api-management-trends/
-✓ Initialized notes.md, analysis.md, report.md
+✓ Initialized goals.md, notes/, analysis/, reports/
+✓ Created wiki/ (index.md, log.md, overview.md, entities/, concepts/, sources/, analysis/)
+✓ Created inbox/.archive/
 ✓ Project ready for research
 ```
 
@@ -550,29 +554,33 @@ See [Quality Assurance Guide](guides/quality-assurance.md) for validation checkl
 
 ```
 research-workspace/
-├── sources/                    # Organized source materials
-│   ├── Gartner/
-│   │   ├── api-management-2024.md
-│   │   └── images/            # Optional: exported images
-│   ├── Forrester/
-│   ├── IBM/
-│   ├── Competitors/
-│   │   ├── Kong/
-│   │   ├── Boomi/
-│   │   └── Workato/
-│   └── Hyperscalers/
-│       ├── AWS/
-│       └── Microsoft/
-├── research/                   # Individual research projects
-│   ├── api-trends/
-│   │   ├── notes.md
-│   │   ├── analysis.md
-│   │   └── report.md
-│   ├── competitive-analysis/
-│   └── market-research/
-└── output/                     # Final deliverables
-    ├── api-trends-report.docx
-    └── competitive-analysis.pdf
+├── sources/                    # Shared across all projects — converted docs and scraped content
+│   ├── pdf/                   # Converted documents (docling output)
+│   ├── web/                   # Scraped content (COMPANY/PAGE-YYYY-MM-DD.md)
+│   └── images/                # Extracted images
+├── originals/                  # Original immutable files — never modified
+│   └── pdf/
+└── research/                   # Individual research projects
+    └── api-trends/
+        ├── goals.md            # Objectives, questions, scope, timeline
+        ├── notes/              # Research notes
+        ├── analysis/           # Analysis documents
+        ├── reports/            # Final deliverables (pandoc output)
+        ├── wiki/               # LLM-maintained persistent knowledge base
+        │   ├── index.md        # Master catalog — Bob reads this first on every query
+        │   ├── log.md          # Append-only ingest/query/lint history
+        │   ├── overview.md     # Evolving synthesis and thesis statement
+        │   ├── entities/       # One page per company, person, product
+        │   ├── concepts/       # One page per idea, technology, market force
+        │   ├── sources/        # One page per ingested source (Bob-authored summary)
+        │   └── analysis/       # Filed answers: comparisons, tables, insights
+        └── inbox/              # Staging area — Bob proposes, human approves, then merges
+            ├── .archive/       # Completed inbox entries
+            └── [source-slug]/  # One folder per pending ingest or lint pass
+                ├── manifest.md # Review checklist — controls what gets merged
+                ├── summary.md  # Proposed source page
+                ├── new-pages.md # Proposed new entity/concept pages
+                └── diff.md     # Proposed updates to existing wiki pages
 ```
 
 ### File Naming Conventions

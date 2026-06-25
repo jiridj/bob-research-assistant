@@ -16,50 +16,40 @@ A well-organized research project makes it easier to:
 ### Basic Project Setup
 
 ```bash
-# Create new research project
-mkdir -p research/api-management-trends
-cd research/api-management-trends
+# Create new research project (all folders in one command)
+mkdir -p research/api-management-trends/{notes,analysis,reports,wiki/{entities,concepts,sources,analysis},inbox/.archive}
 
-# Initialize project files
-touch notes.md analysis.md report.md README.md
-
-# Create source tracking
-mkdir -p sources/
-touch sources/index.md
+# Initialize goals file
+touch research/api-management-trends/goals.md
 ```
 
-### With Metadata Template
+### With Goals Template
 
 ```bash
-# Create project with full structure
-mkdir -p research/cloud-security-2024/{sources,analysis,output}
+mkdir -p research/cloud-security-2024/{notes,analysis,reports,wiki/{entities,concepts,sources,analysis},inbox/.archive}
 
-# Initialize with metadata
-cat > research/cloud-security-2024/README.md << 'EOF'
-# Research Project: Cloud Security 2024
+cat > research/cloud-security-2024/goals.md << 'EOF'
+# Research Goals: Cloud Security 2024
 
 **Created**: 2024-06-12
 **Status**: In Progress
-**Lead Researcher**: [Your Name]
 
-## Research Questions
+## Objectives
+What are you trying to learn or understand?
+
+## Key Questions
 1. What are the top cloud security threats in 2024?
 2. How do major vendors compare in security features?
 3. What are emerging security trends?
 
-## Sources Used
-- [ ] Gartner Cloud Security Report 2024
-- [ ] AWS Security Whitepaper
-- [ ] Azure Security Documentation
+## Decisions This Informs
+What will this research be used for?
 
-## Key Findings
-[To be populated during research]
+## Scope
+What's in and out of scope?
 
-## Next Steps
-- [ ] Convert source documents
-- [ ] Analyze vendor capabilities
-- [ ] Create comparison matrix
-- [ ] Generate executive summary
+## Success Criteria
+How will you know the research is complete?
 EOF
 ```
 
@@ -67,69 +57,48 @@ EOF
 
 ### Standard Layout
 
+Sources live at the **top level** (shared across all projects). Each `research/[topic]/` folder is project-specific and contains the wiki and inbox.
+
 ```
-research/[project-name]/
-├── README.md              # Project metadata and overview
-├── notes.md              # Research notes and observations
-├── analysis.md           # Detailed analysis and synthesis
-├── report.md             # Final report content
-├── sources/              # Source materials
-│   ├── index.md         # Source catalog
-│   ├── gartner/         # Organized by provider
-│   ├── forrester/
-│   └── web/
-├── analysis/             # Analysis artifacts
-│   ├── comparison-matrix.md
-│   ├── trend-analysis.md
-│   └── gap-analysis.md
-└── output/               # Generated reports
-    ├── executive-summary.docx
-    └── full-report.docx
+research-workspace/
+├── sources/              # Shared — all converted docs and scraped content
+│   ├── pdf/             # docling output
+│   ├── web/             # COMPANY/PAGE-YYYY-MM-DD.md
+│   └── images/
+├── originals/            # Original immutable files
+│   └── pdf/
+└── research/
+    └── [project-name]/
+        ├── goals.md      # Objectives, questions, scope, timeline
+        ├── notes/        # Research notes
+        ├── analysis/     # Analysis documents
+        ├── reports/      # Final deliverables
+        ├── wiki/         # LLM-maintained persistent knowledge base
+        │   ├── index.md          # Master catalog
+        │   ├── log.md            # Append-only history
+        │   ├── overview.md       # Evolving synthesis
+        │   ├── entities/         # Companies, people, products
+        │   ├── concepts/         # Ideas, technologies, market forces
+        │   ├── sources/          # Bob-authored source summaries
+        │   └── analysis/         # Filed answers and comparisons
+        └── inbox/        # Staging area — Bob proposes, human approves
+            ├── .archive/
+            └── [source-slug]/
+                ├── manifest.md   # Review checklist
+                ├── summary.md    # Proposed source page
+                ├── new-pages.md  # Proposed new wiki pages
+                └── diff.md       # Proposed updates to existing pages
 ```
 
 ### Minimal Layout
 
-For simple projects:
+For simple, one-off projects that don't need a persistent wiki:
 
 ```
 research/[project-name]/
-├── README.md
-├── notes.md
-└── report.md
-```
-
-### Complex Layout
-
-For large research initiatives:
-
-```
-research/[project-name]/
-├── README.md
-├── CHANGELOG.md
-├── sources/
-│   ├── index.md
-│   ├── documents/
-│   │   ├── gartner/
-│   │   ├── forrester/
-│   │   └── idc/
-│   ├── web/
-│   │   ├── vendor-sites/
-│   │   └── documentation/
-│   └── raw/              # Original files
-├── analysis/
-│   ├── literature-review.md
-│   ├── competitive-analysis.md
-│   ├── trend-analysis.md
-│   └── gap-analysis.md
-├── data/
-│   ├── comparison-matrices/
-│   ├── benchmarks/
-│   └── statistics/
-├── output/
-│   ├── reports/
-│   ├── presentations/
-│   └── summaries/
-└── archive/              # Completed work
+├── goals.md
+├── notes/
+└── reports/
 ```
 
 ## Project Metadata

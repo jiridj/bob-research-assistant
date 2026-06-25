@@ -13,61 +13,34 @@ Effective source organization enables:
 
 ## Source Directory Structure
 
-### Basic Structure
+Sources are stored in a **single top-level `sources/` folder**, shared across all research projects. Original files are kept separately in `originals/` and never modified. Projects reference sources by path rather than duplicating them.
+
+### Structure
 
 ```
-sources/
-├── index.md                 # Master catalog
-├── gartner/                # Analyst reports
-│   ├── index.md
+sources/                    # Shared across all projects
+├── pdf/                   # Converted documents (docling output)
 │   └── *.md
-├── forrester/
-│   ├── index.md
-│   └── *.md
-├── vendor-docs/            # Vendor documentation
-│   ├── aws/
-│   ├── azure/
-│   └── gcp/
-├── web/                    # Scraped web content
-│   ├── index.md
-│   └── *.md
-└── raw/                    # Original files (PDFs, etc.)
+├── web/                   # Scraped content (scrape-with-version.sh output)
+│   └── COMPANY/
+│       └── PAGE-YYYY-MM-DD.md
+└── images/                # Extracted images from documents
+
+originals/                  # Immutable originals — never modified by Bob
+└── pdf/
     └── *.pdf
 ```
 
-### Advanced Structure
+### Wiki Sources (per project)
+
+In addition to raw sources, each project has a `wiki/sources/` folder containing **Bob-authored summaries** of ingested sources — distinct from the raw converted files:
 
 ```
-sources/
-├── index.md
-├── documents/              # All document sources
-│   ├── analyst-reports/
-│   │   ├── gartner/
-│   │   ├── forrester/
-│   │   └── idc/
-│   ├── whitepapers/
-│   │   ├── vendor/
-│   │   └── academic/
-│   ├── case-studies/
-│   └── technical-docs/
-├── web/                    # Web content
-│   ├── vendor-sites/
-│   ├── documentation/
-│   ├── blogs/
-│   └── news/
-├── data/                   # Structured data
-│   ├── benchmarks/
-│   ├── surveys/
-│   └── statistics/
-├── media/                  # Images, videos
-│   ├── diagrams/
-│   ├── screenshots/
-│   └── presentations/
-└── raw/                    # Original files
-    ├── pdfs/
-    ├── docx/
-    └── pptx/
+research/[project]/wiki/sources/
+└── [source-slug].md        # Bob's summary: key claims, entities, concepts, date
 ```
+
+Raw `sources/` files are the source of truth. Wiki source pages are the compiled interpretation.
 
 ## Naming Conventions
 
