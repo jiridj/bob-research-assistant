@@ -344,8 +344,12 @@ ls -la test-data/scraped/
 
 **Steps**:
 ```bash
-# Validate converted files (scripts are inside the skill)
-~/.bob/skills/research-assistant/scripts/validate-conversion.sh test-data/pdfs/sample.pdf test-data/pdfs/sample.md
+# First convert a PDF (output goes to a categorized subdirectory under sources/)
+~/.bob/skills/research-assistant/scripts/batch-convert-pdfs.sh test-data/pdfs/ sources/
+
+# Then validate — batch-convert-pdfs.sh places output under sources/<category>/<name>.md
+# For an unrecognised filename the category is "Other"
+~/.bob/skills/research-assistant/scripts/validate-conversion.sh test-data/pdfs/sample.pdf sources/Other/sample.md
 ```
 
 **Expected Results**:
