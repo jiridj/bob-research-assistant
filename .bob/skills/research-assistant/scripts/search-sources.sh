@@ -11,22 +11,22 @@ YELLOW='\033[1;33m'
 RED='\033[0;31m'
 NC='\033[0m'
 
-QUERY=$1
-CONTEXT=${2:-3}  # Default 3 lines of context
-SOURCES_DIR="${3:-sources}"
+SOURCES_DIR="${1:-sources}"
+QUERY=$2
+CONTEXT=${3:-3}  # Default 3 lines of context
 
 if [ -z "$QUERY" ]; then
-  echo "Usage: ./search-sources.sh 'search term' [context_lines] [sources_directory]"
+  echo "Usage: ./search-sources.sh <sources_directory> 'search term' [context_lines]"
   echo ""
   echo "Arguments:"
-  echo "  search term      - Text to search for (required)"
-  echo "  context_lines    - Number of context lines to show (default: 3)"
   echo "  sources_directory - Directory to search (default: sources)"
+  echo "  search term       - Text to search for (required)"
+  echo "  context_lines     - Number of context lines to show (default: 3)"
   echo ""
   echo "Examples:"
-  echo "  ./search-sources.sh 'API Gateway'"
-  echo "  ./search-sources.sh 'microservices' 5"
-  echo "  ./search-sources.sh 'Kong' 3 sources/Competitors"
+  echo "  ./search-sources.sh sources 'API Gateway'"
+  echo "  ./search-sources.sh sources 'microservices' 5"
+  echo "  ./search-sources.sh sources/Competitors 'Kong' 3"
   exit 1
 fi
 

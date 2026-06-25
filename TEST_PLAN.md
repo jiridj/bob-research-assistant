@@ -74,8 +74,8 @@ EOF
 
 **Steps**:
 ```bash
-# 1. Run installation script
-./install.sh
+# 1. Copy the skill into Bob's skills directory
+cp -r .bob/skills/research-assistant ~/.bob/skills/research-assistant
 
 # 2. Verify installation
 ls -la ~/.bob/skills/research-assistant/
@@ -87,9 +87,9 @@ which pandoc && echo "pandoc OK"
 ```
 
 **Expected Results**:
-- ✅ Skill directory created at `~/.bob/skills/research-assistant/`
+- ✅ Skill directory present at `~/.bob/skills/research-assistant/`
 - ✅ All Python dependencies installed
-- ✅ Scripts directory copied with execute permissions
+- ✅ Scripts present inside the skill directory with execute permissions
 - ✅ No error messages during installation
 
 **Pass/Fail**: [ ]
@@ -102,8 +102,8 @@ which pandoc && echo "pandoc OK"
 
 **Steps**:
 ```bash
-# 1. Run installation again
-./install.sh
+# 1. Copy the skill again (overwrite)
+cp -r .bob/skills/research-assistant ~/.bob/skills/research-assistant
 
 # 2. Verify no errors
 echo $?  # Should be 0
@@ -124,7 +124,7 @@ echo $?  # Should be 0
 
 **Steps**:
 ```bash
-# Run dependency check
+# Run dependency check (no install script required — dependencies are listed in the skill README)
 python3 << 'EOF'
 import sys
 dependencies = ['docling', 'crawl4ai']
@@ -145,6 +145,9 @@ EOF
 
 # Also check pandoc
 which pandoc > /dev/null && echo "✓ pandoc" || echo "✗ pandoc"
+
+# Check scripts are present inside the skill
+ls ~/.bob/skills/research-assistant/scripts/*.sh && echo "✓ scripts present"
 ```
 
 **Expected Results**:
@@ -183,8 +186,8 @@ which pandoc > /dev/null && echo "✓ pandoc" || echo "✗ pandoc"
 # In Bob, say:
 "Convert the PDF at test-data/pdfs/sample.pdf to markdown"
 
-# Or use script directly:
-./scripts/batch-convert-pdfs.sh test-data/pdfs/
+# Or use script directly (scripts are inside the skill):
+~/.bob/skills/research-assistant/scripts/batch-convert-pdfs.sh test-data/pdfs/
 ```
 
 **Expected Results**:
@@ -206,8 +209,8 @@ which pandoc > /dev/null && echo "✓ pandoc" || echo "✗ pandoc"
 # Option 1: Ask Bob (creates markdown only)
 "Scrape the content from https://en.wikipedia.org/wiki/Artificial_intelligence"
 
-# Option 2: Use versioning script (creates markdown + metadata JSON)
-./scripts/scrape-with-version.sh https://en.wikipedia.org/wiki/Artificial_intelligence
+# Option 2: Use versioning script (creates markdown + metadata JSON; scripts are inside the skill)
+~/.bob/skills/research-assistant/scripts/scrape-with-version.sh https://en.wikipedia.org/wiki/Artificial_intelligence
 ```
 
 **Expected Results**:
@@ -229,8 +232,8 @@ which pandoc > /dev/null && echo "✓ pandoc" || echo "✗ pandoc"
 
 **Steps**:
 ```bash
-# Create test project
-./scripts/init-research-project.sh "AI Ethics Study" ~/test-projects/ai-ethics
+# Create test project (scripts are inside the skill)
+~/.bob/skills/research-assistant/scripts/init-research-project.sh "AI Ethics Study" ~/test-projects/ai-ethics
 
 # Verify structure
 ls -la ~/test-projects/ai-ethics/
@@ -252,8 +255,8 @@ ls -la ~/test-projects/ai-ethics/
 
 **Steps**:
 ```bash
-# Extract citations from test sources
-./scripts/extract-citations.sh test-data/markdown/sample.md
+# Extract citations from test sources (scripts are inside the skill)
+~/.bob/skills/research-assistant/scripts/extract-citations.sh test-data/markdown/sample.md
 ```
 
 **Expected Results**:
@@ -275,8 +278,8 @@ ls -la ~/test-projects/ai-ethics/
 **Steps**:
 ```bash
 # Place multiple PDFs in test directory
-# Run batch conversion
-./scripts/batch-convert-pdfs.sh test-data/pdfs/
+# Run batch conversion (scripts are inside the skill)
+~/.bob/skills/research-assistant/scripts/batch-convert-pdfs.sh test-data/pdfs/
 
 # Check results
 ls -la test-data/pdfs/*.md
@@ -298,8 +301,8 @@ ls -la test-data/pdfs/*.md
 
 **Steps**:
 ```bash
-# Run batch scraping
-./scripts/batch-scrape-urls.sh test-data/urls/sample-urls.txt test-data/scraped/
+# Run batch scraping (scripts are inside the skill)
+~/.bob/skills/research-assistant/scripts/batch-scrape-urls.sh test-data/urls/sample-urls.txt test-data/scraped/
 
 # Verify results
 ls -la test-data/scraped/
@@ -321,8 +324,8 @@ ls -la test-data/scraped/
 
 **Steps**:
 ```bash
-# Search for term
-./scripts/search-sources.sh test-data/markdown/ "artificial intelligence"
+# Search for term (scripts are inside the skill)
+~/.bob/skills/research-assistant/scripts/search-sources.sh test-data/markdown/ "artificial intelligence"
 ```
 
 **Expected Results**:
@@ -341,8 +344,8 @@ ls -la test-data/scraped/
 
 **Steps**:
 ```bash
-# Validate converted files
-./scripts/validate-conversion.sh test-data/pdfs/sample.pdf test-data/pdfs/sample.md
+# Validate converted files (scripts are inside the skill)
+~/.bob/skills/research-assistant/scripts/validate-conversion.sh test-data/pdfs/sample.pdf test-data/pdfs/sample.md
 ```
 
 **Expected Results**:
@@ -361,12 +364,12 @@ ls -la test-data/scraped/
 
 **Steps**:
 ```bash
-# Initial scan
-./scripts/detect-changes.sh test-data/urls/sample-urls.txt
+# Initial scan (scripts are inside the skill)
+~/.bob/skills/research-assistant/scripts/detect-changes.sh test-data/urls/sample-urls.txt
 
 # Modify a source (wait or manually change)
 # Run again
-./scripts/detect-changes.sh test-data/urls/sample-urls.txt
+~/.bob/skills/research-assistant/scripts/detect-changes.sh test-data/urls/sample-urls.txt
 ```
 
 **Expected Results**:
@@ -385,8 +388,8 @@ ls -la test-data/scraped/
 
 **Steps**:
 ```bash
-# Generate all reports
-./scripts/generate-all-reports.sh test-data/markdown/ test-data/reports/
+# Generate all reports (scripts are inside the skill)
+~/.bob/skills/research-assistant/scripts/generate-all-reports.sh test-data/markdown/ test-data/reports/
 ```
 
 **Expected Results**:
@@ -405,8 +408,8 @@ ls -la test-data/scraped/
 
 **Steps**:
 ```bash
-# Update index
-./scripts/update-source-index.sh test-data/markdown/ test-data/source-index.json
+# Update index (scripts are inside the skill)
+~/.bob/skills/research-assistant/scripts/update-source-index.sh test-data/markdown/ test-data/source-index.json
 ```
 
 **Expected Results**:
@@ -425,8 +428,8 @@ ls -la test-data/scraped/
 
 **Steps**:
 ```bash
-# Extract citations
-./scripts/extract-citations.sh test-data/markdown/sample1.md citations.txt
+# Extract citations (scripts are inside the skill)
+~/.bob/skills/research-assistant/scripts/extract-citations.sh test-data/markdown/sample1.md citations.txt
 ```
 
 **Expected Results**:
@@ -445,8 +448,8 @@ ls -la test-data/scraped/
 
 **Steps**:
 ```bash
-# Archive sources older than 30 days
-./scripts/archive-old-sources.sh test-data/markdown/ 30
+# Archive sources older than 30 days (scripts are inside the skill)
+~/.bob/skills/research-assistant/scripts/archive-old-sources.sh test-data/markdown/ 30
 ```
 
 **Expected Results**:
@@ -510,10 +513,10 @@ find .bob/skills/research-assistant/guides/ -name "*.md" | wc -l
 **Steps**:
 ```bash
 # Check script README
-cat scripts/README.md
+cat .bob/skills/research-assistant/scripts/README.md
 
 # Verify all scripts documented
-ls scripts/*.sh | wc -l
+ls .bob/skills/research-assistant/scripts/*.sh | wc -l
 ```
 
 **Expected Results**:
@@ -535,8 +538,8 @@ ls scripts/*.sh | wc -l
 # Check templates
 ls -la .bob/skills/research-assistant/templates/
 
-# Try using a template
-cp .bob/skills/research-assistant/templates/research-report.md test-report.md
+# Try using a template (use an existing template name)
+cp .bob/skills/research-assistant/templates/competitor-analysis.md test-report.md
 ```
 
 **Expected Results**:
@@ -557,21 +560,23 @@ cp .bob/skills/research-assistant/templates/research-report.md test-report.md
 
 **Steps**:
 ```bash
+SCRIPTS=~/.bob/skills/research-assistant/scripts
+
 # 1. Initialize project
-./scripts/init-research-project.sh "Integration Test" ~/test-integration
+$SCRIPTS/init-research-project.sh "Integration Test" ~/test-integration
 
 # 2. Add sources
 cd ~/test-integration
-./scripts/batch-scrape-urls.sh ../test-data/urls/sample-urls.txt sources/web/
+$SCRIPTS/batch-scrape-urls.sh ../test-data/urls/sample-urls.txt sources/web/
 
 # 3. Convert PDFs
-./scripts/batch-convert-pdfs.sh ../test-data/pdfs/ sources/documents/
+$SCRIPTS/batch-convert-pdfs.sh ../test-data/pdfs/ sources/documents/
 
 # 5. Create reports
-./scripts/generate-all-reports.sh sources/ reports/
+$SCRIPTS/generate-all-reports.sh sources/ reports/
 
 # 6. Update index
-./scripts/update-source-index.sh sources/ source-index.json
+$SCRIPTS/update-source-index.sh sources/ source-index.json
 ```
 
 **Expected Results**:
@@ -617,7 +622,7 @@ cd ~/test-integration
 echo "Not a real PDF" > test-data/pdfs/invalid.pdf
 
 # Try to convert
-./scripts/batch-convert-pdfs.sh test-data/pdfs/
+~/.bob/skills/research-assistant/scripts/batch-convert-pdfs.sh test-data/pdfs/
 ```
 
 **Expected Results**:
@@ -637,7 +642,7 @@ echo "Not a real PDF" > test-data/pdfs/invalid.pdf
 **Steps**:
 ```bash
 # Try to scrape invalid URL
-./scripts/scrape-with-version.sh https://this-url-does-not-exist-12345.com
+~/.bob/skills/research-assistant/scripts/scrape-with-version.sh https://this-url-does-not-exist-12345.com
 ```
 
 **Expected Results**:
@@ -658,10 +663,10 @@ echo "Not a real PDF" > test-data/pdfs/invalid.pdf
 ```bash
 # Temporarily rename Python package
 # (Don't actually do this in production)
-# Instead, check error messages in install.sh
+# Instead, verify scripts check for dependencies at runtime
 
-# Run installation without Python
-PATH=/usr/bin:/bin ./install.sh
+# Run a script without Python available
+PATH=/usr/bin:/bin ~/.bob/skills/research-assistant/scripts/batch-convert-pdfs.sh test-data/pdfs/
 ```
 
 **Expected Results**:
@@ -684,7 +689,7 @@ PATH=/usr/bin:/bin ./install.sh
 # Or use actual large PDF
 
 # Try to convert
-./scripts/batch-convert-pdfs.sh test-data/large-pdfs/
+~/.bob/skills/research-assistant/scripts/batch-convert-pdfs.sh test-data/large-pdfs/
 ```
 
 **Expected Results**:
@@ -708,7 +713,7 @@ touch "test-data/markdown/file with spaces.md"
 touch "test-data/markdown/file-with-émojis-🎉.md"
 
 # Run search
-./scripts/search-sources.sh test-data/markdown/ "test"
+~/.bob/skills/research-assistant/scripts/search-sources.sh test-data/markdown/ "test"
 ```
 
 **Expected Results**:
@@ -729,11 +734,13 @@ touch "test-data/markdown/file-with-émojis-🎉.md"
 
 **Steps**:
 ```bash
+SCRIPTS=~/.bob/skills/research-assistant/scripts
+
 # Time batch conversion
-time ./scripts/batch-convert-pdfs.sh test-data/pdfs/
+time $SCRIPTS/batch-convert-pdfs.sh test-data/pdfs/
 
 # Time batch scraping
-time ./scripts/batch-scrape-urls.sh test-data/urls/sample-urls.txt test-data/scraped/
+time $SCRIPTS/batch-scrape-urls.sh test-data/urls/sample-urls.txt test-data/scraped/
 ```
 
 **Expected Results**:
@@ -763,7 +770,7 @@ for i in {1..100}; do
 done
 
 # Time search
-time ./scripts/search-sources.sh test-data/markdown/ "keyword"
+time ~/.bob/skills/research-assistant/scripts/search-sources.sh test-data/markdown/ "keyword"
 ```
 
 **Expected Results**:
@@ -838,17 +845,17 @@ For rapid validation, use this script:
 echo "🧪 Research Assistant Quick Test"
 echo "================================"
 
-# Test 1: Installation
-echo "1. Testing installation..."
-./install.sh > /dev/null 2>&1 && echo "✓ Installation OK" || echo "✗ Installation FAILED"
+# Test 1: Skill directory
+echo "1. Testing skill directory..."
+[ -d ~/.bob/skills/research-assistant ] && echo "✓ Skill directory OK" || echo "✗ Skill directory MISSING"
 
 # Test 2: Dependencies
 echo "2. Testing dependencies..."
 python3 -c "import docling, crawl4ai" 2>/dev/null && echo "✓ Dependencies OK" || echo "✗ Dependencies FAILED"
 
-# Test 3: Scripts exist
+# Test 3: Scripts exist (inside skill)
 echo "3. Testing scripts..."
-[ -f scripts/init-research-project.sh ] && echo "✓ Scripts OK" || echo "✗ Scripts FAILED"
+[ -f ~/.bob/skills/research-assistant/scripts/init-research-project.sh ] && echo "✓ Scripts OK" || echo "✗ Scripts FAILED"
 
 # Test 4: Documentation
 echo "4. Testing documentation..."
