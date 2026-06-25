@@ -364,23 +364,27 @@ ls -la test-data/scraped/
 
 ### Test 3.5: Change Detection
 
-**Objective**: Test monitoring of source changes.
+**Objective**: Test detection of content changes between two versioned scrapes of the same page.
 
 **Steps**:
 ```bash
-# Initial scan (scripts are inside the skill)
-~/.bob/skills/research-assistant/scripts/detect-changes.sh test-data/urls/sample-urls.txt
+SCRIPTS=~/.bob/skills/research-assistant/scripts
 
-# Modify a source (wait or manually change)
-# Run again
-~/.bob/skills/research-assistant/scripts/detect-changes.sh test-data/urls/sample-urls.txt
+# Scrape a page twice to create two dated versions
+$SCRIPTS/scrape-with-version.sh https://en.wikipedia.org/wiki/Artificial_intelligence Wikipedia artificial-intelligence
+# Wait a moment, then scrape again
+$SCRIPTS/scrape-with-version.sh https://en.wikipedia.org/wiki/Artificial_intelligence Wikipedia artificial-intelligence
+
+# Detect changes between the two versions
+$SCRIPTS/detect-changes.sh Wikipedia artificial-intelligence
 ```
 
 **Expected Results**:
-- ✅ Initial hashes stored
-- ✅ Changes detected on second run
-- ✅ Report shows what changed
-- ✅ Unchanged sources skipped
+- ✅ Both versioned files found under `sources/web/Wikipedia/`
+- ✅ Diff computed between the two versions
+- ✅ Added/removed line counts reported
+- ✅ Changed sections (headings) highlighted
+- ✅ If content is identical, "No changes detected" is shown
 
 **Pass/Fail**: [ ]
 

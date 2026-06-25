@@ -26,14 +26,14 @@ if [ -z "$COMPANY" ] || [ -z "$PAGE" ]; then
   exit 1
 fi
 
-SOURCE_DIR="sources/Competitors/${COMPANY}"
+SOURCE_DIR="sources/web/${COMPANY}"
 
 if [ ! -d "$SOURCE_DIR" ]; then
   echo -e "${RED}Error: Directory not found: $SOURCE_DIR${NC}"
   echo ""
   echo "Available companies:"
-  if [ -d "sources/Competitors" ]; then
-    ls -1 sources/Competitors/
+  if [ -d "sources/web" ]; then
+    ls -1 sources/web/
   else
     echo "  (none found)"
   fi
