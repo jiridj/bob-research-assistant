@@ -97,6 +97,12 @@ for pdf in "$SOURCE_DIR"/*.pdf; do
       continue
     fi
 
+    # Clean up stale directory left by a previous failed docling run
+    if [ -d "$output_file" ]; then
+      echo -e "${YELLOW}⚠${NC} Removing stale directory: $output_file"
+      rm -rf "$output_file"
+    fi
+
     # Convert with docling — pass the output directory; docling places <filename>.md inside it
     echo -e "${BLUE}→${NC} Converting: $filename → $category/"
 
