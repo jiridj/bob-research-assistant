@@ -195,7 +195,7 @@ converted: YYYY-MM-DD
 Use `sed` or a heredoc to prepend — do not read the file contents:
 ```bash
 FRONTMATTER="---\nsource: originals/VENDOR/file.pdf\nvendor: VENDOR\nconverted: $(date +%Y-%m-%d)\n---\n"
-printf '%s' "$FRONTMATTER" | cat - sources/VENDOR/file.md > /tmp/_fm.md && mv /tmp/_fm.md sources/VENDOR/file.md
+printf '%b' "$FRONTMATTER" | cat - sources/VENDOR/file.md > /tmp/_fm.md && mv /tmp/_fm.md sources/VENDOR/file.md
 ```
 
 ### Web Scraping (Crawl4ai)
@@ -505,7 +505,7 @@ mkdir -p originals/VENDOR sources/VENDOR
 cp /path/to/file.pdf originals/VENDOR/
 docling originals/VENDOR/file.pdf --output sources/VENDOR/ --image-export-mode placeholder
 FRONTMATTER="---\nsource: originals/VENDOR/file.pdf\nvendor: VENDOR\nconverted: $(date +%Y-%m-%d)\n---\n"
-printf '%s' "$FRONTMATTER" | cat - sources/VENDOR/file.md > /tmp/_fm.md && mv /tmp/_fm.md sources/VENDOR/file.md
+printf '%b' "$FRONTMATTER" | cat - sources/VENDOR/file.md > /tmp/_fm.md && mv /tmp/_fm.md sources/VENDOR/file.md
 ```
 
 Report and move immediately to Stage 2 — do not stop for confirmation.
