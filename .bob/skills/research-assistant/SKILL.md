@@ -358,15 +358,52 @@ Triggered only by an explicit user command: `"merge inbox/[source-slug]"`.
 
 **Steps:**
 1. Read `inbox/[source-slug]/manifest.md`
-2. Process **only checked items** (`- [x]`) — skip unchecked items silently
-3. For each checked item, write or update the wiki file at the path specified in `summary.md` or `diff.md`
-4. Create any intermediate subdirectories as needed
-5. Append to `wiki/log.md`: `## [YYYY-MM-DD] ingest | [Source Title]`
-6. Update `wiki/index.md` — add/update entries for all affected pages
-7. Move `inbox/[source-slug]/` to `inbox/.archive/[source-slug]/`
-8. Report: pages created, pages updated, items skipped
+2. Read the source path from `manifest.md` (`**Source:** ...`)
+3. Process **only checked items** (`- [x]`) — skip unchecked items silently
+4. For each checked item, write or update the wiki file at the path specified in `summary.md` or `diff.md`:
+   - **New pages**: prepend YAML frontmatter before the content (see Wiki Page Format below)
+   - **Updated pages**: merge `sources:` list in existing frontmatter — add the new source path if not already present; update `updated:` date
+5. Create any intermediate subdirectories as needed
+6. Append to `wiki/log.md`: `## [YYYY-MM-DD] ingest | [Source Title] | [source path]`
+7. Update `wiki/index.md` — add/update entries for all affected pages, including Sources column
+8. Move `inbox/[source-slug]/` to `inbox/.archive/[source-slug]/`
+9. Report: pages created, pages updated, items skipped
 
 **Never modify inbox files during merge. Never merge unchecked items.**
+
+### Wiki Page Format
+
+Every wiki page (new or updated) must have YAML frontmatter:
+
+```markdown
+---
+sources:
+  - sources/Gartner/gartner-mq-2025.md
+  - sources/Forrester/api-wave-2024.md
+updated: 2026-06-25
+---
+
+[page content]
+```
+
+- `sources` — full paths to every `sources/VENDOR/` file that contributed to this page; accumulates across merges
+- `updated` — date of the most recent merge that touched this page
+- When updating an existing page, read its current frontmatter and append to `sources:` rather than overwriting it
+
+### Backfill
+
+Triggered by user command: `"backfill wiki frontmatter"` or `"backfill wiki"`.
+
+Retrofits frontmatter onto existing wiki pages that were merged before this convention was introduced, by tracing `inbox/.archive/`.
+
+**Steps:**
+1. Find all `wiki/` pages that lack a `sources:` frontmatter block: `grep -rL "^sources:" wiki/ | grep "\.md$" | grep -v "index.md\|log.md"`
+2. For each such page, search `inbox/.archive/*/manifest.md` for checklist lines that reference that wiki path
+3. From each matching manifest, read `**Source:**` to get the originating source path
+4. Prepend (or insert) frontmatter with the discovered sources and the date from the manifest's `**Ingested:**` field
+5. Report: pages updated, pages where no archive match was found (manual review needed)
+
+**If no archive match exists** for a wiki page, report it and skip — do not guess. The user can add frontmatter manually.
 
 ### Query
 
@@ -418,21 +455,19 @@ Triggered by user command: `"lint wiki"` or `"health check wiki"`.
 
 ### summary.md
 
-One `##` section per proposed new wiki page. The heading is the target wiki path.
+One `##` section per proposed new wiki page. The heading is the target wiki path. Do not include frontmatter in `summary.md` — Bob adds it at merge time using the source path from `manifest.md`.
 
 ```markdown
 ## wiki/api-management/kong.md
 
 Kong is an open-source API gateway positioned in the Challengers quadrant of Gartner's 2025 API Management Magic Quadrant, up from Niche Players in 2023...
 
-**Sources:** [[gartner-mq-2025]]
 **Related:** [[wiki/api-management/apigee.md]], [[wiki/api-management/overview.md]]
 
 ## wiki/api-management/apigee.md
 
 Apigee is Google Cloud's API management platform, positioned in the Leaders quadrant of Gartner's 2025 API Management Magic Quadrant...
 
-**Sources:** [[gartner-mq-2025]]
 **Related:** [[wiki/api-management/kong.md]], [[wiki/api-management/overview.md]]
 ```
 
@@ -461,12 +496,12 @@ Flat catalog of all wiki pages. Bob updates this on every merge.
 **Last updated:** 2026-06-25
 **Pages:** 12 | **Sources ingested:** 3
 
-| Page | Summary | Updated |
-|------|---------|---------|
-| [api-management/overview](api-management/overview.md) | API management market overview | 2026-06-25 |
-| [api-management/kong](api-management/kong.md) | Kong — open-source API gateway | 2026-06-25 |
-| [api-management/apigee](api-management/apigee.md) | Apigee — Google Cloud API platform | 2026-06-25 |
-| [api-management/trends](api-management/trends.md) | Market trends and analyst views | 2026-06-25 |
+| Page | Summary | Sources | Updated |
+|------|---------|---------|---------|
+| [api-management/overview](api-management/overview.md) | API management market overview | [gartner-mq-2025](../sources/Gartner/gartner-mq-2025.md) | 2026-06-25 |
+| [api-management/kong](api-management/kong.md) | Kong — open-source API gateway | [gartner-mq-2025](../sources/Gartner/gartner-mq-2025.md) | 2026-06-25 |
+| [api-management/apigee](api-management/apigee.md) | Apigee — Google Cloud API platform | [gartner-mq-2025](../sources/Gartner/gartner-mq-2025.md) | 2026-06-25 |
+| [api-management/trends](api-management/trends.md) | Market trends and analyst views | [gartner-mq-2025](../sources/Gartner/gartner-mq-2025.md), [forrester-wave-2024](../sources/Forrester/api-wave-2024.md) | 2026-06-25 |
 ```
 
 ### wiki/log.md
@@ -567,6 +602,7 @@ Source: sources/VENDOR/file.md"
 - "Convert [file]" → Convert only (Stage 1), stop after reporting output path
 - "Ingest [source.md]" → Draft inbox entry only (Stage 2), stop after reporting inbox path
 - "Merge inbox/[slug]" → Merge only (Stage 4)
+- "Backfill wiki frontmatter" → Retrofit `sources:` frontmatter onto existing wiki pages via `inbox/.archive/`
 - "Scrape [URL]" → Auto-extract COMPANY/PAGE, run scrape script
 - "Start a project on [topic]" → Create `research/[topic]/` with `notes.md`, `analysis.md`, `report.md`
 - "Lint wiki" → Draft lint fixes as inbox entry for review
