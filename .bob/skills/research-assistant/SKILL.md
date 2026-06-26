@@ -75,7 +75,7 @@ This skill requires the following CLI commands to be available:
 This skill uses a **single top-level `sources/` folder** as the central repository for all converted documents and scraped content:
 
 - **One source of truth** - All sources stored in a single location
-- **Organized by source type** - Gartner/, Forrester/, Competitors/, Hyperscalers/, web/
+- **Organized by vendor/entity** - Gartner/, Forrester/, Kong/, IBM/ — same structure for documents and scraped pages
 - **Reusable across projects** - Convert once, reference from multiple research projects
 - **Easy to search** - Search once across all sources
 - **Simple to maintain** - No duplication or confusion
@@ -98,11 +98,11 @@ wiki/             # Central knowledge base — topic-organised, multiple levels 
     ├── [topic].md    # Or a flat file if no subtopics needed
     └── [subtopic].md # Any depth — Bob decides the right location
 
-sources/          # Shared — converted documents, all projects
-├── IBM/          # Organised by vendor/entity
+sources/          # Shared — converted documents AND scraped pages, all vendors
+├── IBM/          # Documents and scraped pages mixed by vendor
 ├── Forrester/
 ├── Gartner/
-├── web/          # Scraped content (vendor subfolders via scraping workflow)
+├── Kong/         # Scraped competitor pages live here, not in a web/ subfolder
 └── ...
 
 originals/        # Shared — original files, mirrors sources/ vendor structure
@@ -200,31 +200,66 @@ printf '%b' "$FRONTMATTER" | cat - sources/VENDOR/file.md > /tmp/_fm.md && mv /t
 
 ### Web Scraping (Crawl4ai)
 
-**Command:** `./scripts/scrape-with-version.sh URL COMPANY PAGE`
+Scraped pages follow the same `sources/VENDOR/` structure as converted documents. There is no separate JSON metadata file — all metadata lives in the markdown frontmatter.
 
-**CRITICAL:** Script requires all three arguments. Never call with only URL.
+**Output path:** `sources/COMPANY/page-slug.md`
 
-**Parameter Rules:**
-- **COMPANY:** Domain-based (wikipedia.org → Wikipedia, konghq.com → Kong)
-- **PAGE:** URL path slug (e.g., /api-gateway → api-gateway)
+- **COMPANY:** domain-based, same convention as document vendor (konghq.com → Kong, wikipedia.org → Wikipedia)
+- **page-slug:** URL path kebab-cased (e.g. `/products/api-gateway` → `api-gateway`, `/pricing` → `pricing`)
+- If the same page is scraped again, the existing file is **overwritten** and the frontmatter is updated — change detection data is stored in the frontmatter, not in date-stamped filenames
 
-**Examples:**
+**Scrape command:**
 ```bash
-# Single page
-./scripts/scrape-with-version.sh 'https://en.wikipedia.org/wiki/AI' 'Wikipedia' 'ai'
-./scripts/scrape-with-version.sh 'https://konghq.com/pricing' 'Kong' 'pricing'
-
-# Batch processing
-./scripts/batch-scrape-urls.sh urls.txt [DELAY]
+mkdir -p sources/COMPANY
+crwl URL -o markdown > /tmp/_scrape.md
 ```
 
-**Output:** `sources/web/COMPANY/PAGE-YYYY-MM-DD.md` + JSON metadata
+**Frontmatter (prepend after scraping):**
+```yaml
+---
+url: https://konghq.com/products/api-gateway
+vendor: Kong
+scraped: YYYY-MM-DD
+scrape_history:
+  - date: YYYY-MM-DD
+    word_count: 1234
+    hash: abc123def456
+previous_hash: abc123def456
+word_count: 1456
+---
+```
+
+**Prepend frontmatter and compute change data:**
+```bash
+VENDOR="Kong"
+URL="https://konghq.com/products/api-gateway"
+SLUG="api-gateway"
+OUT="sources/${VENDOR}/${SLUG}.md"
+TODAY=$(date +%Y-%m-%d)
+WORDS=$(wc -w < /tmp/_scrape.md | tr -d ' ')
+HASH=$(shasum -a 256 /tmp/_scrape.md | cut -d' ' -f1)
+
+# Read previous hash from existing frontmatter if file exists
+PREV_HASH=""
+HISTORY_ENTRY="  - date: ${TODAY}\n    word_count: ${WORDS}\n    hash: ${HASH}"
+if [ -f "$OUT" ]; then
+  PREV_HASH=$(grep "^hash:" "$OUT" | head -1 | awk '{print $2}')
+  # Append new history entry after existing scrape_history entries
+fi
+
+FRONTMATTER="---\nurl: ${URL}\nvendor: ${VENDOR}\nscraped: ${TODAY}\nscrape_history:\n${HISTORY_ENTRY}\nprevious_hash: ${PREV_HASH}\nword_count: ${WORDS}\nhash: ${HASH}\n---\n"
+printf '%b' "$FRONTMATTER" | cat - /tmp/_scrape.md > "$OUT"
+```
+
+**Change detection:** compare `hash` to `previous_hash` in the frontmatter. If they differ, the page has changed since the last scrape. `scrape_history` accumulates all scrapes for trend analysis.
 
 **Link Discovery:**
-When scraping a single page, analyze content for relevant internal links and suggest top 3-5 related pages to scrape.
+When scraping a single page, analyse content for relevant internal links and suggest top 3–5 related pages to scrape.
 
-**Versioning:**
-Date-based filenames enable tracking changes over time for competitor messaging, pricing updates, documentation changes, and historical analysis.
+**Batch processing:**
+```bash
+./scripts/batch-scrape-urls.sh urls.txt [DELAY]
+```
 
 ### Report Generation (Pandoc)
 
