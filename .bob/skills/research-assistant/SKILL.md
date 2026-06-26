@@ -82,12 +82,17 @@ This skill uses a **single top-level `sources/` folder** as the central reposito
 **Structure:**
 ```
 sources/          # Shared across all projects
-├── pdf/          # Converted documents
-├── web/          # Scraped content
-└── images/       # Extracted images
+├── IBM/          # Converted documents by vendor/entity
+├── Forrester/
+├── Gartner/
+├── web/          # Scraped content (vendor subfolders via scraping workflow)
+└── ...
 
-originals/        # Original files
-└── pdf/          # Source PDFs
+originals/        # Original files, mirrored vendor structure
+├── IBM/          # Source files by vendor/entity
+├── Forrester/
+├── Gartner/
+└── ...
 
 research/[topic]/ # Project-specific
 ├── goals.md      # Objectives and questions
@@ -129,30 +134,54 @@ mkdir -p research/[topic]/{notes,analysis,reports,wiki/{entities,concepts,source
 ### Document Conversion (Docling)
 
 **Key Principles:**
+- Always ask for the vendor/entity if not obvious from the filename or context (e.g. IBM, Forrester, Gartner, McKinsey). Use this as the subfolder name in both `originals/` and `sources/`.
+- The `originals/VENDOR/` subfolder preserves the original file; the file extension makes the format self-evident there.
+- The `sources/VENDOR/` subfolder holds the converted markdown; no format suffix is needed.
 - Images excluded by default (`--image-export-mode placeholder`)
 - For images: use `--image-export-mode referenced`
-- Always convert from `originals/` copy, output to `sources/`
+- After conversion, prepend YAML frontmatter to the markdown file linking back to the original.
 - Single file → direct `docling` command
 - Multiple files → `./scripts/batch-convert-pdfs.sh`
 
 **Single File (No Images):**
 ```bash
-cp /path/to/file.pdf originals/pdf/
-docling originals/pdf/file.pdf --output sources/pdf/ --image-export-mode placeholder
+# VENDOR = vendor/entity subfolder, e.g. IBM, Forrester, Gartner
+mkdir -p originals/VENDOR sources/VENDOR
+cp /path/to/file.pdf originals/VENDOR/
+docling originals/VENDOR/file.pdf --output sources/VENDOR/ --image-export-mode placeholder
 ```
 
 **Single File (With Images):**
 ```bash
-cp /path/to/file.pdf originals/pdf/
-docling originals/pdf/file.pdf --output originals/images/ --image-export-mode referenced
-mv originals/images/file.md sources/pdf/
-sed -i '' 's|./file/|../../originals/images/file/|g' sources/pdf/file.md
+mkdir -p originals/VENDOR sources/VENDOR
+cp /path/to/file.pdf originals/VENDOR/
+docling originals/VENDOR/file.pdf --output originals/VENDOR/images/ --image-export-mode referenced
+mv originals/VENDOR/images/file.md sources/VENDOR/
+sed -i '' 's|./file/|../../originals/VENDOR/images/file/|g' sources/VENDOR/file.md
 ```
 
 **Batch Processing:**
 ```bash
-cp *.pdf originals/pdf/
-./scripts/batch-convert-pdfs.sh
+mkdir -p originals/VENDOR sources/VENDOR
+cp *.pdf originals/VENDOR/
+./scripts/batch-convert-pdfs.sh originals/VENDOR sources/VENDOR
+```
+
+**Frontmatter (always add after conversion):**
+
+After `docling` produces `sources/VENDOR/file.md`, prepend this YAML block:
+```markdown
+---
+source: originals/VENDOR/file.pdf
+vendor: VENDOR
+converted: YYYY-MM-DD
+---
+```
+
+Use `sed` or a heredoc to prepend — do not read the file contents:
+```bash
+FRONTMATTER="---\nsource: originals/VENDOR/file.pdf\nvendor: VENDOR\nconverted: $(date +%Y-%m-%d)\n---\n"
+printf '%s' "$FRONTMATTER" | cat - sources/VENDOR/file.md > /tmp/_fm.md && mv /tmp/_fm.md sources/VENDOR/file.md
 ```
 
 ### Web Scraping (Crawl4ai)
