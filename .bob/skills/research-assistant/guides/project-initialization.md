@@ -57,49 +57,63 @@ EOF
 
 ### Standard Layout
 
-Sources live at the **top level** (shared across all projects). Each `research/[topic]/` folder is project-specific and contains the wiki and inbox.
+Sources, wiki, and inbox live at the **top level** (shared across all projects). Research project folders are optional and contain only project-specific work.
 
 ```
 research-workspace/
 ├── sources/              # Shared — all converted docs and scraped content
-│   ├── pdf/             # docling output
-│   ├── web/             # COMPANY/PAGE-YYYY-MM-DD.md
-│   └── images/
-├── originals/            # Original immutable files
-│   └── pdf/
-└── research/
+│   ├── IBM/             # Organised by vendor/entity
+│   ├── Forrester/
+│   ├── Gartner/
+│   └── web/             # COMPANY/PAGE-YYYY-MM-DD.md
+├── originals/            # Original immutable files — mirrors sources/ structure
+│   ├── IBM/
+│   ├── Forrester/
+│   └── Gartner/
+├── wiki/                 # Shared knowledge base — not tied to any project
+│   ├── index.md          # Master catalog
+│   ├── log.md            # Append-only history
+│   ├── overview.md       # Evolving synthesis
+│   ├── entities/         # Companies, people, products
+│   ├── concepts/         # Ideas, technologies, market forces
+│   ├── sources/          # Bob-authored source summaries
+│   └── analysis/         # Filed answers and comparisons
+├── inbox/                # Staging area — Bob proposes, human approves
+│   ├── .archive/
+│   └── [source-slug]/
+│       ├── manifest.md   # Review checklist
+│       ├── summary.md    # Proposed source page
+│       ├── new-pages.md  # Proposed new wiki pages
+│       └── diff.md       # Proposed updates to existing pages
+└── research/             # Optional — project-specific work only
     └── [project-name]/
         ├── goals.md      # Objectives, questions, scope, timeline
         ├── notes/        # Research notes
         ├── analysis/     # Analysis documents
-        ├── reports/      # Final deliverables
-        ├── wiki/         # LLM-maintained persistent knowledge base
-        │   ├── index.md          # Master catalog
-        │   ├── log.md            # Append-only history
-        │   ├── overview.md       # Evolving synthesis
-        │   ├── entities/         # Companies, people, products
-        │   ├── concepts/         # Ideas, technologies, market forces
-        │   ├── sources/          # Bob-authored source summaries
-        │   └── analysis/         # Filed answers and comparisons
-        └── inbox/        # Staging area — Bob proposes, human approves
-            ├── .archive/
-            └── [source-slug]/
-                ├── manifest.md   # Review checklist
-                ├── summary.md    # Proposed source page
-                ├── new-pages.md  # Proposed new wiki pages
-                └── diff.md       # Proposed updates to existing pages
+        └── reports/      # Final deliverables
+```
+
+**One-time repo setup:**
+```bash
+mkdir -p sources originals wiki/{entities,concepts,sources,analysis} inbox/.archive
+```
+
+**Per-project setup (optional):**
+```bash
+mkdir -p research/[topic]/{notes,analysis,reports}
 ```
 
 ### Minimal Layout
 
-For simple, one-off projects that don't need a persistent wiki:
+For ad-hoc work without a research project:
 
 ```
-research/[project-name]/
-├── goals.md
-├── notes/
-└── reports/
+sources/VENDOR/
+wiki/
+inbox/
 ```
+
+No `research/` folder needed — just convert documents and ingest directly into the wiki.
 
 ## Project Metadata
 

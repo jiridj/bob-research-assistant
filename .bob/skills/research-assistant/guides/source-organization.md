@@ -19,24 +19,36 @@ Sources are stored in a **single top-level `sources/` folder**, shared across al
 
 ```
 sources/                    # Shared across all projects
-├── pdf/                   # Converted documents (docling output)
-│   └── *.md
-├── web/                   # Scraped content (scrape-with-version.sh output)
-│   └── COMPANY/
-│       └── PAGE-YYYY-MM-DD.md
-└── images/                # Extracted images from documents
+├── IBM/                   # Organised by vendor/entity
+│   └── *.md               # Converted documents with YAML frontmatter
+├── Forrester/
+├── Gartner/
+└── web/                   # Scraped content (scrape-with-version.sh output)
+    └── COMPANY/
+        └── PAGE-YYYY-MM-DD.md
 
 originals/                  # Immutable originals — never modified by Bob
-└── pdf/
-    └── *.pdf
+├── IBM/                   # Mirrors sources/ vendor structure
+│   └── *.pdf
+├── Forrester/
+└── Gartner/
 ```
 
-### Wiki Sources (per project)
+Each converted markdown file has YAML frontmatter linking back to its original:
+```yaml
+---
+source: originals/Gartner/mq-api-management-2025.pdf
+vendor: Gartner
+converted: 2025-07-10
+---
+```
 
-In addition to raw sources, each project has a `wiki/sources/` folder containing **Bob-authored summaries** of ingested sources — distinct from the raw converted files:
+### Wiki Sources (shared, not per-project)
+
+In addition to raw sources, the shared `wiki/sources/` folder contains **Bob-authored summaries** of ingested sources — distinct from the raw converted files:
 
 ```
-research/[project]/wiki/sources/
+wiki/sources/
 └── [source-slug].md        # Bob's summary: key claims, entities, concepts, date
 ```
 

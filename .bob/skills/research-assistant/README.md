@@ -135,9 +135,10 @@ Bob: I'll set up a new research project for you.
 [Creates folder structure]
 ✓ Created research/api-management-trends/
 ✓ Initialized goals.md, notes/, analysis/, reports/
-✓ Created wiki/ (index.md, log.md, overview.md, entities/, concepts/, sources/, analysis/)
-✓ Created inbox/.archive/
 ✓ Project ready for research
+
+Note: wiki/ and inbox/ are at the repo root — shared across all projects.
+Run one-time repo setup first if you haven't: see Project Structure below.
 ```
 
 ### 3. Find Relevant Sources
@@ -514,11 +515,12 @@ Bob: Applying corporate template...
 ```
 
 Available templates:
-- `templates/executive-summary.md`
+- `templates/competitor-analysis.md`
+- `templates/company-deep-dive.md`
+- `templates/company-pov.md`
+- `templates/market-analysis.md`
 - `templates/technical-deep-dive.md`
-- `templates/competitive-analysis.md`
-- `templates/literature-review.md`
-- `templates/research-report.md`
+- `templates/why-how-what.md`
 
 ### Source Organization Strategies
 
@@ -554,33 +556,46 @@ See [Quality Assurance Guide](guides/quality-assurance.md) for validation checkl
 
 ```
 research-workspace/
-├── sources/                    # Shared across all projects — converted docs and scraped content
-│   ├── pdf/                   # Converted documents (docling output)
-│   ├── web/                   # Scraped content (COMPANY/PAGE-YYYY-MM-DD.md)
-│   └── images/                # Extracted images
+├── sources/                    # Shared — converted docs and scraped content
+│   ├── IBM/                   # Organised by vendor/entity
+│   ├── Forrester/
+│   ├── Gartner/
+│   └── web/                   # Scraped content (COMPANY/PAGE-YYYY-MM-DD.md)
 ├── originals/                  # Original immutable files — never modified
-│   └── pdf/
-└── research/                   # Individual research projects
+│   ├── IBM/                   # Mirrors sources/ vendor structure
+│   ├── Forrester/
+│   └── Gartner/
+├── wiki/                       # Shared knowledge base — not tied to any project
+│   ├── index.md                # Master catalog — Bob reads this first on every query
+│   ├── log.md                  # Append-only ingest/query/lint history
+│   ├── overview.md             # Evolving synthesis and thesis statement
+│   ├── entities/               # One page per company, person, product
+│   ├── concepts/               # One page per idea, technology, market force
+│   ├── sources/                # One page per ingested source (Bob-authored summary)
+│   └── analysis/               # Filed answers: comparisons, tables, insights
+├── inbox/                      # Shared staging area — Bob proposes, human approves, then merges
+│   ├── .archive/               # Completed inbox entries
+│   └── [source-slug]/          # One folder per pending ingest or lint pass
+│       ├── manifest.md         # Review checklist — controls what gets merged
+│       ├── summary.md          # Proposed source page
+│       ├── new-pages.md        # Proposed new entity/concept pages
+│       └── diff.md             # Proposed updates to existing wiki pages
+└── research/                   # Optional — project-specific work only
     └── api-trends/
         ├── goals.md            # Objectives, questions, scope, timeline
         ├── notes/              # Research notes
         ├── analysis/           # Analysis documents
-        ├── reports/            # Final deliverables (pandoc output)
-        ├── wiki/               # LLM-maintained persistent knowledge base
-        │   ├── index.md        # Master catalog — Bob reads this first on every query
-        │   ├── log.md          # Append-only ingest/query/lint history
-        │   ├── overview.md     # Evolving synthesis and thesis statement
-        │   ├── entities/       # One page per company, person, product
-        │   ├── concepts/       # One page per idea, technology, market force
-        │   ├── sources/        # One page per ingested source (Bob-authored summary)
-        │   └── analysis/       # Filed answers: comparisons, tables, insights
-        └── inbox/              # Staging area — Bob proposes, human approves, then merges
-            ├── .archive/       # Completed inbox entries
-            └── [source-slug]/  # One folder per pending ingest or lint pass
-                ├── manifest.md # Review checklist — controls what gets merged
-                ├── summary.md  # Proposed source page
-                ├── new-pages.md # Proposed new entity/concept pages
-                └── diff.md     # Proposed updates to existing wiki pages
+        └── reports/            # Final deliverables (pandoc output)
+```
+
+**One-time repo setup:**
+```bash
+mkdir -p sources originals wiki/{entities,concepts,sources,analysis} inbox/.archive
+```
+
+**Per-project setup (optional):**
+```bash
+mkdir -p research/[topic]/{notes,analysis,reports}
 ```
 
 ### File Naming Conventions

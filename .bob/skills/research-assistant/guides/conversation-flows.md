@@ -37,12 +37,12 @@ Bob: [Creates project structure]
 
 ✓ Created research/api-management-trends/
   goals.md, notes/, analysis/, reports/
-  wiki/ (index.md, log.md, overview.md, entities/, concepts/, sources/, analysis/)
-  inbox/.archive/
+
+Note: wiki/ and inbox/ are at the repo root and shared across all projects.
 
 Fill in goals.md when you're ready, then add your first source."
 
-User: "Ingest sources/pdf/gartner-mq-2025.md"
+User: "Ingest sources/Gartner/gartner-mq-2025.md"
 
 Bob: [Reads source, drafts inbox entry]
 
