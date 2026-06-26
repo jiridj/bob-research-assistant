@@ -525,6 +525,10 @@ Read `sources/VENDOR/file.md`. Decide topic-based wiki paths. Write inbox files.
     summary.md    — proposed new wiki pages
     diff.md       — proposed updates to existing pages
 
+Suggested commit:
+  git add sources/VENDOR/ originals/VENDOR/ inbox/[source-slug]/
+  git commit -m "inbox: draft [source-slug] — N proposed changes pending review"
+
 Open inbox/[source-slug]/manifest.md, check the items you approve, edit summary.md or diff.md freely.
 When ready: "merge inbox/[source-slug]"
 ```
@@ -545,6 +549,15 @@ Apply checked items to `wiki/`, update `wiki/index.md`, append to `wiki/log.md`,
     Updated: wiki/[topic]/[other].md
     Skipped: N unchecked items
     Archived: inbox/.archive/[source-slug]/
+
+Suggested commit:
+  git add wiki/ inbox/.archive/[source-slug]/
+  git commit -m "wiki: merge [source-slug]
+
+Created: wiki/[topic]/[page].md
+Updated: wiki/[topic]/[other].md
+Skipped: N unchecked items
+Source: sources/VENDOR/file.md"
 ```
 
 ---
@@ -594,8 +607,57 @@ citation:
 Reference in analysis: `[claim] [source-2024, p.12]`
 
 **Version Control:**
+
+This repo has three distinct layers. Commit messages must reflect which layer changed:
+
+| Prefix | Layer | When |
+|--------|-------|------|
+| `source:` | New converted document added to `sources/` | After Stage 1 of import |
+| `inbox:` | Inbox entry drafted, awaiting review | After Stage 2 of import |
+| `wiki:` | Wiki pages merged from inbox | After merge |
+| `research:` | Project notes/analysis/report updated | After editing `research/[name]/` |
+| `chore:` | Maintenance — archiving, index cleanup, etc. | Ad hoc |
+
+**Message format:**
+```
+<prefix>: <one-line summary>
+
+<optional body — list what changed>
+```
+
+**Examples:**
 ```bash
-git init && git add . && git commit -m "Initial commit"
+# After converting a document (Stage 1)
+git add sources/Gartner/ originals/Gartner/
+git commit -m "source: add Gartner MQ API Management 2025"
+
+# After drafting an inbox entry (Stage 2)
+git add inbox/gartner-mq-2025/
+git commit -m "inbox: draft gartner-mq-2025 — 5 proposed changes pending review"
+
+# After merging (Stage 4) — body lists what landed
+git add wiki/ inbox/.archive/gartner-mq-2025/
+git commit -m "wiki: merge gartner-mq-2025
+
+Created: wiki/api-management/gartner-2025.md
+Created: wiki/api-management/apigee.md
+Updated: wiki/api-management/trends.md
+Skipped: 1 unchecked item
+Source: sources/Gartner/gartner-mq-2025.md"
+
+# After updating a research project
+git add research/api-trends/
+git commit -m "research: api-trends — add competitive positioning section"
+```
+
+**Bob auto-suggests commits** at the end of each workflow stage. After completing a stage, Bob will output:
+
+```
+Suggested commit:
+  git add [files changed]
+  git commit -m "[generated message]"
+
+Run it or say "commit" and I'll execute it.
 ```
 
 **Batch Operations:**

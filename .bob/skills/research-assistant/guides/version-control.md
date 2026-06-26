@@ -17,35 +17,68 @@ Version control for research projects helps you:
 
 **Best for**: Complete project history, collaboration, branching
 
+#### Commit Message Convention
+
+This repo has three distinct layers. Use the prefix that matches the layer you changed:
+
+| Prefix | Layer | Typical trigger |
+|--------|-------|----------------|
+| `source:` | New converted document added to `sources/` | After import Stage 1 |
+| `inbox:` | Inbox entry drafted, awaiting review | After import Stage 2 |
+| `wiki:` | Wiki pages merged from inbox | After import Stage 4 (merge) |
+| `research:` | Project notes/analysis/report updated | After editing `research/[name]/` |
+| `chore:` | Maintenance — archiving, index cleanup | Ad hoc |
+
+**Format:**
+```
+<prefix>: <one-line summary>
+
+<optional body>
+```
+
+**Examples by stage:**
+
 ```bash
-# Initialize Git repository
-cd research/api-management-trends-2024
-git init
-git add .
-git commit -m "feat: initial project setup"
+# Stage 1 — document converted
+git add sources/Gartner/ originals/Gartner/
+git commit -m "source: add Gartner MQ API Management 2025"
 
-# Track changes
-git add analysis.md
-git commit -m "docs: add competitive analysis section"
+# Stage 2 — inbox entry drafted
+git add inbox/gartner-mq-2025/
+git commit -m "inbox: draft gartner-mq-2025 — 5 proposed changes pending review"
 
-# Create branches for different approaches
-git checkout -b alternative-analysis
-# Make changes
-git commit -m "docs: explore alternative analysis framework"
+# Stage 4 — inbox merged into wiki (body lists exactly what landed)
+git add wiki/ inbox/.archive/gartner-mq-2025/
+git commit -m "wiki: merge gartner-mq-2025
 
-# Merge back to main
-git checkout main
-git merge alternative-analysis
+Created: wiki/api-management/gartner-2025.md
+Created: wiki/api-management/apigee.md
+Updated: wiki/api-management/trends.md
+Skipped: 1 unchecked item
+Source: sources/Gartner/gartner-mq-2025.md"
+
+# Research project updated
+git add research/api-trends/
+git commit -m "research: api-trends — add competitive positioning section"
+
+# Maintenance
+git add inbox/.archive/
+git commit -m "chore: archive completed inbox entries"
 ```
 
-**Commit Message Convention**:
+**What to avoid:**
+```bash
+# Too vague — tells you nothing
+git commit -m "updates"
+git commit -m "changes"
+git commit -m "docs: add stuff"
+
+# Wrong layer prefix — confusing in git log
+git commit -m "feat: add wiki page"    # use wiki: instead
+git commit -m "docs: new source"       # use source: instead
 ```
-feat: add new analysis section
-docs: update findings based on new source
-refactor: reorganize report structure
-fix: correct performance metrics
-chore: update source index
-```
+
+**Bob auto-suggests commits** at the end of each stage. You can run the suggestion directly or say `"commit"` and Bob will execute it.
 
 ### Strategy 2: File-Based Versioning
 
