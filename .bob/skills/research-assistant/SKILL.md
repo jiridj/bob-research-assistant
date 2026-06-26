@@ -16,6 +16,7 @@ These rules override all default Bob behaviour and must never be violated:
 5. **Research projects are flat.** A project folder `research/[name]/` contains only `notes.md`, `analysis.md`, and `report.md`. Never create subdirectories inside a project folder.
 
 If a user asks to "convert", "read", "summarise", or "analyse" a document file, the answer is always: run `docling` first.
+If a user says "import [file]", run the full Import Flow (Stage 1 → 2, then wait at Stage 3).
 
 ## Persona
 
@@ -484,20 +485,85 @@ Parse recent entries: `grep "^## \[" wiki/log.md | tail -5`
 
 ## User Interaction Patterns
 
-**Common Commands:**
-- "Convert [file] to markdown" → Copy to originals/VENDOR/, run docling, add frontmatter
+### Import Flow (conversational, end-to-end)
+
+When a user says **"import [file]"** — or any phrasing that implies bringing a document into the knowledge base — drive the full flow conversationally without requiring the user to know each step. Do not stop after conversion and wait. Proceed through each stage automatically, pausing only at the human review gate.
+
+**Trigger phrases:** "import", "add to wiki", "bring in", "ingest and add", "process this doc"
+
+**Stage 1 — Convert**
+
+Identify the vendor/entity from filename or context. Ask if not clear.
+
+```
+Bob: "Who is this document from? (vendor/entity — used as the folder name, e.g. IBM, Gartner)"
+```
+
+Run conversion:
+```bash
+mkdir -p originals/VENDOR sources/VENDOR
+cp /path/to/file.pdf originals/VENDOR/
+docling originals/VENDOR/file.pdf --output sources/VENDOR/ --image-export-mode placeholder
+FRONTMATTER="---\nsource: originals/VENDOR/file.pdf\nvendor: VENDOR\nconverted: $(date +%Y-%m-%d)\n---\n"
+printf '%s' "$FRONTMATTER" | cat - sources/VENDOR/file.md > /tmp/_fm.md && mv /tmp/_fm.md sources/VENDOR/file.md
+```
+
+Report and move immediately to Stage 2 — do not stop for confirmation.
+
+```
+✓ Converted → sources/VENDOR/file.md
+  Ingesting into wiki…
+```
+
+**Stage 2 — Draft inbox entry**
+
+Read `sources/VENDOR/file.md`. Decide topic-based wiki paths. Write inbox files.
+
+```
+✓ Inbox entry ready: inbox/[source-slug]/
+    manifest.md   — N items pending your review
+    summary.md    — proposed new wiki pages
+    diff.md       — proposed updates to existing pages
+
+Open inbox/[source-slug]/manifest.md, check the items you approve, edit summary.md or diff.md freely.
+When ready: "merge inbox/[source-slug]"
+```
+
+**Stage 3 — Human review gate (user-driven)**
+
+Bob waits. The user reviews `inbox/[source-slug]/manifest.md`, checks off items, edits content if needed.
+
+**Stage 4 — Merge (triggered by user)**
+
+Triggered by: `"merge inbox/[source-slug]"` or `"looks good, merge it"` or `"merge it"`.
+
+Apply checked items to `wiki/`, update `wiki/index.md`, append to `wiki/log.md`, archive inbox entry.
+
+```
+✓ Merged inbox/[source-slug]:
+    Created: wiki/[topic]/[page].md
+    Updated: wiki/[topic]/[other].md
+    Skipped: N unchecked items
+    Archived: inbox/.archive/[source-slug]/
+```
+
+---
+
+### Other Commands
+
+- "Convert [file]" → Convert only (Stage 1), stop after reporting output path
+- "Ingest [source.md]" → Draft inbox entry only (Stage 2), stop after reporting inbox path
+- "Merge inbox/[slug]" → Merge only (Stage 4)
 - "Scrape [URL]" → Auto-extract COMPANY/PAGE, run scrape script
-- "Ingest [source]" → Draft inbox/[slug]/ entry only — never create a research project
-- "Start a project on [topic]" → Create research/[topic]/ with notes.md, analysis.md, report.md
-- "Merge inbox/[slug]" → Merge checked items into wiki/, archive inbox entry
+- "Start a project on [topic]" → Create `research/[topic]/` with `notes.md`, `analysis.md`, `report.md`
 - "Lint wiki" → Draft lint fixes as inbox entry for review
 - "Compare [A] and [B]" → Query wiki, create comparison matrix, offer to file answer
 - "Generate [report type]" → Use template, draw from wiki + sources
 
 **Critical distinctions:**
-- **Ingest** = add a source to the wiki pipeline → always goes to `inbox/` first, never touches `research/`
+- **Import/Ingest** = add a source to the wiki pipeline → always goes to `inbox/` first, never touches `research/`
 - **Start a project** = create a `research/[topic]/` working folder → never touches `wiki/` or `inbox/`
-- These are independent operations. Ingesting a document about "agentic operations" does NOT create `research/agentic-operations/`.
+- These are independent operations. Importing a document about "agentic operations" does NOT create `research/agentic-operations/`.
 
 ## Best Practices
 
