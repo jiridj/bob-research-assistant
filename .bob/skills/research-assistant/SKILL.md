@@ -200,58 +200,84 @@ printf '%b' "$FRONTMATTER" | cat - sources/VENDOR/file.md > /tmp/_fm.md && mv /t
 
 ### Web Scraping (Crawl4ai)
 
-Scraped pages follow the same `sources/VENDOR/` structure as converted documents. There is no separate JSON metadata file — all metadata lives in the markdown frontmatter.
+Scraped pages follow the same `sources/VENDOR/` structure as converted documents. All metadata lives in the markdown frontmatter — no separate JSON sidecar.
 
-**Output path:** `sources/COMPANY/page-slug.md`
+**File layout:**
+```
+sources/Kong/
+├── api-gateway.md          # latest scrape — always current
+├── pricing.md
+└── .archive/
+    ├── api-gateway-2025-06-01.md   # snapshot saved when content changed
+    ├── api-gateway-2025-07-10.md
+    └── pricing-2025-06-15.md
+```
 
-- **COMPANY:** domain-based, same convention as document vendor (konghq.com → Kong, wikipedia.org → Wikipedia)
-- **page-slug:** URL path kebab-cased (e.g. `/products/api-gateway` → `api-gateway`, `/pricing` → `pricing`)
-- If the same page is scraped again, the existing file is **overwritten** and the frontmatter is updated — change detection data is stored in the frontmatter, not in date-stamped filenames
+- `sources/VENDOR/page-slug.md` — always the most recent scrape
+- `sources/VENDOR/.archive/page-slug-YYYY-MM-DD.md` — snapshot of the **previous** content, saved only when the hash differs (content actually changed). No snapshot is written when nothing changed.
+- **VENDOR:** domain-based (konghq.com → Kong, wikipedia.org → Wikipedia)
+- **page-slug:** URL path kebab-cased (`/products/api-gateway` → `api-gateway`)
 
 **Scrape command:**
 ```bash
-mkdir -p sources/COMPANY
+mkdir -p sources/VENDOR sources/VENDOR/.archive
 crwl URL -o markdown > /tmp/_scrape.md
 ```
 
-**Frontmatter (prepend after scraping):**
+**Frontmatter:**
 ```yaml
 ---
 url: https://konghq.com/products/api-gateway
 vendor: Kong
 scraped: YYYY-MM-DD
+hash: def456abc123
+previous_hash: abc123def456        # empty string on first scrape
+word_count: 1456
 scrape_history:
-  - date: YYYY-MM-DD
+  - date: 2025-06-01
     word_count: 1234
     hash: abc123def456
-previous_hash: abc123def456
-word_count: 1456
+  - date: 2025-07-10
+    word_count: 1456
+    hash: def456abc123
 ---
 ```
 
-**Prepend frontmatter and compute change data:**
+**Full scrape workflow:**
 ```bash
 VENDOR="Kong"
 URL="https://konghq.com/products/api-gateway"
 SLUG="api-gateway"
 OUT="sources/${VENDOR}/${SLUG}.md"
+ARCHIVE_DIR="sources/${VENDOR}/.archive"
 TODAY=$(date +%Y-%m-%d)
 WORDS=$(wc -w < /tmp/_scrape.md | tr -d ' ')
 HASH=$(shasum -a 256 /tmp/_scrape.md | cut -d' ' -f1)
 
-# Read previous hash from existing frontmatter if file exists
 PREV_HASH=""
-HISTORY_ENTRY="  - date: ${TODAY}\n    word_count: ${WORDS}\n    hash: ${HASH}"
+PREV_HISTORY=""
 if [ -f "$OUT" ]; then
   PREV_HASH=$(grep "^hash:" "$OUT" | head -1 | awk '{print $2}')
-  # Append new history entry after existing scrape_history entries
+  # Preserve existing scrape_history lines from frontmatter
+  PREV_HISTORY=$(awk '/^scrape_history:/,/^[^- ]/' "$OUT" | grep "^  - ")
+  if [ "$HASH" != "$PREV_HASH" ]; then
+    # Content changed — archive the previous version before overwriting
+    mkdir -p "$ARCHIVE_DIR"
+    cp "$OUT" "${ARCHIVE_DIR}/${SLUG}-${TODAY}.md"
+  fi
 fi
 
-FRONTMATTER="---\nurl: ${URL}\nvendor: ${VENDOR}\nscraped: ${TODAY}\nscrape_history:\n${HISTORY_ENTRY}\nprevious_hash: ${PREV_HASH}\nword_count: ${WORDS}\nhash: ${HASH}\n---\n"
+NEW_ENTRY="  - date: ${TODAY}\n    word_count: ${WORDS}\n    hash: ${HASH}"
+HISTORY="${PREV_HISTORY}\n${NEW_ENTRY}"
+
+FRONTMATTER="---\nurl: ${URL}\nvendor: ${VENDOR}\nscraped: ${TODAY}\nhash: ${HASH}\nprevious_hash: ${PREV_HASH}\nword_count: ${WORDS}\nscrape_history:\n${HISTORY}\n---\n"
 printf '%b' "$FRONTMATTER" | cat - /tmp/_scrape.md > "$OUT"
 ```
 
-**Change detection:** compare `hash` to `previous_hash` in the frontmatter. If they differ, the page has changed since the last scrape. `scrape_history` accumulates all scrapes for trend analysis.
+**Change detection:** `hash != previous_hash` means the page changed. To diff:
+```bash
+diff sources/Kong/.archive/api-gateway-2025-06-01.md sources/Kong/api-gateway.md
+```
 
 **Link Discovery:**
 When scraping a single page, analyse content for relevant internal links and suggest top 3–5 related pages to scrape.
