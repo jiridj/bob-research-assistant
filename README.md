@@ -11,7 +11,7 @@ A comprehensive Bob skill that streamlines research workflows through automated 
 git clone <repo-url>
 cd bob-research-assistant-skill
 
-# Run the installer (installs dependencies and skill)
+# Run the installer (installs dependencies and skill globally)
 ./install.sh
 ```
 
@@ -22,23 +22,35 @@ Or install manually:
 pip install docling crawl4ai
 brew install pandoc  # macOS (or apt-get/choco for Linux/Windows)
 
-# 2. Copy skill to Bob
+# 2. Copy skill to Bob's global skills directory
 cp -r .bob/skills/research-assistant ~/.bob/skills/
-
-# 3. Make scripts executable
-chmod +x scripts/*.sh
 ```
+
+> **Note:** `./install.sh` copies the skill to `~/.bob/skills/research-assistant` — Bob's **global** skills directory. Once installed, the skill is available in every Bob session, in any folder or workspace. You do not need to keep this repo open or work inside it.
 
 ### Using the Skill
 
-```bash
-# Start using with Bob
-# Bob will automatically use this skill when you ask for research assistance
+After installation, open Bob in **any project folder** and start asking:
 
-# Or use utility scripts directly
-./scripts/init-research-project.sh my-project
-./scripts/batch-convert-pdfs.sh sources/raw sources
-./scripts/search-sources.sh "API Gateway"
+```
+You: "Research the competitive landscape for AI API gateways"
+You: "Convert this PDF to markdown"
+You: "Scrape https://example.com and summarise it"
+```
+
+Bob activates the Research Assistant skill automatically. Your research project files are created in whatever working directory you have open — they are completely independent of this repository.
+
+Optionally, copy the utility scripts to a location on your `$PATH` so you can run them from anywhere:
+
+```bash
+# Optional: make scripts available system-wide
+cp .bob/skills/research-assistant/scripts/*.sh ~/bin/
+chmod +x ~/bin/*.sh
+
+# Then from any research project folder:
+init-research-project.sh my-project
+batch-convert-pdfs.sh sources/raw sources
+search-sources.sh "API Gateway"
 ```
 
 ## 📚 What This Skill Does

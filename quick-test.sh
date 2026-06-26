@@ -56,7 +56,7 @@ run_test "essential scripts" "[ -f .bob/skills/research-assistant/scripts/init-r
 run_test "script permissions" "[ -x .bob/skills/research-assistant/scripts/init-research-project.sh ]"
 
 # Test 8: Templates exist
-run_test "templates" "[ -d .bob/skills/research-assistant/templates ] && [ -f .bob/skills/research-assistant/templates/research-report.md ]"
+run_test "templates" "[ -d .bob/skills/research-assistant/templates ] && [ -f .bob/skills/research-assistant/templates/competitor-analysis.md ]"
 
 # Test 9: Examples exist
 run_test "examples" "[ -d .bob/skills/research-assistant/examples ]"
@@ -83,7 +83,7 @@ run_test "script count (12)" "[ $SCRIPT_COUNT -eq 12 ]"
 
 # Test 17: Template count
 TEMPLATE_COUNT=$(find .bob/skills/research-assistant/templates -name "*.md" 2>/dev/null | wc -l | tr -d ' ')
-run_test "template count (5)" "[ $TEMPLATE_COUNT -eq 5 ]"
+run_test "template count (7)" "[ $TEMPLATE_COUNT -eq 7 ]"
 
 echo ""
 echo "================================"
