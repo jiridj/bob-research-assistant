@@ -87,18 +87,15 @@ inbox/            # Staging area — Bob proposes, human approves, then merges
 ├── .archive/         # Completed inbox entries
 └── [source-slug]/    # One folder per pending ingest or lint pass
     ├── manifest.md   # Review checklist — controls what gets merged
-    ├── summary.md    # Proposed wiki/sources/[slug].md content
-    ├── new-pages.md  # Proposed new entity/concept pages
+    ├── summary.md    # Proposed new/updated wiki pages
     └── diff.md       # Proposed updates to existing wiki pages
 
-wiki/             # Central knowledge base — always at root, never per-project
+wiki/             # Central knowledge base — topic-organised, multiple levels deep
 ├── index.md          # Master catalog — Bob reads this first on every query
 ├── log.md            # Append-only ingest/query/lint history
-├── overview.md       # Evolving synthesis and thesis statement
-├── entities/         # One page per named thing (company, person, product)
-├── concepts/         # One page per idea, technology, or market force
-├── sources/          # One page per ingested source (Bob-authored summary)
-└── analysis/         # Filed answers: comparisons, tables, insights
+└── [topic]/          # Bob chooses topic path based on content
+    ├── [topic].md    # Or a flat file if no subtopics needed
+    └── [subtopic].md # Any depth — Bob decides the right location
 
 sources/          # Shared — converted documents, all projects
 ├── IBM/          # Organised by vendor/entity
@@ -128,7 +125,7 @@ The wiki and inbox are **always at the root**. Ingest never creates a research p
 
 **One-time repo setup:**
 ```bash
-mkdir -p sources originals wiki/{entities,concepts,sources,analysis} inbox/.archive
+mkdir -p sources originals wiki inbox/.archive
 ```
 
 **Per-project setup (only when explicitly asked):**
@@ -331,9 +328,14 @@ grep -r -C 3 "microservices" sources/
 
 ## Wiki Operations
 
-The wiki is a **persistent, compounding knowledge base** that lives at the root of the repo, shared across all projects. Bob owns the wiki layer entirely — but never writes to it directly. All changes flow through the inbox and require explicit merge approval.
+The wiki is a **persistent, compounding knowledge base** at the repo root. It is organised by topic and subtopic — Bob decides the right path based on content. There are no prescribed subfolders (no `entities/`, `concepts/`, `sources/`, `analysis/`). The structure emerges from the knowledge itself.
 
 The wiki and inbox are always at `wiki/` and `inbox/` — never inside a `research/[topic]/` folder. Ingesting a document into the wiki does not require a research project to exist.
+
+**Wiki path rules:**
+- Bob chooses paths that reflect the subject matter: `wiki/agentic-operations.md`, `wiki/api-management/kong.md`, `wiki/market/api-management-trends.md`
+- A topic with only one page is a flat file; a topic with multiple pages becomes a folder
+- `wiki/index.md` and `wiki/log.md` are the only fixed files
 
 ### Ingest
 
@@ -341,14 +343,13 @@ Triggered by user command: `"ingest [source]"` or implicitly after a document is
 
 **Steps:**
 1. Read the converted source from `sources/VENDOR/file.md`
-2. Write `inbox/[source-slug]/summary.md` — the proposed `wiki/sources/[slug].md` page
-3. Identify entities and concepts mentioned in the source
-4. Write `inbox/[source-slug]/new-pages.md` — proposed new entity/concept pages (one `##` section per page)
-5. Write `inbox/[source-slug]/diff.md` — proposed updates to existing wiki pages
-6. Write `inbox/[source-slug]/manifest.md` — checklist of all proposed changes
-7. Report to user: "Inbox entry ready at `inbox/[source-slug]/`. Review and edit, then say 'merge inbox/[source-slug]'."
+2. Decide the appropriate wiki path(s) for the content (topic-based, not type-based)
+3. Write `inbox/[source-slug]/summary.md` — one `##` section per proposed new or updated wiki page, with the target path as the heading
+4. Write `inbox/[source-slug]/diff.md` — proposed additions/changes to existing wiki pages
+5. Write `inbox/[source-slug]/manifest.md` — checklist of all proposed changes
+6. Report to user: "Inbox entry ready at `inbox/[source-slug]/`. Review and edit, then say 'merge inbox/[source-slug]'."
 
-**A single ingest typically touches 3–8 wiki pages.**
+**A single ingest typically touches 2–6 wiki pages.**
 
 ### Merge
 
@@ -357,11 +358,12 @@ Triggered only by an explicit user command: `"merge inbox/[source-slug]"`.
 **Steps:**
 1. Read `inbox/[source-slug]/manifest.md`
 2. Process **only checked items** (`- [x]`) — skip unchecked items silently
-3. For each checked item, apply the corresponding content from `summary.md`, `new-pages.md`, or `diff.md` to the wiki
-4. Append to `wiki/log.md`: `## [YYYY-MM-DD] ingest | [Source Title]`
-5. Update `wiki/index.md` — add/update entries for all affected pages
-6. Move `inbox/[source-slug]/` to `inbox/.archive/[source-slug]/`
-7. Report: pages created, pages updated, items skipped
+3. For each checked item, write or update the wiki file at the path specified in `summary.md` or `diff.md`
+4. Create any intermediate subdirectories as needed
+5. Append to `wiki/log.md`: `## [YYYY-MM-DD] ingest | [Source Title]`
+6. Update `wiki/index.md` — add/update entries for all affected pages
+7. Move `inbox/[source-slug]/` to `inbox/.archive/[source-slug]/`
+8. Report: pages created, pages updated, items skipped
 
 **Never modify inbox files during merge. Never merge unchecked items.**
 
@@ -374,7 +376,7 @@ Triggered when the user asks a question against the wiki.
 2. Read the relevant wiki pages
 3. Synthesize an answer with citations to wiki pages and original sources
 4. If the answer is substantive (comparison table, analysis, insight), propose filing it back: "This is worth saving. Say 'file this answer' to add it to the wiki."
-5. If user confirms, draft it as `inbox/query-[slug]/` for review before merging into `wiki/analysis/`
+5. If user confirms, draft it as `inbox/query-[slug]/` for review and merge
 
 ### Lint
 
@@ -384,7 +386,7 @@ Triggered by user command: `"lint wiki"` or `"health check wiki"`.
 - Contradictions between pages (conflicting claims about the same fact)
 - Stale claims superseded by newer sources
 - Orphan pages with no inbound links from other wiki pages
-- Concepts or entities mentioned across pages but lacking their own page
+- Topics mentioned across pages but lacking their own page
 - Missing cross-references between related pages
 - Data gaps that could be filled with a web search
 
@@ -403,95 +405,67 @@ Triggered by user command: `"lint wiki"` or `"health check wiki"`.
 **Ingested:** 2026-06-25
 
 ### Merge checklist
-- [ ] summary.md → wiki/sources/gartner-mq-2025.md (new)
-- [ ] new-pages.md § Apigee → wiki/entities/Apigee.md (new)
-- [ ] new-pages.md § API Management → wiki/concepts/api-management.md (new)
-- [ ] diff.md § Kong → wiki/entities/Kong.md (update)
-- [ ] diff.md § overview → wiki/overview.md (update)
+- [ ] summary.md § api-management/overview → wiki/api-management/overview.md (new)
+- [ ] summary.md § api-management/kong → wiki/api-management/kong.md (new)
+- [ ] summary.md § api-management/apigee → wiki/api-management/apigee.md (new)
+- [ ] diff.md § api-management/trends → wiki/api-management/trends.md (update)
 ```
 
 - Check a box (`- [x]`) to approve that item for merge
 - Delete a line to permanently skip it
-- Edit `summary.md`, `new-pages.md`, or `diff.md` freely before merging — what's in the file is what lands in the wiki
+- Edit `summary.md` or `diff.md` freely before merging — what's in the file is what lands in the wiki
+
+### summary.md
+
+One `##` section per proposed new wiki page. The heading is the target wiki path.
+
+```markdown
+## wiki/api-management/kong.md
+
+Kong is an open-source API gateway positioned in the Challengers quadrant of Gartner's 2025 API Management Magic Quadrant, up from Niche Players in 2023...
+
+**Sources:** [[gartner-mq-2025]]
+**Related:** [[wiki/api-management/apigee.md]], [[wiki/api-management/overview.md]]
+
+## wiki/api-management/apigee.md
+
+Apigee is Google Cloud's API management platform, positioned in the Leaders quadrant of Gartner's 2025 API Management Magic Quadrant...
+
+**Sources:** [[gartner-mq-2025]]
+**Related:** [[wiki/api-management/kong.md]], [[wiki/api-management/overview.md]]
+```
 
 ### diff.md
 
 Human-readable annotated change blocks — not git diff syntax.
 
 ```markdown
-## wiki/entities/Kong.md
+## wiki/api-management/trends.md
 
 **Add to "Market Position" section:**
-> Gartner 2025 MQ places Kong in Challengers quadrant, up from Niche Players in 2023. [source: gartner-mq-2025]
+> Gartner 2025 MQ: Kong moves to Challengers, Apigee consolidates Leaders position. [source: gartner-mq-2025]
 
 **Contradicts existing claim:**
-> ~~"Kong leads in developer experience among open-source gateways"~~
-> New source gives that position to Apigee in enterprise segments.
-> Suggested replacement: "Kong is noted for developer experience in community/SMB segments; Apigee leads in enterprise."
-
-## wiki/overview.md
-
-**Add to "Key Trends" section:**
-> API management market consolidating around enterprise platforms; pure-play open-source gateways facing margin pressure. [source: gartner-mq-2025]
-```
-
-### new-pages.md
-
-One `##` section per proposed new page. The section title becomes the filename (kebab-cased).
-
-```markdown
-## Apigee
-
-**Type:** Entity — Product
-**Parent:** Google Cloud
-**First seen:** gartner-mq-2025
-
-Apigee is Google Cloud's API management platform, positioned in the Leaders quadrant of Gartner's 2025 API Management Magic Quadrant...
-
-**Related:** [[Google Cloud]], [[API Management]], [[Kong]]
-**Sources:** [[gartner-mq-2025]]
-
-## API Management
-
-**Type:** Concept
-**First seen:** gartner-mq-2025
-
-API management encompasses the tools and practices for creating, publishing, securing, monitoring, and analyzing APIs...
-
-**Related:** [[Apigee]], [[Kong]], [[Kong Gateway]]
-**Sources:** [[gartner-mq-2025]]
+> ~~"Kong leads in developer experience across all segments"~~
+> Suggested replacement: "Kong leads in developer experience in community/SMB segments; Apigee leads in enterprise."
 ```
 
 ### wiki/index.md
 
-Catalog of all wiki pages. Bob updates this on every merge.
+Flat catalog of all wiki pages. Bob updates this on every merge.
 
 ```markdown
-# Wiki Index — [Topic]
+# Wiki Index
 
 **Last updated:** 2026-06-25
-**Pages:** 24 | **Sources ingested:** 6
+**Pages:** 12 | **Sources ingested:** 3
 
-## Entities
-| Page | Summary | Sources |
+| Page | Summary | Updated |
 |------|---------|---------|
-| [Apigee](entities/Apigee.md) | Google Cloud API management platform, 2025 MQ Leader | gartner-mq-2025 |
-| [Kong](entities/Kong.md) | Open-source API gateway, 2025 MQ Challenger | gartner-mq-2025 |
-
-## Concepts
-| Page | Summary | Sources |
-|------|---------|---------|
-| [API Management](concepts/api-management.md) | Tools for creating, securing, monitoring APIs | gartner-mq-2025 |
-
-## Sources
-| Page | Original | Ingested |
-|------|----------|---------|
-| [Gartner MQ 2025](sources/gartner-mq-2025.md) | sources/Gartner/gartner-mq-2025.md | 2026-06-25 |
-
-## Analysis
-| Page | Summary |
-|------|---------|
-| [Kong vs Apigee](analysis/kong-vs-apigee.md) | Feature and positioning comparison |
+| [api-management/overview](api-management/overview.md) | API management market overview | 2026-06-25 |
+| [api-management/kong](api-management/kong.md) | Kong — open-source API gateway | 2026-06-25 |
+| [api-management/apigee](api-management/apigee.md) | Apigee — Google Cloud API platform | 2026-06-25 |
+| [api-management/trends](api-management/trends.md) | Market trends and analyst views | 2026-06-25 |
 ```
 
 ### wiki/log.md
