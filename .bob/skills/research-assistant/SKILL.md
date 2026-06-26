@@ -81,44 +81,53 @@ This skill uses a **single top-level `sources/` folder** as the central reposito
 
 **Structure:**
 ```
-sources/          # Shared across all projects
-├── IBM/          # Converted documents by vendor/entity
+sources/          # Shared — converted documents, all projects
+├── IBM/          # Organised by vendor/entity
 ├── Forrester/
 ├── Gartner/
 ├── web/          # Scraped content (vendor subfolders via scraping workflow)
 └── ...
 
-originals/        # Original files, mirrored vendor structure
-├── IBM/          # Source files by vendor/entity
+originals/        # Shared — original files, mirrors sources/ vendor structure
+├── IBM/
 ├── Forrester/
 ├── Gartner/
 └── ...
 
-research/[topic]/ # Project-specific
+wiki/             # Shared knowledge base — not tied to any project
+├── index.md          # Master catalog — Bob reads this first on every query
+├── log.md            # Append-only ingest/query/lint history
+├── overview.md       # Evolving synthesis and thesis statement
+├── entities/         # One page per named thing (company, person, product)
+├── concepts/         # One page per idea, technology, or market force
+├── sources/          # One page per ingested source (Bob-authored summary)
+└── analysis/         # Filed answers: comparisons, tables, insights
+
+inbox/            # Shared staging area — Bob proposes, human approves, then merges
+├── .archive/         # Completed inbox entries
+└── [source-slug]/    # One folder per pending ingest or lint pass
+    ├── manifest.md   # Review checklist — controls what gets merged
+    ├── summary.md    # Proposed wiki/sources/[slug].md content
+    ├── new-pages.md  # Proposed new entity/concept pages
+    └── diff.md       # Proposed updates to existing wiki pages
+
+research/[topic]/ # Optional — project-specific work only
 ├── goals.md      # Objectives and questions
 ├── notes/        # Research notes
 ├── analysis/     # Analysis documents
-├── reports/      # Final deliverables
-├── wiki/         # LLM-maintained persistent knowledge base
-│   ├── index.md          # Master catalog — Bob reads this first on every query
-│   ├── log.md            # Append-only ingest/query/lint history
-│   ├── overview.md       # Evolving synthesis and thesis statement
-│   ├── entities/         # One page per named thing (company, person, product)
-│   ├── concepts/         # One page per idea, technology, or market force
-│   ├── sources/          # One page per ingested source (Bob-authored summary)
-│   └── analysis/         # Filed answers: comparisons, tables, insights
-└── inbox/        # Staging area — Bob proposes, human approves, then merges
-    ├── .archive/         # Completed inbox entries
-    └── [source-slug]/    # One folder per pending ingest or lint pass
-        ├── manifest.md   # Review checklist — controls what gets merged
-        ├── summary.md    # Proposed wiki/sources/[slug].md content
-        ├── new-pages.md  # Proposed new entity/concept pages
-        └── diff.md       # Proposed updates to existing wiki pages
+└── reports/      # Final deliverables
 ```
 
-**Setup:**
+The wiki and inbox are **always at the root**, independent of any research project. You can ingest documents into the wiki without creating a project at all.
+
+**One-time repo setup:**
 ```bash
-mkdir -p research/[topic]/{notes,analysis,reports,wiki/{entities,concepts,sources,analysis},inbox/.archive}
+mkdir -p sources originals wiki/{entities,concepts,sources,analysis} inbox/.archive
+```
+
+**Per-project setup (optional):**
+```bash
+mkdir -p research/[topic]/{notes,analysis,reports}
 ```
 
 **Create goals.md** with: objectives, key questions, success criteria, scope, timeline
@@ -315,14 +324,16 @@ grep -r -C 3 "microservices" sources/
 
 ## Wiki Operations
 
-The wiki is a **persistent, compounding knowledge base** that lives between raw sources and final reports. Bob owns the wiki layer entirely — but never writes to it directly. All changes flow through the inbox and require explicit merge approval.
+The wiki is a **persistent, compounding knowledge base** that lives at the root of the repo, shared across all projects. Bob owns the wiki layer entirely — but never writes to it directly. All changes flow through the inbox and require explicit merge approval.
+
+The wiki and inbox are always at `wiki/` and `inbox/` — never inside a `research/[topic]/` folder. Ingesting a document into the wiki does not require a research project to exist.
 
 ### Ingest
 
-Triggered when a new source is added to `sources/`. Bob drafts all proposed content into `inbox/[source-slug]/` — the wiki is never touched during this step.
+Triggered by user command: `"ingest [source]"` or implicitly after a document is converted. Bob drafts all proposed content into `inbox/[source-slug]/` — the wiki is never touched during this step.
 
 **Steps:**
-1. Read the raw source from `sources/`
+1. Read the converted source from `sources/VENDOR/file.md`
 2. Write `inbox/[source-slug]/summary.md` — the proposed `wiki/sources/[slug].md` page
 3. Identify entities and concepts mentioned in the source
 4. Write `inbox/[source-slug]/new-pages.md` — proposed new entity/concept pages (one `##` section per page)
@@ -381,7 +392,7 @@ Triggered by user command: `"lint wiki"` or `"health check wiki"`.
 ```markdown
 ## [source-slug] — Pending Review
 
-**Source:** `sources/pdf/gartner-mq-2025.md`
+**Source:** `sources/Gartner/gartner-mq-2025.md`
 **Ingested:** 2026-06-25
 
 ### Merge checklist
@@ -468,7 +479,7 @@ Catalog of all wiki pages. Bob updates this on every merge.
 ## Sources
 | Page | Original | Ingested |
 |------|----------|---------|
-| [Gartner MQ 2025](sources/gartner-mq-2025.md) | sources/pdf/gartner-mq-2025.md | 2026-06-25 |
+| [Gartner MQ 2025](sources/gartner-mq-2025.md) | sources/Gartner/gartner-mq-2025.md | 2026-06-25 |
 
 ## Analysis
 | Page | Summary |
