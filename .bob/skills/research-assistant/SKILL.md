@@ -12,6 +12,8 @@ These rules override all default Bob behaviour and must never be violated:
 1. **Never read or parse documents directly.** Do not use `read_file`, `read_pdf`, or any built-in file-reading tool on PDF, DOCX, PPTX, or other document files. Always convert them first using the `docling` CLI, then work with the resulting markdown.
 2. **Never scrape or summarise a URL inline.** Always use the `crwl` CLI via the scraping workflow.
 3. **Never generate a report by writing markdown inline.** Always use `pandoc` to produce DOCX/PDF output.
+4. **Ingest never creates a research project.** When ingesting a source, write only to `inbox/[source-slug]/`. Never create a `research/` folder as a side effect of ingesting. The topic of a document (e.g. "agentic operations") is not a project name.
+5. **Research projects are flat.** A project folder `research/[name]/` contains only `notes.md`, `analysis.md`, and `report.md`. Never create subdirectories inside a project folder.
 
 If a user asks to "convert", "read", "summarise", or "analyse" a document file, the answer is always: run `docling` first.
 
@@ -81,6 +83,23 @@ This skill uses a **single top-level `sources/` folder** as the central reposito
 
 **Structure:**
 ```
+inbox/            # Staging area — Bob proposes, human approves, then merges
+├── .archive/         # Completed inbox entries
+└── [source-slug]/    # One folder per pending ingest or lint pass
+    ├── manifest.md   # Review checklist — controls what gets merged
+    ├── summary.md    # Proposed wiki/sources/[slug].md content
+    ├── new-pages.md  # Proposed new entity/concept pages
+    └── diff.md       # Proposed updates to existing wiki pages
+
+wiki/             # Central knowledge base — always at root, never per-project
+├── index.md          # Master catalog — Bob reads this first on every query
+├── log.md            # Append-only ingest/query/lint history
+├── overview.md       # Evolving synthesis and thesis statement
+├── entities/         # One page per named thing (company, person, product)
+├── concepts/         # One page per idea, technology, or market force
+├── sources/          # One page per ingested source (Bob-authored summary)
+└── analysis/         # Filed answers: comparisons, tables, insights
+
 sources/          # Shared — converted documents, all projects
 ├── IBM/          # Organised by vendor/entity
 ├── Forrester/
@@ -94,40 +113,28 @@ originals/        # Shared — original files, mirrors sources/ vendor structure
 ├── Gartner/
 └── ...
 
-wiki/             # Shared knowledge base — not tied to any project
-├── index.md          # Master catalog — Bob reads this first on every query
-├── log.md            # Append-only ingest/query/lint history
-├── overview.md       # Evolving synthesis and thesis statement
-├── entities/         # One page per named thing (company, person, product)
-├── concepts/         # One page per idea, technology, or market force
-├── sources/          # One page per ingested source (Bob-authored summary)
-└── analysis/         # Filed answers: comparisons, tables, insights
-
-inbox/            # Shared staging area — Bob proposes, human approves, then merges
-├── .archive/         # Completed inbox entries
-└── [source-slug]/    # One folder per pending ingest or lint pass
-    ├── manifest.md   # Review checklist — controls what gets merged
-    ├── summary.md    # Proposed wiki/sources/[slug].md content
-    ├── new-pages.md  # Proposed new entity/concept pages
-    └── diff.md       # Proposed updates to existing wiki pages
-
-research/[topic]/ # Optional — project-specific work only
-├── goals.md      # Objectives and questions
-├── notes/        # Research notes
-├── analysis/     # Analysis documents
-└── reports/      # Final deliverables
+research/         # Optional — project-specific work only; flat files, no subfolders
+├── project-abc/
+│   ├── notes.md      # Research notes
+│   ├── analysis.md   # Analysis document
+│   └── report.md     # Final deliverable
+└── project-xyz/
+    ├── notes.md
+    ├── analysis.md
+    └── report.md
 ```
 
-The wiki and inbox are **always at the root**, independent of any research project. You can ingest documents into the wiki without creating a project at all.
+The wiki and inbox are **always at the root**. Ingest never creates a research project. Research projects are optional, flat (no subdirectories), and created only when explicitly requested.
 
 **One-time repo setup:**
 ```bash
 mkdir -p sources originals wiki/{entities,concepts,sources,analysis} inbox/.archive
 ```
 
-**Per-project setup (optional):**
+**Per-project setup (only when explicitly asked):**
 ```bash
-mkdir -p research/[topic]/{notes,analysis,reports}
+mkdir -p research/[project-name]
+touch research/[project-name]/{notes.md,analysis.md,report.md}
 ```
 
 **Create goals.md** with: objectives, key questions, success criteria, scope, timeline
@@ -504,14 +511,19 @@ Parse recent entries: `grep "^## \[" wiki/log.md | tail -5`
 ## User Interaction Patterns
 
 **Common Commands:**
-- "Convert [file] to markdown" → Copy to originals/, run docling
+- "Convert [file] to markdown" → Copy to originals/VENDOR/, run docling, add frontmatter
 - "Scrape [URL]" → Auto-extract COMPANY/PAGE, run scrape script
-- "Start research on [topic]" → Create project structure, ask for sources
-- "Ingest [source]" → Draft inbox entry, report when ready for review
-- "Merge inbox/[slug]" → Merge checked items, archive inbox entry
+- "Ingest [source]" → Draft inbox/[slug]/ entry only — never create a research project
+- "Start a project on [topic]" → Create research/[topic]/ with notes.md, analysis.md, report.md
+- "Merge inbox/[slug]" → Merge checked items into wiki/, archive inbox entry
 - "Lint wiki" → Draft lint fixes as inbox entry for review
 - "Compare [A] and [B]" → Query wiki, create comparison matrix, offer to file answer
 - "Generate [report type]" → Use template, draw from wiki + sources
+
+**Critical distinctions:**
+- **Ingest** = add a source to the wiki pipeline → always goes to `inbox/` first, never touches `research/`
+- **Start a project** = create a `research/[topic]/` working folder → never touches `wiki/` or `inbox/`
+- These are independent operations. Ingesting a document about "agentic operations" does NOT create `research/agentic-operations/`.
 
 ## Best Practices
 
