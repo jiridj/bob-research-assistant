@@ -397,6 +397,9 @@ The wiki and inbox are always at `wiki/` and `inbox/` — never inside a `resear
 **Wiki path rules:**
 - Bob chooses paths that reflect the subject matter: `wiki/agentic-operations.md`, `wiki/api-management/kong.md`, `wiki/market/api-management-trends.md`
 - A topic with only one page is a flat file; a topic with multiple pages becomes a folder
+- **When a single import produces ≥ 3 pages that share a common theme or series, group them under a shared subfolder** rather than placing them directly in the topic folder. Example: an import covering an "anti-patterns" series goes to `wiki/ai-agents/anti-patterns/overview.md`, `wiki/ai-agents/anti-patterns/part1-architecture.md`, etc. — not flat under `wiki/ai-agents/`.
+- The subfolder name should reflect the shared concept, not the source document name. Use a descriptive, kebab-cased name (e.g. `anti-patterns/`, `deployment-patterns/`, `case-studies/`).
+- Two pages do not justify a subfolder; three or more that clearly belong together do.
 - `wiki/index.md` and `wiki/log.md` are the only fixed files
 
 ### Ingest
@@ -405,7 +408,7 @@ Triggered by user command: `"ingest [source]"` or implicitly after a document is
 
 **Steps:**
 1. Read the converted source from `sources/VENDOR/file.md`
-2. Decide the appropriate wiki path(s) for the content (topic-based, not type-based)
+2. Decide the appropriate wiki path(s) for the content (topic-based, not type-based). If this import produces ≥ 3 pages that share a common theme or series, apply the subfolder grouping rule from **Wiki path rules** above.
 3. Write `inbox/[source-slug]/summary.md` — one `##` section per proposed new or updated wiki page, with the target path as the heading
 4. Write `inbox/[source-slug]/diff.md` — proposed additions/changes to existing wiki pages
 5. Write `inbox/[source-slug]/manifest.md` — checklist of all proposed changes
@@ -493,6 +496,38 @@ Triggered by user command: `"lint wiki"` or `"health check wiki"`.
 - Data gaps that could be filled with a web search
 
 **Output:** Draft fixes as `inbox/lint-[YYYY-MM-DD]/` — same inbox format, same review-and-merge flow. Never auto-apply lint fixes.
+
+### Reorganize
+
+Triggered by user command: `"reorganize wiki"`, `"reorganize wiki/[topic]"`, or `"group [topic] pages into subfolders"`.
+
+Migrates existing flat-file topic directories into a subfolder structure by detecting clusters of related pages. Uses the same inbox review gate — never moves files without user approval.
+
+**Steps:**
+1. Determine scope: full wiki or a specific topic folder
+2. Scan the target for topic folders where ≥ 3 sibling pages share a detectable common prefix or theme (e.g. `anti-patterns-overview.md`, `anti-patterns-part1-architecture.md`, `anti-patterns-part2-tooling-scale.md`)
+3. For each detected cluster, propose a subfolder name (kebab-cased, concept-based, not source-based)
+4. Write `inbox/reorganize-[topic]-[YYYY-MM-DD]/`:
+   - `manifest.md` — checklist of proposed `mv` operations, one line per file, showing old path → new path
+   - `summary.md` — brief rationale per cluster: why these pages belong together, proposed subfolder name, list of files
+5. Report to user: "Inbox entry ready at `inbox/reorganize-[topic]-[YYYY-MM-DD]/`. Review, then say 'merge inbox/reorganize-[topic]-[YYYY-MM-DD]'."
+
+**Merge step for Reorganize** (same `merge inbox/[slug]` trigger):
+1. Read `manifest.md`; process only checked items
+2. For each checked `mv`:
+   ```bash
+   mkdir -p wiki/[topic]/[subfolder]
+   mv wiki/[topic]/old-name.md wiki/[topic]/[subfolder]/new-name.md
+   ```
+3. Update every `[[...]]` wikilink and relative markdown link inside `wiki/` that pointed to the old path
+4. Update `wiki/index.md` — remove old rows, add new rows with updated paths
+5. Append to `wiki/log.md`: `## [YYYY-MM-DD] reorganize | [topic] — N files moved into M subfolders`
+6. Archive the inbox entry
+
+**Naming rules for reorganize:**
+- Drop shared prefixes that are already in the folder name. `ai-agents/anti-patterns-part1-*.md` → subfolder `anti-patterns/`, file `part1-architecture.md`
+- Keep the page name meaningful without the prefix. `anti-patterns-overview.md` → `anti-patterns/overview.md`
+- If a page doesn't fit any cluster, leave it flat in the topic folder — do not force it into a subfolder
 
 ---
 
@@ -670,6 +705,7 @@ Source: sources/VENDOR/file.md"
 - "Scrape [URL]" → Auto-extract COMPANY/PAGE, run scrape script
 - "Start a project on [topic]" → Create `research/[topic]/` with `notes.md`, `analysis.md`, `report.md`
 - "Lint wiki" → Draft lint fixes as inbox entry for review
+- "Reorganize wiki" / "Reorganize wiki/[topic]" → Detect clusters of related pages and propose subfolder moves via inbox review gate
 - "Compare [A] and [B]" → Query wiki, create comparison matrix, offer to file answer
 - "Generate [report type]" → Use template, draw from wiki + sources
 
