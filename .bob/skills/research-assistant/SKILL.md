@@ -427,7 +427,10 @@ Triggered only by an explicit user command: `"merge inbox/[source-slug]"`.
 5. Create any intermediate subdirectories as needed
 6. Append to `wiki/log.md`: `## [YYYY-MM-DD] ingest | [Source Title] | [source path]`
 7. Update `wiki/index.md` — add/update entries for all affected pages, including Sources column
-8. Move `inbox/[source-slug]/` to `inbox/.archive/[source-slug]/`
+8. Move `inbox/[source-slug]/` to `inbox/.archive/[source-slug]/`:
+   ```bash
+   mv inbox/[source-slug] inbox/.archive/[source-slug]
+   ```
 9. Report: pages created, pages updated, items skipped
 
 **Never modify inbox files during merge. Never merge unchecked items.**
