@@ -19,7 +19,7 @@ These are independent sub-tasks that can be reviewed separately.
 
 ## Sub-Task 1 — Improve Skill Description Trigger Phrases
 
-**Status:** [ ] pending
+**Status:** [x] done
 
 ### Intent
 The `description` field in SKILL.md frontmatter is the primary signal Bob uses to decide whether
@@ -39,8 +39,9 @@ without any structural change.
 2. Replace the `description` frontmatter value (line 3) with a new version that:
    - Keeps the high-level summary
    - Adds an explicit trigger phrase list covering: "import", "convert PDF", "convert DOCX",
-     "scrape URL", "add to wiki", "ingest", "merge inbox", "start research project",
-     "build wiki", "analyse document", "summarise document", "generate report"
+     "scrape URL", "add to wiki", "ingest", "merge inbox", "start a research topic",
+     "start a project", "build wiki", "analyse document", "summarise document", "generate report",
+     "file to wiki"
    - Follows the pattern used by well-triggering skills (e.g. `github-cli`, `web-research`)
 
 ### Relevant Context
@@ -55,7 +56,7 @@ without any structural change.
 
 ## Sub-Task 2 — Create Research Assistant Custom Mode
 
-**Status:** [ ] pending
+**Status:** [x] done
 
 ### Intent
 A custom mode bakes the research workflow into the mode's system prompt so the Hard Rules are
@@ -75,19 +76,22 @@ auto-activation ambiguity.
    - `slug`: `research-assistant`
    - `name`: `🔬 Research Assistant`
    - `roleDefinition`: High-density research assistant persona (from SKILL.md "Persona" section)
-     + inline Hard Rules (from SKILL.md "Hard Rules" section) so they are always loaded.
+     + inline Hard Rules **all 6** (from SKILL.md "Hard Rules" section, lines 12–17) so they are
+     always loaded. Rule 6 (wiki=external / research+projects=internal) was added in the
+     research/projects split and must be included.
    - `customInstructions`: Instruction to call `use_skill` with `research-assistant` at the
      start of every session to load the full workflow detail.
    - `whenToUse`: Covers all trigger phrases — import, convert, scrape, wiki, ingest, merge,
-     research project, report generation.
+     "start a research topic", "start a project", report generation, "file to wiki".
    - `groups`: `read`, `edit`, `execute`, `mcp`, `skill`, `subagent`
 3. Write `.bob/custom_modes.yaml` with the new entry (create file if it doesn't exist).
 4. Verify the slug matches `^[a-zA-Z0-9-]+$` and no duplicate exists.
 
 ### Relevant Context
 - File to create: `.bob/custom_modes.yaml` (workspace scope — does not yet exist)
-- Hard Rules source: `.bob/skills/research-assistant/SKILL.md`, lines 8–19
-- Persona source: `.bob/skills/research-assistant/SKILL.md`, lines 21–33
+- Hard Rules source: `.bob/skills/research-assistant/SKILL.md`, lines 8–20 — now **6 rules**
+  (Rule 6 added in research/projects split: wiki=external / research+projects=internal)
+- Persona source: `.bob/skills/research-assistant/SKILL.md`, lines 22–34
 - Global modes file for reference: `~/.bob/settings/custom_modes.yaml` (contains
   `winning-products` mode — note: that mode has `command` instead of `execute` in its groups,
   which is a silent bug; do NOT replicate that mistake here)

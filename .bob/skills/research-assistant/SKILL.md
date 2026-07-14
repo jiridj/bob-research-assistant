@@ -1,6 +1,13 @@
 ---
 name: research-assistant
-description: Comprehensive research workflow automation with document conversion, web scraping, analysis, report generation, and persistent wiki knowledge base with human-in-the-loop review
+description: >-
+  Research workflow automation with persistent wiki knowledge base, document conversion, web
+  scraping, analysis, and report generation. Use when user says: import, ingest, convert PDF,
+  convert DOCX, scrape URL, add to wiki, merge inbox, start a research topic, start a project,
+  build wiki, analyse document, summarise document, generate report, file to wiki. Trigger
+  phrases: "import this file", "convert this PDF", "scrape this URL", "add to wiki",
+  "ingest this document", "merge inbox", "start a research topic", "start a project",
+  "summarise this document", "generate a report", "file to wiki".
 ---
 
 # Research Assistant
