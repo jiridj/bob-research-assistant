@@ -54,7 +54,8 @@ customModes:
       "analyse document", "summarise document", "generate report", "file to wiki",
       "lint wiki", "reorganize wiki", "query wiki", "compare sources",
       "write a PR-FAQ", "draft a PR-FAQ", "PR-FAQ", "working backwards", "work backwards from the customer",
-      "review this PR-FAQ".
+      "review this PR-FAQ", "write a Golden Circle strategy", "draft a Why-How-What", "start with why",
+      "golden circle", "why-how-what", "review this Golden Circle strategy".
     groups:
       - read
       - edit

@@ -63,8 +63,8 @@ Cover:
 ## Guiding Principles
 
 1. **[Principle]:** [One sentence]
-2. **** [One sentence]
-3. **** [One sentence]
+2. **[Principle]:** [One sentence]
+3. **[Principle]:** [One sentence]
 
 ## Strategic Choices
 
@@ -167,43 +167,16 @@ Why it matters:
 
 ## Milestones
 
-- **** [Milestone]
-- **[Timeframeone]
-- **** [Milestone]
+- **[Timeframe]:** [Milestone]
+- **[Timeframe]:** [Milestone]
+- **[Timeframe]:** [Milestone]
 
 ## Success Measures
 
-- **[Metricget]
 - **[Metric]:** [Target]
-- **** [Target]
+- **[Metric]:** [Target]
+- **[Metric]:** [Target]
 
 ---
 
-# Writing Guidelines
-
-## Principles
-
-- Start with WHY and keep it central throughout.
-- Write for executives: concise, direct, evidence-based.
-- Use plain language and avoid jargon.
-- Focus on decisions and trade-offs, not activities.
-- Use real examples whenever possible.
-- Prefer outcomes over features.
-- Make every section traceable back to the core belief.
-- Remove any statement that cannot be supported by evidence.
-
-## Quality Check
-
-Before publishing, verify:
-
-- The WHY is clear and meaningful.
-- The tension creates urgency.
-- Strategic choices include explicit trade-offs.
-- The HOW naturally follows from the WHY.
-- The WHAT clearly supports the HOW.
-- Evidence supports key claims.
-- Risks and assumptions are acknowledged.
-- Success measures are defined.
-- Theocument can be understood in under 10 minutes.
-
-> **Remember:** People may buy what you do, but they commit to why you do it. Great strategy makes that connection clear, credible, and actionable.
+> Review and scoring are in the companion file: `[slug]-why-how-what-review.md`

@@ -9,7 +9,8 @@ description: >-
   "convert this PDF", "scrape this URL", "add to wiki", "ingest this document", "merge inbox",
   "start a research topic", "start a project", "summarise this document", "generate a report",
   "file to wiki", "write a PR-FAQ", "draft a PR-FAQ", "PR-FAQ for", "work backwards from the customer",
-  "review this PR-FAQ".
+  "review this PR-FAQ", "write a Golden Circle strategy", "draft a Why-How-What", "start with why",
+  "golden circle", "why-how-what", "review this Golden Circle strategy".
 ---
 
 # Research Assistant
@@ -325,7 +326,8 @@ pandoc intro.md findings.md conclusions.md -o output/complete-report.docx
 - `competitor-analysis.md` - Single competitor deep dive
 - `market-analysis.md` - Market-level analysis (PESTLE, TAM/SAM, dynamics)
 - `technical-deep-dive.md` - Detailed technical analysis
-- `why-how-what.md` - Strategic document using Simon Sinek's methodology (2-3 pages)
+- `why-how-what.md` - Golden Circle strategy document — WHY → HOW → WHAT (2-3 pages)
+- `why-how-what-review.md` - Golden Circle review companion — Alignment Review + Quality Score (internal only)
 - `pr-faq.md` - Amazon Working Backwards PR-FAQ — document (press release + FAQ)
 - `pr-faq-review.md` - PR-FAQ review companion — Red-Team Review + Quality Score (internal only)
 - `_common-elements.md` - Shared components (metadata, Pandoc commands, guidelines)
@@ -729,6 +731,8 @@ Source: sources/VENDOR/file.md"
 - "File [finding] to wiki" / "Add this to the wiki" → Draft inbox entry from research or project content, go through inbox review gate
 - "Write a PR-FAQ for [initiative]" / "Draft a PR-FAQ" / "Work backwards from the customer" → PR-FAQ Generation Flow (below)
 - "Review this PR-FAQ" → Load discipline, run Red-Team Review + Quality Score against provided document; output findings only
+- "Write a Golden Circle strategy for [initiative]" / "Draft a Why-How-What for [initiative]" / "Start with why for [initiative]" → Golden Circle Generation Flow (below)
+- "Review this Golden Circle strategy" / "Review this Why-How-What" → Load discipline, run Alignment Review + Quality Score; output findings only
 
 ---
 
@@ -792,6 +796,71 @@ Report both output paths.
 1. Load `guides/pr-faq-discipline.md`
 2. Run Red-Team Review and Quality Score against the provided document
 3. Write findings to `[slug]-prfaq-review.md`; do **not** modify `[slug]-prfaq.md` unless explicitly asked
+
+---
+
+### Golden Circle Generation Flow
+
+Triggered by: `"write a Golden Circle strategy"`, `"draft a Why-How-What"`, `"start with why for [initiative]"`
+
+Load `guides/why-how-what-discipline.md` before drafting. The discipline governs every section.
+
+**Stage 1 — Gather context**
+
+Ask the user:
+1. What is the initiative name?
+2. What is the core belief driving this strategy? (or: what problem or opportunity motivates it?)
+3. Who is the primary audience? (executives, employees, customers, partners — or a combination)
+4. What evidence or examples exist to ground the narrative?
+
+Do not proceed to Stage 2 until these are answered. If the WHY is unclear, explore it through conversation before drafting — a vague WHY produces a weak document.
+
+**Stage 2 — Apply discipline**
+
+Before writing:
+- Load `guides/why-how-what-discipline.md`
+- Confirm the WHY is specific enough that it could not belong to any other company
+- Order content strictly: WHY → HOW → WHAT (never reverse)
+- Identify any claims that lack evidence — mark them `[ASSUMPTION]` inline
+- Check for prohibited language; replace before drafting
+
+**Stage 3 — Draft two files**
+
+Write `[slug]-why-how-what.md` using `templates/why-how-what.md` — contains:
+1. Executive Summary
+2. WHY: Purpose & Belief (Core Belief, The Tension, The Story, Change We Want to See)
+3. HOW: Approach & Choices (Guiding Principles, Strategic Choices, Why We Win, Customer Experience)
+4. WHAT: Solution (Offering, Core Capabilities, Proof, Key Risks & Assumptions)
+5. In Action (Today, With Our Approach, Future State)
+6. Next Steps (Immediate Actions, Milestones, Success Measures)
+
+Write `[slug]-why-how-what-review.md` using `templates/why-how-what-review.md` — contains:
+1. Alignment Review — WHY, HOW, WHAT, and Narrative alignment checklists — **mandatory; never omit**
+2. Strategic Coherence Review — weak purpose statements, unsupported claims, missing trade-offs, strategy-execution gaps, buzzwords
+3. Quality Score — **mandatory; score all 8 dimensions with rationale**
+4. Verdict with status and required actions before sharing with executives
+
+Both files go in the same folder (e.g. `projects/[name]/`). The `-review` file is internal only.
+
+If the Quality Score is below 30, flag it prominently in the Verdict section and list specific required actions.
+
+**Stage 4 — Export**
+
+```bash
+# Document — for external or executive distribution
+pandoc projects/[name]/[slug]-why-how-what.md -o projects/[name]/[slug]-why-how-what.docx
+
+# Review — for internal working sessions
+pandoc projects/[name]/[slug]-why-how-what-review.md -o projects/[name]/[slug]-why-how-what-review.docx
+```
+
+Report both output paths.
+
+**Review mode** (triggered by `"Review this Golden Circle strategy"` or `"Review this Why-How-What"`):
+
+1. Load `guides/why-how-what-discipline.md`
+2. Run Alignment Review and Quality Score against the provided document
+3. Write findings to `[slug]-why-how-what-review.md`; do **not** modify `[slug]-why-how-what.md` unless explicitly asked
 
 ---
 
