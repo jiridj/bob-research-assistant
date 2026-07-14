@@ -1,6 +1,10 @@
 # Research Assistant Skill
 
-Streamline your research workflow with automated document conversion, web scraping, analysis, and report generation.
+Streamline your research workflow with automated document conversion, web scraping, analysis, and report generation. The workspace has three distinct knowledge layers:
+
+- **`wiki/`** — External knowledge: sourced from documents, web scraping, and analyst reports
+- **`research/`** — Internal knowledge: exploratory topic work, grows organically
+- **`projects/`** — Internal knowledge: deliverable-focused work, flat (no subdirectories)
 
 ## Table of Contents
 
@@ -126,19 +130,20 @@ Bob: I'll convert that PDF to markdown for you.
 ✓ Saved to sources/Gartner/api-management-2024.md
 ```
 
-### 2. Start a Research Project
+### 2. Start a Research Topic or Project
 
 ```
-You: "Start a new research project on API management trends"
+You: "Start a research topic on API management trends"
 
-Bob: I'll set up a new research project for you.
-[Creates folder structure]
+Bob: I'll ask a few questions, then create research/api-management-trends/goals.md.
 ✓ Created research/api-management-trends/
-✓ Initialized goals.md, notes/, analysis/, reports/
-✓ Project ready for research
+✓ goals.md ready — grows organically from here
 
-Note: wiki/ and inbox/ are at the repo root — shared across all projects.
-Run one-time repo setup first if you haven't: see Project Structure below.
+You: "Start a project for the Q3 competitive brief"
+
+Bob: I'll ask deliverable/audience questions, then create projects/q3-competitive-brief/brief.md.
+✓ Created projects/q3-competitive-brief/
+✓ brief.md ready — add files here (flat, no subdirectories)
 ```
 
 ### 3. Find Relevant Sources
@@ -560,42 +565,42 @@ research-workspace/
 │   ├── IBM/                   # Organised by vendor/entity
 │   ├── Forrester/
 │   ├── Gartner/
-│   └── web/                   # Scraped content (COMPANY/PAGE-YYYY-MM-DD.md)
+│   └── Kong/                  # Scraped pages live here, not in a web/ subfolder
 ├── originals/                  # Original immutable files — never modified
-│   ├── IBM/                   # Mirrors sources/ vendor structure
+│   ├── IBM/
 │   ├── Forrester/
 │   └── Gartner/
-├── wiki/                       # Shared knowledge base — not tied to any project
+├── wiki/                       # External knowledge — sourced from docs and web
 │   ├── index.md                # Master catalog — Bob reads this first on every query
 │   ├── log.md                  # Append-only ingest/query/lint history
-│   ├── overview.md             # Evolving synthesis and thesis statement
-│   ├── entities/               # One page per company, person, product
-│   ├── concepts/               # One page per idea, technology, market force
-│   ├── sources/                # One page per ingested source (Bob-authored summary)
-│   └── analysis/               # Filed answers: comparisons, tables, insights
-├── inbox/                      # Shared staging area — Bob proposes, human approves, then merges
+│   └── [topic]/                # Bob chooses topic paths based on content
+├── inbox/                      # Staging area — Bob proposes, human approves, then merges
 │   ├── .archive/               # Completed inbox entries
 │   └── [source-slug]/          # One folder per pending ingest or lint pass
 │       ├── manifest.md         # Review checklist — controls what gets merged
-│       ├── summary.md          # Proposed source page
-│       ├── new-pages.md        # Proposed new entity/concept pages
+│       ├── summary.md          # Proposed new/updated wiki pages
 │       └── diff.md             # Proposed updates to existing wiki pages
-└── research/                   # Optional — project-specific work only
-    └── api-trends/
-        ├── goals.md            # Objectives, questions, scope, timeline
-        ├── notes/              # Research notes
-        ├── analysis/           # Analysis documents
-        └── reports/            # Final deliverables (pandoc output)
+├── research/                   # Internal knowledge — exploratory topic work (unrestricted)
+│   └── [topic]/
+│       └── goals.md            # Starter file; folder grows organically
+└── projects/                   # Internal knowledge — deliverable work (flat, no subdirs)
+    └── [name]/
+        └── brief.md            # Starter file; add flat files as work progresses
 ```
 
 **One-time repo setup:**
 ```bash
-mkdir -p sources originals wiki/{entities,concepts,sources,analysis} inbox/.archive
+mkdir -p sources originals wiki inbox/.archive projects
 ```
 
-**Per-project setup (optional):**
+**Start a research topic (optional):**
 ```bash
-mkdir -p research/[topic]/{notes,analysis,reports}
+mkdir -p research/[topic] && touch research/[topic]/goals.md
+```
+
+**Start a project (optional):**
+```bash
+mkdir -p projects/[name] && touch projects/[name]/brief.md
 ```
 
 ### File Naming Conventions

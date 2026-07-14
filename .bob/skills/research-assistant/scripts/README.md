@@ -4,29 +4,43 @@ This directory contains utility scripts that enhance the Research Assistant skil
 
 ## 📋 Available Scripts
 
-### Essential Scripts
+### Initialization Scripts
 
 #### 1. `init-research-project.sh`
-Initialize a new research project with proper structure.
+Initialize a new research topic (`research/[topic]/`). Creates `goals.md` only — the folder grows organically from there.
 
 ```bash
-./.bob/skills/research-assistant/scripts/init-research-project.sh project-name
+./.bob/skills/research-assistant/scripts/init-research-project.sh topic-name
 ```
 
 **Creates:**
-- Project directory structure
-- README with metadata
-- Working files (notes.md, analysis.md, report.md)
-- Source index
+- `research/[topic]/goals.md` (objectives, key questions, scope)
 
 **Example:**
 ```bash
-./.bob/skills/research-assistant/scripts/init-research-project.sh api-management-trends
+./.bob/skills/research-assistant/scripts/init-research-project.sh api-management
 ```
 
 ---
 
-#### 2. `batch-convert-pdfs.sh`
+#### 2. `init-project.sh`
+Initialize a new project (`projects/[name]/`). Creates `brief.md` only — projects are flat (no subdirectories).
+
+```bash
+./.bob/skills/research-assistant/scripts/init-project.sh project-name
+```
+
+**Creates:**
+- `projects/[name]/brief.md` (deliverable, audience, source materials, context)
+
+**Example:**
+```bash
+./.bob/skills/research-assistant/scripts/init-project.sh q3-competitive-brief
+```
+
+---
+
+#### 3. `batch-convert-pdfs.sh`
 Convert multiple PDFs to markdown with smart categorization.
 
 ```bash
@@ -236,10 +250,14 @@ Scrape multiple URLs from a file.
 
 ## 🚀 Quick Start
 
-### 1. Start a New Research Project
+### 1. Start a New Research Topic
 ```bash
-./.bob/skills/research-assistant/scripts/init-research-project.sh my-research
-cd research/my-research
+./.bob/skills/research-assistant/scripts/init-research-project.sh api-management
+```
+
+### 2. Start a New Project
+```bash
+./.bob/skills/research-assistant/scripts/init-project.sh q3-competitive-brief
 ```
 
 ### 2. Convert Documents

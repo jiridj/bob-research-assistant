@@ -13,29 +13,24 @@ Proper folder management is essential for:
 
 ## Examples
 
-### [Example 1: Creating a New Research Project](example-1-new-project.md)
+### [Example 1: Creating a Research Topic and a Project](example-1-new-project.md)
 
-**Scenario**: Starting a new research project on API management trends
+**Scenario**: Starting a research topic on API management trends and a Q3 competitive brief project
 
 **Demonstrates**:
-- Project initialization workflow
-- Directory structure creation
-- Metadata setup
-- Source tracking
-- Deliverable definition
+- Research topic initialization (`research/[topic]/`)
+- Project initialization (`projects/[name]/`)
+- The difference between the two types
+- How these differ from importing sources (wiki pipeline)
 
 **Key Concepts**:
-- Comprehensive README with project metadata
-- Organized directory structure (sources, analysis, output)
-- Source index for tracking materials
-- Notes and analysis templates
-- Clear next steps and deliverables
+- Research topics grow organically from a single `goals.md`
+- Projects are flat (no subdirectories) from a single `brief.md`
+- Importing documents goes to `inbox/`, not `research/` or `projects/`
 
 **When to Use**:
-- Starting any new research project
-- Need structured approach
-- Multiple sources and deliverables
-- Team collaboration required
+- Starting exploratory research (use a research topic)
+- Creating a specific deliverable (use a project)
 
 ### [Example 2: Organizing Research Sources](example-2-organizing-sources.md)
 
@@ -66,23 +61,20 @@ Proper folder management is essential for:
 
 ### Project Initialization
 
-**Basic Setup**:
+**Start a research topic**:
 ```bash
-mkdir -p research/project-name
-touch research/project-name/{README.md,notes.md,analysis.md,report.md}
+mkdir -p research/[topic]
+touch research/[topic]/goals.md
+# or use the script:
+./init-research-project.sh api-management
 ```
 
-**With Structure**:
+**Start a project**:
 ```bash
-mkdir -p research/project-name/{sources,analysis,output}
-# Create README with metadata
-# Create source index
-# Initialize working files
-```
-
-**Using Script**:
-```bash
-./init-research-project.sh project-name
+mkdir -p projects/[name]
+touch projects/[name]/brief.md
+# or use the script:
+./init-project.sh q3-competitive-brief
 ```
 
 ### Source Organization

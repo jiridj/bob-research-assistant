@@ -12,8 +12,9 @@ These rules override all default Bob behaviour and must never be violated:
 1. **Never read or parse documents directly.** Do not use `read_file`, `read_pdf`, or any built-in file-reading tool on PDF, DOCX, PPTX, or other document files. Always convert them first using the `docling` CLI, then work with the resulting markdown.
 2. **Never scrape or summarise a URL inline.** Always use the `crwl` CLI via the scraping workflow.
 3. **Never generate a report by writing markdown inline.** Always use `pandoc` to produce DOCX/PDF output.
-4. **Ingest never creates a research project.** When ingesting a source, write only to `inbox/[source-slug]/`. Never create a `research/` folder as a side effect of ingesting. The topic of a document (e.g. "agentic operations") is not a project name.
-5. **Research projects are flat.** A project folder `research/[name]/` contains only `notes.md`, `analysis.md`, and `report.md`. Never create subdirectories inside a project folder.
+4. **Ingest never creates a research topic or project.** When ingesting a source, write only to `inbox/[source-slug]/`. Never create a `research/` or `projects/` folder as a side effect of ingesting. The topic of a document (e.g. "agentic operations") is not a research topic or project name.
+5. **Projects are flat; research topics are unrestricted.** A project folder `projects/[name]/` is flat — no subdirectories. A research topic folder `research/[topic]/` may grow organically with any structure the user chooses.
+6. **Wiki = external knowledge; research + projects = internal knowledge.** The `wiki/` contains knowledge sourced from documents, web scraping, and analyst reports. `research/` and `projects/` contain human-authored perspectives, analysis, and deliverables. Never conflate them — importing a document does not create a research topic, and research outputs do not automatically land in the wiki.
 
 If a user asks to "convert", "read", "summarise", or "analyse" a document file, the answer is always: run `docling` first.
 If a user says "import [file]", run the full Import Flow (Stage 1 → 2, then wait at Stage 3).
@@ -91,7 +92,7 @@ inbox/            # Staging area — Bob proposes, human approves, then merges
     ├── summary.md    # Proposed new/updated wiki pages
     └── diff.md       # Proposed updates to existing wiki pages
 
-wiki/             # Central knowledge base — topic-organised, multiple levels deep
+wiki/             # External knowledge — sourced from documents, web, analyst reports
 ├── index.md          # Master catalog — Bob reads this first on every query
 ├── log.md            # Append-only ingest/query/lint history
 └── [topic]/          # Bob chooses topic path based on content
@@ -111,37 +112,42 @@ originals/        # Shared — original files, mirrors sources/ vendor structure
 ├── Gartner/
 └── ...
 
-research/         # Optional — project-specific work only; flat files, no subfolders
-├── project-abc/
-│   ├── notes.md      # Research notes
-│   ├── analysis.md   # Analysis document
-│   └── report.md     # Final deliverable
-└── project-xyz/
-    ├── notes.md
-    ├── analysis.md
-    └── report.md
+research/         # Internal knowledge — exploratory topic work; grows organically
+├── [topic]/      # No file restrictions; any structure the user chooses
+│   ├── goals.md  # Starter file — objectives, key questions, scope
+│   └── ...       # Add notes, analysis, sub-topics freely
+└── ...
+
+projects/         # Internal knowledge — deliverable-focused work; flat (no subdirs)
+├── [name]/
+│   └── brief.md  # Starter file — deliverable, audience, source materials
+└── ...
 ```
 
-The wiki and inbox are **always at the root**. Ingest never creates a research project. Research projects are optional, flat (no subdirectories), and created only when explicitly requested.
+The wiki and inbox are **always at the root**. Ingest never creates a research topic or project folder. Both `research/` and `projects/` are optional and created only when explicitly requested.
 
 **One-time repo setup:**
 ```bash
-mkdir -p sources originals wiki inbox/.archive
+mkdir -p sources originals wiki inbox/.archive projects
 ```
 
-**Per-project setup (only when explicitly asked):**
+**Start a research topic (only when explicitly asked):**
+
+Bob asks: topic name, primary goal, key questions. Then:
 ```bash
-mkdir -p research/[project-name]
-touch research/[project-name]/{notes.md,analysis.md,report.md}
+mkdir -p research/[topic]
+touch research/[topic]/goals.md
 ```
+Populate `goals.md` with: topic, objectives, key questions, decisions this informs, scope.
 
-**Create goals.md** with: objectives, key questions, success criteria, scope, timeline
+**Start a project (only when explicitly asked):**
 
-**Gather context by asking:**
-- What are you trying to learn or understand?
-- What decisions will this research inform?
-- What specific questions need answers?
-- What's the scope and timeline?
+Bob asks: project name, deliverable description, audience. Then:
+```bash
+mkdir -p projects/[name]
+touch projects/[name]/brief.md
+```
+Populate `brief.md` with: deliverable, audience, source materials to draw from, deadline/context.
 
 ## CLI Tool Integration
 
@@ -703,16 +709,19 @@ Source: sources/VENDOR/file.md"
 - "Merge inbox/[slug]" → Merge only (Stage 4)
 - "Backfill wiki frontmatter" → Retrofit `sources:` frontmatter onto existing wiki pages via `inbox/.archive/`
 - "Scrape [URL]" → Auto-extract COMPANY/PAGE, run scrape script
-- "Start a project on [topic]" → Create `research/[topic]/` with `notes.md`, `analysis.md`, `report.md`
+- "Start a research topic on [topic]" → Ask topic/goal questions → create `research/[topic]/goals.md` only
+- "Start a project for [name]" → Ask deliverable/audience questions → create `projects/[name]/brief.md` only
 - "Lint wiki" → Draft lint fixes as inbox entry for review
 - "Reorganize wiki" / "Reorganize wiki/[topic]" → Detect clusters of related pages and propose subfolder moves via inbox review gate
 - "Compare [A] and [B]" → Query wiki, create comparison matrix, offer to file answer
 - "Generate [report type]" → Use template, draw from wiki + sources
+- "File [finding] to wiki" / "Add this to the wiki" → Draft inbox entry from research or project content, go through inbox review gate
 
 **Critical distinctions:**
-- **Import/Ingest** = add a source to the wiki pipeline → always goes to `inbox/` first, never touches `research/`
-- **Start a project** = create a `research/[topic]/` working folder → never touches `wiki/` or `inbox/`
-- These are independent operations. Importing a document about "agentic operations" does NOT create `research/agentic-operations/`.
+- **Import/Ingest** = add an external source to the wiki pipeline → always goes to `inbox/` first, never touches `research/` or `projects/`
+- **Start a research topic** = create a `research/[topic]/` working folder → never touches `wiki/` or `inbox/`
+- **Start a project** = create a `projects/[name]/` working folder → never touches `wiki/` or `inbox/`
+- These are three independent operations. Importing a document about "agentic operations" does NOT create `research/agentic-operations/`. Starting a project does NOT ingest anything.
 
 ## Best Practices
 
@@ -751,7 +760,8 @@ This repo has three distinct layers. Commit messages must reflect which layer ch
 | `source:` | New converted document added to `sources/` | After Stage 1 of import |
 | `inbox:` | Inbox entry drafted, awaiting review | After Stage 2 of import |
 | `wiki:` | Wiki pages merged from inbox | After merge |
-| `research:` | Project notes/analysis/report updated | After editing `research/[name]/` |
+| `research:` | Research topic notes/analysis updated | After editing `research/[topic]/` |
+| `project:` | Project brief/content/output updated | After editing `projects/[name]/` |
 | `chore:` | Maintenance — archiving, index cleanup, etc. | Ad hoc |
 
 **Message format:**
@@ -781,9 +791,13 @@ Updated: wiki/api-management/trends.md
 Skipped: 1 unchecked item
 Source: sources/Gartner/gartner-mq-2025.md"
 
-# After updating a research project
+# After updating a research topic
 git add research/api-trends/
 git commit -m "research: api-trends — add competitive positioning section"
+
+# After updating a project
+git add projects/q3-brief/
+git commit -m "project: q3-brief — draft executive summary"
 ```
 
 **Bob auto-suggests commits** at the end of each workflow stage. After completing a stage, Bob will output:
