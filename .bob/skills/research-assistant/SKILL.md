@@ -4,10 +4,12 @@ description: >-
   Research workflow automation with persistent wiki knowledge base, document conversion, web
   scraping, analysis, and report generation. Use when user says: import, ingest, convert PDF,
   convert DOCX, scrape URL, add to wiki, merge inbox, start a research topic, start a project,
-  build wiki, analyse document, summarise document, generate report, file to wiki. Trigger
-  phrases: "import this file", "convert this PDF", "scrape this URL", "add to wiki",
-  "ingest this document", "merge inbox", "start a research topic", "start a project",
-  "summarise this document", "generate a report", "file to wiki".
+  build wiki, analyse document, summarise document, generate report, file to wiki, write PR-FAQ,
+  draft PR-FAQ, work backwards from customer. Trigger phrases: "import this file",
+  "convert this PDF", "scrape this URL", "add to wiki", "ingest this document", "merge inbox",
+  "start a research topic", "start a project", "summarise this document", "generate a report",
+  "file to wiki", "write a PR-FAQ", "draft a PR-FAQ", "PR-FAQ for", "work backwards from the customer",
+  "review this PR-FAQ".
 ---
 
 # Research Assistant
@@ -324,6 +326,8 @@ pandoc intro.md findings.md conclusions.md -o output/complete-report.docx
 - `market-analysis.md` - Market-level analysis (PESTLE, TAM/SAM, dynamics)
 - `technical-deep-dive.md` - Detailed technical analysis
 - `why-how-what.md` - Strategic document using Simon Sinek's methodology (2-3 pages)
+- `pr-faq.md` - Amazon Working Backwards PR-FAQ — document (press release + FAQ)
+- `pr-faq-review.md` - PR-FAQ review companion — Red-Team Review + Quality Score (internal only)
 - `_common-elements.md` - Shared components (metadata, Pandoc commands, guidelines)
 
 ## Research Methodologies
@@ -723,6 +727,73 @@ Source: sources/VENDOR/file.md"
 - "Compare [A] and [B]" → Query wiki, create comparison matrix, offer to file answer
 - "Generate [report type]" → Use template, draw from wiki + sources
 - "File [finding] to wiki" / "Add this to the wiki" → Draft inbox entry from research or project content, go through inbox review gate
+- "Write a PR-FAQ for [initiative]" / "Draft a PR-FAQ" / "Work backwards from the customer" → PR-FAQ Generation Flow (below)
+- "Review this PR-FAQ" → Load discipline, run Red-Team Review + Quality Score against provided document; output findings only
+
+---
+
+### PR-FAQ Generation Flow
+
+Triggered by: `"write a PR-FAQ"`, `"draft a PR-FAQ"`, `"PR-FAQ for [initiative]"`, `"work backwards from the customer"`
+
+Load `guides/pr-faq-discipline.md` before drafting. The discipline governs every section.
+
+**Stage 1 — Gather context**
+
+Ask the user:
+1. What is the initiative name?
+2. Who is the primary customer (persona, role, segment)?
+3. What is the core customer problem?
+4. What evidence exists? (customer interviews, usage data, market research, quotes — or none yet)
+
+Do not proceed to Stage 2 until these are answered. If evidence is absent, note the Customer Evidence Gap — do not ask for evidence that doesn't exist.
+
+**Stage 2 — Apply discipline**
+
+Before writing:
+- Load `guides/pr-faq-discipline.md`
+- Order content as: Problem → Outcome → Experience → Capability (never Feature → Feature → Feature)
+- Flag any claim that lacks evidence — mark it `[ASSUMPTION]` inline
+- Check for prohibited language; replace before drafting
+
+**Stage 3 — Draft two files**
+
+Write `[slug]-prfaq.md` using `templates/pr-faq.md` — contains:
+1. Customer Definition
+2. Single-Sentence Customer Benefit
+3. Press Release (≤ 500 words; written as if already launched)
+4. Customer FAQ
+5. Internal FAQ
+
+Write `[slug]-prfaq-review.md` using `templates/pr-faq-review.md` — contains:
+1. Red-Team Review — **mandatory; never omit**
+2. Amazon-Style Quality Review checklist
+3. Quality Score — **mandatory; score all 8 content dimensions with rationale; run all 11 structural checks**
+4. Verdict with status and required actions before sharing with executives
+
+Both files go in the same folder (e.g. `projects/[name]/`). The `-review` file is internal only — it is never included in the document sent to executives.
+
+If the Grand Total is below 47, flag it prominently in the Verdict section and list specific required actions.
+
+**Stage 4 — Export**
+
+```bash
+# Document only — for executive distribution
+pandoc projects/[name]/[slug]-prfaq.md -o projects/[name]/[slug]-prfaq.docx
+
+# Review — for internal working sessions
+pandoc projects/[name]/[slug]-prfaq-review.md -o projects/[name]/[slug]-prfaq-review.docx
+```
+
+Report both output paths.
+
+**Review mode** (triggered by `"Review this PR-FAQ [file or pasted content]"`):
+
+1. Load `guides/pr-faq-discipline.md`
+2. Run Red-Team Review and Quality Score against the provided document
+3. Write findings to `[slug]-prfaq-review.md`; do **not** modify `[slug]-prfaq.md` unless explicitly asked
+
+---
 
 **Critical distinctions:**
 - **Import/Ingest** = add an external source to the wiki pipeline → always goes to `inbox/` first, never touches `research/` or `projects/`

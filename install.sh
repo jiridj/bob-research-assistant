@@ -155,6 +155,71 @@ else
     print_success "Bob skills directory exists"
 fi
 
+# Install custom mode
+print_status "Installing Research Assistant custom mode..."
+BOB_MODES_FILE="${HOME}/.bob/custom_modes.yaml"
+MODE_SLUG="research-assistant"
+MODE_SOURCE=".bob/custom_modes.yaml"
+
+if [ ! -f "${MODE_SOURCE}" ]; then
+    print_error "Custom mode definition not found at ${MODE_SOURCE}"
+    exit 1
+fi
+
+python3 - <<'PYEOF'
+import sys, os, re
+
+modes_file = os.path.expanduser("~/.bob/custom_modes.yaml")
+source_file = ".bob/custom_modes.yaml"
+slug = "research-assistant"
+
+# Read source mode block
+with open(source_file) as f:
+    source = f.read()
+
+# Extract the mode entry (everything under the first list item)
+match = re.search(r'customModes:\n(.*)', source, re.DOTALL)
+if not match:
+    print("ERROR: Could not parse source custom_modes.yaml")
+    sys.exit(1)
+new_entry = match.group(1)  # the indented block
+
+if os.path.exists(modes_file):
+    with open(modes_file) as f:
+        existing = f.read()
+
+    if f"slug: {slug}" in existing:
+        # Remove existing entry for this slug
+        # Match from "  - slug: research-assistant" to next "  - slug:" or end of file
+        existing = re.sub(
+            r'  - slug: ' + re.escape(slug) + r'.*?(?=\n  - slug:|\Z)',
+            '',
+            existing,
+            flags=re.DOTALL
+        ).rstrip()
+        existing += "\n"
+
+    # Append new entry
+    if "customModes:" in existing:
+        updated = existing.rstrip() + "\n" + new_entry
+    else:
+        updated = "customModes:\n" + new_entry
+else:
+    updated = source
+
+with open(modes_file, "w") as f:
+    f.write(updated)
+
+print(f"Mode '{slug}' installed to {modes_file}")
+PYEOF
+
+if [ $? -eq 0 ]; then
+    print_success "Custom mode installed to ${BOB_MODES_FILE}"
+else
+    print_error "Failed to install custom mode"
+    exit 1
+fi
+
 # Copy skill files
 print_status "Installing Research Assistant skill..."
 if [ -d "${SKILL_DIR}" ]; then
@@ -205,6 +270,11 @@ fi
 
 if [ ! -f "${SKILL_DIR}/SKILL.md" ]; then
     print_error "Skill definition not found"
+    ERRORS=$((ERRORS + 1))
+fi
+
+if ! grep -q "slug: research-assistant" "${HOME}/.bob/custom_modes.yaml" 2>/dev/null; then
+    print_error "Custom mode not found in ${HOME}/.bob/custom_modes.yaml"
     ERRORS=$((ERRORS + 1))
 fi
 

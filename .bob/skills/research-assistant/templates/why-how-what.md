@@ -1,9 +1,11 @@
 # Strategy Document Template: Start With Why (Golden Circle)
 
 > **Purpose:** Communicate strategy from the inside out: WHY → HOW → WHAT.
+>
 > **Audience:** Executive leaders, decision makers, investors, partners, customers.
+>
 > **Format:** 2-3 pages. High-density strategic document using Simon Sinek's Why-How-What methodology. Lead with core insights, eliminate filler.
-
+>
 > 📚 **Shared Resources**: See [_common-elements.md](_common-elements.md) for document metadata and Pandoc commands.
 
 ---

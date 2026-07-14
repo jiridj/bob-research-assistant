@@ -52,7 +52,9 @@ customModes:
       "convert this document", "scrape URL", "scrape this page", "add to wiki",
       "merge inbox", "start a research topic", "start a project", "build wiki",
       "analyse document", "summarise document", "generate report", "file to wiki",
-      "lint wiki", "reorganize wiki", "query wiki", "compare sources".
+      "lint wiki", "reorganize wiki", "query wiki", "compare sources",
+      "write a PR-FAQ", "draft a PR-FAQ", "PR-FAQ", "working backwards", "work backwards from the customer",
+      "review this PR-FAQ".
     groups:
       - read
       - edit
