@@ -842,7 +842,7 @@ Write `[slug]-why-how-what-review.md` using `templates/why-how-what-review.md` â
 
 Both files go in the same folder (e.g. `projects/[name]/`). The `-review` file is internal only.
 
-If the Quality Score is below 30, flag it prominently in the Verdict section and list specific required actions.
+If the Grand Total is below 43, flag it prominently in the Verdict section and list specific required actions.
 
 **Stage 4 â€” Export**
 

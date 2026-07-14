@@ -61,7 +61,7 @@ The most important section. Never compress or rush it.
 
 ### Core Belief
 
-One to two sentences. Describes what should be true in the world — not what the organization sells. If it reads like a product pitch, rewrite it.
+One sentence. Maximum 25 words. Describes what should be true in the world — not what the organization sells. If it reads like a product pitch, rewrite it. If it exceeds 25 words, tighten it — a belief that cannot be expressed concisely has not been fully understood.
 
 ### The Tension
 
@@ -96,7 +96,7 @@ Translates belief into behaviour. Explains how the organization acts differently
 
 ### Guiding Principles
 
-Two to four principles. Each must be:
+Exactly 3 to 5 principles. Each must be:
 - Memorable — can be recalled without notes
 - Actionable — influences real decisions
 - Specific — cannot be claimed by every company
@@ -178,6 +178,74 @@ Replace these terms with beliefs, outcomes, evidence, or examples:
 | Leverage | [specific use of existing asset] |
 
 If a prohibited term appears in the draft, flag it and request a replacement before finalising.
+
+---
+
+## Automated Lint Checks
+
+Run these checks before scoring. Flag any violation in the Structural Compliance table of the review file.
+
+**WHY word count (Core Belief sentence):**
+```bash
+# Extract Core Belief line and count words (target: ≤ 25)
+grep -A1 "## Core Belief" why-how-what.md | tail -1 | wc -w
+```
+
+**HOW principles count:**
+```bash
+# Count numbered guiding principles (target: 3–5)
+awk '/## Guiding Principles/,/## Strategic Choices/' why-how-what.md | grep -c "^[0-9]\."
+```
+
+**Clarity Ratio (WHY < HOW < WHAT word counts):**
+```bash
+# WHY section word count
+awk '/^# WHY:/,/^# HOW:/' why-how-what.md | wc -w
+
+# HOW section word count
+awk '/^# HOW:/,/^# WHAT:/' why-how-what.md | wc -w
+
+# WHAT section word count
+awk '/^# WHAT:/,/^# In Action/' why-how-what.md | wc -w
+```
+Target: WHY word count < HOW word count < WHAT word count. If the ratio is inverted, the document is over-explaining belief and under-delivering on execution detail.
+
+**We/Our ratio (self-absorption check):**
+```bash
+# Count self-referential words
+SELF=$(grep -oi '\bwe\b\|\bour\b\|\bus\b' why-how-what.md | wc -l)
+
+# Count reader/customer-centric words
+READER=$(grep -oi '\byou\b\|\byour\b\|\bcustomer\b\|\bcustomers\b' why-how-what.md | wc -l)
+
+echo "Self: $SELF | Reader: $READER | Ratio: $READER:$SELF"
+```
+Target: reader-centric words ≥ self-referential words (ratio ≥ 1:1).
+
+**Flesch-Kincaid readability (target: grade ≤ 8):**
+```bash
+python3 -c "
+import re
+
+# Install if needed: pip install textstat
+try:
+    import textstat
+    text = open('why-how-what.md').read()
+    # Strip markdown syntax
+    text = re.sub(r'[#*_\[\]()]', '', text)
+    grade = textstat.flesch_kincaid_grade(text)
+    ease = textstat.flesch_reading_ease(text)
+    print(f'Flesch-Kincaid Grade: {grade:.1f} (target ≤ 8)')
+    print(f'Flesch Reading Ease: {ease:.1f} (target ≥ 60)')
+except ImportError:
+    print('Install textstat: pip install textstat')
+"
+```
+
+**Prohibited language scan:**
+```bash
+grep -oi 'industry-leading\|best-in-class\|world-class\|transformational\|innovative\|game-changing\|next-generation\|revolutionary\|cutting-edge\|synergy\|leverage' why-how-what.md
+```
 
 ---
 
