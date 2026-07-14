@@ -146,18 +146,22 @@ else
     esac
 fi
 
-# Create Bob skills directory if it doesn't exist
-print_status "Setting up Bob skills directory..."
+# Create Bob skills and settings directories if they don't exist
+print_status "Setting up Bob directories..."
 if [ ! -d "${BOB_SKILLS_DIR}" ]; then
     mkdir -p "${BOB_SKILLS_DIR}"
     print_success "Created ${BOB_SKILLS_DIR}"
 else
     print_success "Bob skills directory exists"
 fi
+if [ ! -d "${HOME}/.bob/settings" ]; then
+    mkdir -p "${HOME}/.bob/settings"
+    print_success "Created ${HOME}/.bob/settings"
+fi
 
 # Install custom mode
 print_status "Installing Research Assistant custom mode..."
-BOB_MODES_FILE="${HOME}/.bob/custom_modes.yaml"
+BOB_MODES_FILE="${HOME}/.bob/settings/custom_modes.yaml"
 MODE_SLUG="research-assistant"
 MODE_SOURCE=".bob/custom_modes.yaml"
 
@@ -169,7 +173,7 @@ fi
 python3 - <<'PYEOF'
 import sys, os, re
 
-modes_file = os.path.expanduser("~/.bob/custom_modes.yaml")
+modes_file = os.path.expanduser("~/.bob/settings/custom_modes.yaml")
 source_file = ".bob/custom_modes.yaml"
 slug = "research-assistant"
 
@@ -223,13 +227,7 @@ fi
 # Copy skill files
 print_status "Installing Research Assistant skill..."
 if [ -d "${SKILL_DIR}" ]; then
-    print_warning "Skill already exists at ${SKILL_DIR}"
-    read -p "Overwrite existing installation? (y/N) " -n 1 -r
-    echo
-    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-        print_status "Installation cancelled"
-        exit 0
-    fi
+    print_warning "Skill already exists at ${SKILL_DIR}, overwriting..."
     rm -rf "${SKILL_DIR}"
 fi
 
@@ -273,8 +271,8 @@ if [ ! -f "${SKILL_DIR}/SKILL.md" ]; then
     ERRORS=$((ERRORS + 1))
 fi
 
-if ! grep -q "slug: research-assistant" "${HOME}/.bob/custom_modes.yaml" 2>/dev/null; then
-    print_error "Custom mode not found in ${HOME}/.bob/custom_modes.yaml"
+if ! grep -q "slug: research-assistant" "${HOME}/.bob/settings/custom_modes.yaml" 2>/dev/null; then
+    print_error "Custom mode not found in ${HOME}/.bob/settings/custom_modes.yaml"
     ERRORS=$((ERRORS + 1))
 fi
 
