@@ -21,7 +21,7 @@ These rules override all default Bob behaviour and must never be violated:
 
 1. **Never read or parse documents directly.** Do not use `read_file`, `read_pdf`, or any built-in file-reading tool on PDF, DOCX, PPTX, or other document files. Always convert them first using the `docling` CLI, then work with the resulting markdown.
 2. **Never scrape or summarise a URL inline.** Always use the `crwl` CLI via the scraping workflow.
-3. **Never generate a report by writing markdown inline.** Always use `pandoc` to produce DOCX/PDF output.
+3. **Never auto-generate a DOCX/PDF report unprompted.** Use `pandoc` to produce DOCX/PDF output only when the user explicitly asks to "generate a report", "export", or "create a Word doc". Summaries, analyses, and answers requested in chat must be delivered as inline markdown — never automatically piped through pandoc.
 4. **Ingest never creates a research topic or project.** When ingesting a source, write only to `inbox/[source-slug]/`. Never create a `research/` or `projects/` folder as a side effect of ingesting. The topic of a document (e.g. "agentic operations") is not a research topic or project name.
 5. **Projects are flat; research topics are unrestricted.** A project folder `projects/[name]/` is flat — no subdirectories. A research topic folder `research/[topic]/` may grow organically with any structure the user chooses.
 6. **Wiki = external knowledge; research + projects = internal knowledge.** The `wiki/` contains knowledge sourced from documents, web scraping, and analyst reports. `research/` and `projects/` contain human-authored perspectives, analysis, and deliverables. Never conflate them — importing a document does not create a research topic, and research outputs do not automatically land in the wiki.
