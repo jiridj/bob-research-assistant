@@ -449,10 +449,12 @@ Triggered only by an explicit user command: `"merge inbox/[source-slug]"`.
 5. Create any intermediate subdirectories as needed
 6. Append to `wiki/log.md`: `## [YYYY-MM-DD] ingest | [Source Title] | [source path]`
 7. Update `wiki/index.md` — add/update entries for all affected pages, including Sources column
-8. Move `inbox/[source-slug]/` to `inbox/.archive/[source-slug]/`:
+8. Move `inbox/[source-slug]/` to `inbox/.archive/[source-slug]/` and stage the deletion:
    ```bash
    mv inbox/[source-slug] inbox/.archive/[source-slug]
+   git add inbox/[source-slug]/ inbox/.archive/[source-slug]/
    ```
+   The first path stages the deletions at the old location; the second stages the new archive files.
 9. Report: pages created, pages updated, items skipped
 
 **Never modify inbox files during merge. Never merge unchecked items.**
@@ -704,7 +706,7 @@ Apply checked items to `wiki/`, update `wiki/index.md`, append to `wiki/log.md`,
     Archived: inbox/.archive/[source-slug]/
 
 Suggested commit:
-  git add wiki/ inbox/.archive/[source-slug]/
+  git add wiki/ inbox/[source-slug]/ inbox/.archive/[source-slug]/
   git commit -m "wiki: merge [source-slug]
 
 Created: wiki/[topic]/[page].md
